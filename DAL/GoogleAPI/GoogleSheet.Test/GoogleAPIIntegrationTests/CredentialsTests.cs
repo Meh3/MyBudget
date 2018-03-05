@@ -12,7 +12,7 @@ namespace MyBudget.GoogleSheet.Test
     [TestClass]
     public class CredentialsTests
     {
-        private string CredentialPath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+        private static string CredentialPath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal)
             , ".credentials/sheets.googleapis.com-dotnet-test.json");
 
         private const string ClientIdFileName = "client_id.json";
@@ -25,7 +25,13 @@ namespace MyBudget.GoogleSheet.Test
         }
 
         [TestMethod]
-        public UserCredential Connect_Test()
+        public void Connect_Test()
+        {
+            var credential = Connect();
+            Assert.AreNotEqual(credential.Token, null);
+        }
+
+        public static UserCredential Connect()
         {
             string[] scopes = { SheetsService.Scope.SpreadsheetsReadonly };
             UserCredential userCredential;
@@ -40,8 +46,6 @@ namespace MyBudget.GoogleSheet.Test
                     CancellationToken.None,
                     new FileDataStore(CredentialPath, true)).Result;
             }
-
-            Assert.AreNotEqual(userCredential.Token, null);
             return userCredential;
         }
 

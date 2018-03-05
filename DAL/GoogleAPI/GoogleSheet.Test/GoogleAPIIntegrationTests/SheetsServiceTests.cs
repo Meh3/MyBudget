@@ -12,21 +12,26 @@ namespace MyBudget.GoogleSheet.Test
     [TestClass]
     public class SheetsServiceTests
     {
-        CredentialsTests credentialsTests = new CredentialsTests();
         private const string ApplicationName = "Google Sheets API";
 
         [TestMethod]
         public void CreateSheetsService_Test()
         {
-            var credentials = credentialsTests.Connect_Test();
+            var sheetsService = CreateSheetService();
+
+            Assert.IsNotNull(sheetsService);
+            Assert.AreEqual(ApplicationName, sheetsService.ApplicationName);
+        }
+
+        public static SheetsService CreateSheetService()
+        {
+            var credentials = CredentialsTests.Connect();
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credentials,
                 ApplicationName = ApplicationName,
             });
-
-            Assert.IsNotNull(service);
-            Assert.AreEqual(ApplicationName, service.ApplicationName);
+            return service;
         }
     }
 }
