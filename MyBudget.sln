@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GoogleAPI", "GoogleAPI", "{516F2052-2C48-4365-8060-72BA32FDBDD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSheet", "GoogleAPI\GoogleSheet\GoogleSheet.csproj", "{324A7239-A6D8-496D-AF83-4F5146EC0FEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSheet.Test", "GoogleAPI\GoogleSheet.Test\GoogleSheet.Test.csproj", "{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{324A7239-A6D8-496D-AF83-4F5146EC0FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324A7239-A6D8-496D-AF83-4F5146EC0FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324A7239-A6D8-496D-AF83-4F5146EC0FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324A7239-A6D8-496D-AF83-4F5146EC0FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{324A7239-A6D8-496D-AF83-4F5146EC0FEE} = {516F2052-2C48-4365-8060-72BA32FDBDD7}
+		{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB} = {516F2052-2C48-4365-8060-72BA32FDBDD7}
+	EndGlobalSection
+EndGlobal

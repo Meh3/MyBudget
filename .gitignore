@@ -1,0 +1,5 @@
+packages/
+Results/
+TestResults/
+Authentication/client_id.json
+.vs/
