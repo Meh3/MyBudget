@@ -5,10 +5,9 @@
     xmlns:local="clr-namespace:MyBudget.UI.Styles">
 
     <Style x:Key="Style.Path.Neon" TargetType="{x:Type Path}">
+        <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
+        <Setter Property="Stroke" Value="{Binding Foreground2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
         <Setter Property="StrokeLineJoin" Value="Round" />
-        <Setter Property="Fill" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
-        <Setter Property="Stroke" Value="{StaticResource Brush.Neon.Active.Unselected.Border}" />
-        <Setter Property="ext:PathExtension.HelperColor" Value="{StaticResource Color.Active.Unselected.Bright}" />
         <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Stretch" Value="Fill" />
         <Setter Property="Effect">
@@ -16,51 +15,51 @@
                 <DropShadowEffect
                     BlurRadius="25"
                     ShadowDepth="0"
-                    Color="{Binding Path=(ext:PathExtension.HelperColor), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Path}}}" />
+                    Color="{Binding Foreground3.Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
             </Setter.Value>
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="Path.Neon.Corner.Move" TargetType="{x:Type Control}">
-        <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-            <Path
-                x:Name="PathContent"
-                Margin="{TemplateBinding Padding}"
-                Data="M 0,100 C 0,100 80,80 100,0 L 100 100 Z"
-                Style="{StaticResource Style.Path.Neon}" />
-        </Grid>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="PathContent" Property="Fill" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
-                <Setter TargetName="PathContent" Property="Stroke" Value="{StaticResource Brush.Neon.Active.Selected.Border}" />
-                <Setter TargetName="PathContent" Property="ext:PathExtension.HelperColor" Value="{StaticResource Color.Active.Selected.Bright}" />
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+    <Style x:Key="Style.Button.Base" TargetType="{x:Type ext:UIButton}">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
+        <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Unselected.Border}" />
+        <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Unselected.Shadow}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ext:UIButton}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-    <ControlTemplate x:Key="Path.Neon.Corner.Close" TargetType="{x:Type Control}">
-        <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-            <Path
-                x:Name="PathContent"
-                Margin="{TemplateBinding Padding}"
-                Data="M 0,0 C 0,0 80,20 100,100 L 100 0 Z"
-                Style="{StaticResource Style.Path.Neon}" />
-            <TextBlock
-                Margin="0,-1,8,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                FontSize="17"
-                FontWeight="UltraBold"
-                Text="x" />
-        </Grid>
-        <ControlTemplate.Triggers>
+    <Style
+        x:Key="Style.Button.Path.Neon"
+        BasedOn="{StaticResource Style.Button.Base}"
+        TargetType="{x:Type ext:UIButton}">
+        <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="PathContent" Property="Fill" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
-                <Setter TargetName="PathContent" Property="Stroke" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Border}" />
-                <Setter TargetName="PathContent" Property="ext:PathExtension.HelperColor" Value="{StaticResource Color.Active.Selected.Warning.Bright}" />
+                <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
+                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Border}" />
+                <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Shadow}" />
             </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+        </Style.Triggers>
+    </Style>
 
+    <Style
+        x:Key="Style.Button.Path.Neon.Warning"
+        BasedOn="{StaticResource Style.Button.Base}"
+        TargetType="{x:Type ext:UIButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
+                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Border}" />
+                <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Shadow}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

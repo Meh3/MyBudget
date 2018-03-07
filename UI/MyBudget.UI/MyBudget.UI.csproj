@@ -66,6 +66,7 @@
     <Compile Include="Common\Behaviors\ThumbCanResizeWindow.cs" />
     <Compile Include="Common\Behaviors\ControlCanDragWindow.cs" />
     <Compile Include="Common\ControlExtensions\PathExtension.cs" />
+    <Compile Include="Common\ControlExtensions\UIButton.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">
       <DependentUpon>General.pl.resx</DependentUpon>
       <AutoGen>True</AutoGen>

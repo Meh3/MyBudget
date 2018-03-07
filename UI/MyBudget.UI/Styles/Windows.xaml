@@ -30,28 +30,41 @@
                 <i:Interaction.Behaviors>
                     <behaviour:ControlCanDragWindow />
                 </i:Interaction.Behaviors>
-
-                <Button
+                <ext:UIButton
                     Width="50"
                     Height="50"
-                    Padding="4"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Template="{StaticResource Path.Neon.Corner.Close}" />
-
+                    Background="Transparent"
+                    Style="{StaticResource Style.Button.Path.Neon.Warning}">
+                    <Grid>
+                        <Path Data="M 0,0 C 0,0 80,20 100,100 L 100 0 Z" Style="{StaticResource Style.Path.Neon}" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            FontSize="17"
+                            FontWeight="UltraBold"
+                            Foreground="Black"
+                            Text="x" />
+                    </Grid>
+                </ext:UIButton>
             </Grid>
 
             <Grid x:Name="WindowContent" Grid.Row="1">
                 <Thumb
                     Width="20"
                     Height="20"
-                    Padding="4"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Template="{StaticResource Path.Neon.Corner.Move}">
+                    VerticalAlignment="Bottom">
                     <i:Interaction.Behaviors>
                         <behaviour:ThumbCanResizeWindow />
                     </i:Interaction.Behaviors>
+                    <Thumb.Template>
+                        <ControlTemplate>
+                            <ext:UIButton Style="{StaticResource Style.Button.Path.Neon}">
+                                <Path Data="M 0,100 C 0,100 80,80 100,0 L 100 100 Z" Style="{StaticResource Style.Path.Neon}" />
+                            </ext:UIButton>
+                        </ControlTemplate>
+                    </Thumb.Template>
                 </Thumb>
             </Grid>
 

@@ -28,11 +28,14 @@
     <!--  Neon effects  -->
     <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Fill" Color="{StaticResource Color.Active.Selected}" />
     <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Border" Color="{StaticResource Color.Active.Selected.Dark}" />
+    <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Shadow" Color="{StaticResource Color.Active.Selected.Bright}" />
 
     <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Warning.Fill" Color="{StaticResource Color.Active.Selected.Warning}" />
     <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Warning.Border" Color="{StaticResource Color.Active.Selected.Warning.Dark}" />
+    <SolidColorBrush x:Key="Brush.Neon.Active.Selected.Warning.Shadow" Color="{StaticResource Color.Active.Selected.Warning.Bright}" />
 
     <SolidColorBrush x:Key="Brush.Neon.Active.Unselected.Fill" Color="{StaticResource Color.Active.Unselected}" />
     <SolidColorBrush x:Key="Brush.Neon.Active.Unselected.Border" Color="{StaticResource Color.Active.Unselected.Dark}" />
+    <SolidColorBrush x:Key="Brush.Neon.Active.Unselected.Shadow" Color="{StaticResource Color.Active.Unselected.Bright}" />
 
 </ResourceDictionary>
