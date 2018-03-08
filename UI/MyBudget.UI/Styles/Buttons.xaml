@@ -5,7 +5,7 @@
 
     <Style x:Key="Style.Path.Neon" TargetType="{x:Type Path}">
         <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
-        <Setter Property="Stroke" Value="{Binding Foreground2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
+        <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
         <Setter Property="StrokeLineJoin" Value="Round" />
         <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Stretch" Value="Fill" />
@@ -14,16 +14,19 @@
                 <DropShadowEffect
                     BlurRadius="25"
                     ShadowDepth="0"
-                    Color="{Binding Foreground3.Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
+                    Color="{Binding Foreground2.Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="Style.Button.Base" TargetType="{x:Type ext:UIButton}">
         <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
-        <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
-        <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Unselected.Shadow}" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.Active.Unselected.Fill}" />
+        <Setter Property="Foreground2" Value="{StaticResource Brush.Active.Unselected.Shadow}" />
+        <Setter Property="ForegroundMouseOver" Value="{StaticResource Brush.Active.Selected.Fill}" />
+        <Setter Property="Foreground2MouseOver" Value="{StaticResource Brush.Active.Selected.Shadow}" />
+        <Setter Property="ForegroundPressed" Value="{StaticResource Brush.Active.Selected.Fill}" />
+        <Setter Property="Foreground2Pressed" Value="{StaticResource Brush.Active.Selected.Shadow}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ext:UIButton}">
@@ -33,32 +36,34 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style
-        x:Key="Style.Button.Path.Neon"
-        BasedOn="{StaticResource Style.Button.Base}"
-        TargetType="{x:Type ext:UIButton}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
-                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
-                <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Shadow}" />
+                <Setter Property="Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground2" Value="{Binding Foreground2MouseOver, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Mode=Self}}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground2" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style
-        x:Key="Style.Button.Path.Neon.Warning"
+        x:Key="Style.Button.Warning"
         BasedOn="{StaticResource Style.Button.Base}"
         TargetType="{x:Type ext:UIButton}">
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
-                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
-                <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Shadow}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="ForegroundMouseOver" Value="{StaticResource Brush.Active.Selected.Warning.Fill}" />
+        <Setter Property="Foreground2MouseOver" Value="{StaticResource Brush.Active.Selected.Warning.Shadow}" />
+        <Setter Property="ForegroundPressed" Value="{StaticResource Brush.Active.Selected.Warning.Fill}" />
+        <Setter Property="Foreground2Pressed" Value="{StaticResource Brush.Active.Selected.Warning.Shadow}" />
     </Style>
+
+    <Path
+        x:Key="Path.Shape.MainWindow.LeftTopCorner"
+        Data="M 100,0 C 100,0 20,20 0,100 L 0 0 Z"
+        Fill="{StaticResource Brush.Background.Shape}"
+        Stretch="Fill" />
 
 </ResourceDictionary>
