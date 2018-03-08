@@ -35,26 +35,30 @@
                     Width="50"
                     HorizontalAlignment="Right"
                     Background="Transparent"
-                    Style="{StaticResource Style.Button.Warning}">
-                    <Grid>
-                        <Path Data="M 0,0 C 0,0 80,20 100,100 L 100 0 Z" Style="{StaticResource Style.Path.Neon}" />
-                        <TextBlock
-                            Padding="0,0,4,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            FontSize="15"
-                            FontWeight="UltraBold"
-                            Foreground="DarkRed"
-                            Text="X" />
-                    </Grid>
+                    Content="{StaticResource PathGometry.Corner.TopRight}"
+                    Style="{StaticResource Style.Button.Path.Warning}">
                     <i:Interaction.Behaviors>
                         <behaviour:ButtonClickClosesWindow />
                     </i:Interaction.Behaviors>
                 </ext:UIButton>
-                <ContentControl
+                <TextBlock
+                    Padding="0,0,4,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    FontWeight="Medium"
+                    Foreground="DarkRed"
+                    IsHitTestVisible="False"
+                    Text="X" />
+                <Path
                     Width="100"
                     HorizontalAlignment="Left"
-                    Content="{StaticResource Path.Shape.MainWindow.LeftTopCorner}" />
+                    Data="{StaticResource PathGometry.Corner.TopLeft}"
+                    Fill="{StaticResource Brush.Background.Shape}"
+                    Stretch="Fill"
+                    Stroke="{StaticResource Brush.Background.Shape}"
+                    StrokeLineJoin="Round"
+                    StrokeThickness="2" />
             </Grid>
 
             <Grid
@@ -68,7 +72,7 @@
                     VerticalAlignment="Bottom"
                     Style="{StaticResource Style.Button.Base}">
                     <Grid>
-                        <Path Data="M 0,100 C 0,100 80,80 100,0 L 100 100 Z" Style="{StaticResource Style.Path.Neon}" />
+                        <Path Data="{StaticResource PathGometry.Corner.BottomRight}" Style="{StaticResource Style.Path.Neon}" />
                         <Thumb>
                             <i:Interaction.Behaviors>
                                 <behaviour:ThumbResizesWindow />
