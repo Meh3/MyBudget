@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviour="clr-namespace:MyBudget.UI.Behaviors"
     xmlns:ext="clr-namespace:MyBudget.UI.ControlExtensions"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:local="clr-namespace:MyBudget.UI.Styles">
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    
     <ControlTemplate x:Key="Tempalte.Window.Main" TargetType="{x:Type Window}">
         <Grid
             Width="{TemplateBinding Width}"
@@ -28,46 +28,52 @@
                 Height="50"
                 Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <behaviour:ControlCanDragWindow />
+                    <behaviour:ControlDragsWindow />
                 </i:Interaction.Behaviors>
                 <ext:UIButton
                     Width="50"
-                    Height="50"
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     Style="{StaticResource Style.Button.Path.Neon.Warning}">
-                    <Grid>
+                    <Grid Margin="0,2,2,0">
                         <Path Data="M 0,0 C 0,0 80,20 100,100 L 100 0 Z" Style="{StaticResource Style.Path.Neon}" />
                         <TextBlock
+                            Padding="0,0,4,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            FontSize="17"
+                            FontSize="15"
                             FontWeight="UltraBold"
-                            Foreground="Black"
-                            Text="x" />
+                            Foreground="DarkRed"
+                            Text="X" />
                     </Grid>
+                    <i:Interaction.Behaviors>
+                        <behaviour:ButtonClickClosesWindow />
+                    </i:Interaction.Behaviors>
                 </ext:UIButton>
             </Grid>
 
             <Grid x:Name="WindowContent" Grid.Row="1">
-                <Thumb
-                    Width="20"
-                    Height="20"
+                <ext:UIButton
+                    Width="15"
+                    Height="15"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-                    <i:Interaction.Behaviors>
-                        <behaviour:ThumbCanResizeWindow />
-                    </i:Interaction.Behaviors>
-                    <Thumb.Template>
-                        <ControlTemplate>
-                            <ext:UIButton Style="{StaticResource Style.Button.Path.Neon}">
-                                <Path Data="M 0,100 C 0,100 80,80 100,0 L 100 100 Z" Style="{StaticResource Style.Path.Neon}" />
-                            </ext:UIButton>
-                        </ControlTemplate>
-                    </Thumb.Template>
-                </Thumb>
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource Style.Button.Path.Neon}">
+                    <Grid Margin="0,0,2,2">
+                        <Path Data="M 0,100 C 0,100 80,80 100,0 L 100 100 Z" Style="{StaticResource Style.Path.Neon}" />
+                        <Thumb>
+                            <i:Interaction.Behaviors>
+                                <behaviour:ThumbResizesWindow />
+                            </i:Interaction.Behaviors>
+                            <Thumb.Template>
+                                <ControlTemplate>
+                                    <Grid Background="Transparent" />
+                                </ControlTemplate>
+                            </Thumb.Template>
+                        </Thumb>
+                    </Grid>
+                </ext:UIButton>
             </Grid>
-
         </Grid>
     </ControlTemplate>
 

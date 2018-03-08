@@ -9,14 +9,14 @@ using System.Windows.Interactivity;
 
 namespace MyBudget.UI.Behaviors
 {
-    public class ControlCanDragWindow : BehaviorBase<FrameworkElement>
+    public class ControlDragsWindow : BehaviorBase<FrameworkElement>
     {
         protected override void OnSetup()
         {
             AssociatedObject.MouseDown += AssociatedObject_MouseDown;
         }
 
-        private void AssociatedObject_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void AssociatedObject_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left)
                 return;

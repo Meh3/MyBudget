@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ext="clr-namespace:MyBudget.UI.ControlExtensions"
-    xmlns:local="clr-namespace:MyBudget.UI.Styles">
+    xmlns:ext="clr-namespace:MyBudget.UI.ControlExtensions">
 
     <Style x:Key="Style.Path.Neon" TargetType="{x:Type Path}">
         <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ext:UIButton}}}" />
@@ -23,7 +22,7 @@
     <Style x:Key="Style.Button.Base" TargetType="{x:Type ext:UIButton}">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
-        <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Unselected.Border}" />
+        <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Unselected.Fill}" />
         <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Unselected.Shadow}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -43,7 +42,7 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
-                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Border}" />
+                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Fill}" />
                 <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Shadow}" />
             </Trigger>
         </Style.Triggers>
@@ -56,7 +55,7 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
-                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Border}" />
+                <Setter Property="Foreground2" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Fill}" />
                 <Setter Property="Foreground3" Value="{StaticResource Brush.Neon.Active.Selected.Warning.Shadow}" />
             </Trigger>
         </Style.Triggers>

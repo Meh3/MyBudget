@@ -10,7 +10,7 @@ using System.Windows.Interactivity;
 
 namespace MyBudget.UI.Behaviors
 {
-    public class ThumbCanResizeWindow : BehaviorBase<Thumb>
+    public class ThumbResizesWindow : BehaviorBase<Thumb>
     {
         protected override void OnSetup()
         {

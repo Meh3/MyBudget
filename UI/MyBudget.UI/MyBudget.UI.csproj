@@ -63,8 +63,9 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Common\Behaviors\BehaviorBase.cs" />
-    <Compile Include="Common\Behaviors\ThumbCanResizeWindow.cs" />
-    <Compile Include="Common\Behaviors\ControlCanDragWindow.cs" />
+    <Compile Include="Common\Behaviors\ButtonClickClosesWindow.cs" />
+    <Compile Include="Common\Behaviors\ThumbResizesWindow.cs" />
+    <Compile Include="Common\Behaviors\ControlDragsWindow.cs" />
     <Compile Include="Common\ControlExtensions\PathExtension.cs" />
     <Compile Include="Common\ControlExtensions\UIButton.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">
