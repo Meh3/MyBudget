@@ -6,14 +6,14 @@
     <Color x:Key="Color.Passive.Shapes">#F5F5F5</Color>
 
     <!--  Active colors  -->
-    <Color x:Key="Color.Active.Selected">#0000DD</Color>
-    <Color x:Key="Color.Active.Selected.Bright">#0000FF</Color>
+    <Color x:Key="Color.Active.Unselected">#0000DD</Color>
+    <Color x:Key="Color.Active.Unselected.Bright">#0000FF</Color>
 
     <Color x:Key="Color.Active.Selected.Warning">#FF0000</Color>
     <Color x:Key="Color.Active.Selected.Warning.Bright">#FF9999</Color>
 
-    <Color x:Key="Color.Active.Unselected">#F5F5F5</Color>
-    <Color x:Key="Color.Active.Unselected.Bright">#FFFFFF</Color>
+    <Color x:Key="Color.Active.Selected">#F5F5F5</Color>
+    <Color x:Key="Color.Active.Selected.Bright">#FFFFFF</Color>
 
 
     <!--  Backrounds  -->

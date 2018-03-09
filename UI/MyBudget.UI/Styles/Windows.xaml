@@ -12,20 +12,20 @@
             Background="{StaticResource Brush.Background}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="52" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="17" />
             </Grid.RowDefinitions>
 
             <Border
                 Grid.Row="0"
-                Grid.RowSpan="2"
+                Grid.RowSpan="3"
                 BorderBrush="{StaticResource Brush.Background.Line}"
                 BorderThickness="{StaticResource Thickness.Border}" />
 
             <Grid
-                x:Name="WindowBar"
+                x:Name="WindowHeader"
                 Grid.Row="0"
-                Height="50"
                 Margin="2,2,2,0"
                 Background="Transparent">
                 <i:Interaction.Behaviors>
@@ -36,43 +36,44 @@
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     Content="{StaticResource PathGometry.Corner.TopRight}"
-                    Style="{StaticResource Style.Button.Path.Warning}">
+                    Style="{StaticResource Style.Button.Path}">
                     <i:Interaction.Behaviors>
                         <behaviour:ButtonClickClosesWindow />
                     </i:Interaction.Behaviors>
                 </ext:UIButton>
-                <TextBlock
-                    Padding="0,0,4,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    FontSize="15"
-                    FontWeight="Medium"
-                    Foreground="DarkRed"
-                    IsHitTestVisible="False"
-                    Text="X" />
                 <Path
-                    Width="100"
+                    Width="50"
                     HorizontalAlignment="Left"
+                    ext:PathExtension.HelperColor="{StaticResource Color.Active.Selected.Bright}"
                     Data="{StaticResource PathGometry.Corner.TopLeft}"
-                    Fill="{StaticResource Brush.Background.Shape}"
-                    Stretch="Fill"
-                    Stroke="{StaticResource Brush.Background.Shape}"
-                    StrokeLineJoin="Round"
-                    StrokeThickness="2" />
+                    Stroke="{StaticResource Brush.Active.Selected.Fill}"
+                    Style="{StaticResource Style.Path.Neon}" />
+                <Image
+                    Height="20"
+                    Margin="2,2,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Source="{StaticResource Icon.Money}"
+                    Stretch="Uniform" />
             </Grid>
 
             <Grid
                 x:Name="WindowContent"
                 Grid.Row="1"
+                Margin="2,0,2,0">
+                <ContentPresenter />
+            </Grid>
+
+            <Grid
+                x:Name="WindowFooter"
+                Grid.Row="2"
                 Margin="2,0,2,2">
                 <ext:UIButton
                     Width="15"
-                    Height="15"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
                     Style="{StaticResource Style.Button.Base}">
                     <Grid>
-                        <Path Data="{StaticResource PathGometry.Corner.BottomRight}" Style="{StaticResource Style.Path.Neon}" />
+                        <Path Data="{StaticResource PathGometry.Corner.BottomRight}" Style="{StaticResource Style.Path.Neon.Button}" />
                         <Thumb>
                             <i:Interaction.Behaviors>
                                 <behaviour:ThumbResizesWindow />

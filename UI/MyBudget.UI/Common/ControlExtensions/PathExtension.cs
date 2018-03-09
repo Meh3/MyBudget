@@ -15,8 +15,7 @@ namespace MyBudget.UI.ControlExtensions
             DependencyProperty.RegisterAttached(
             "HelperColor",
             typeof(Color),
-            typeof(PathExtension),
-            new PropertyMetadata(Colors.Transparent));
+            typeof(PathExtension));
 
         public static Color GetHelperColor(DependencyObject target)
         {
