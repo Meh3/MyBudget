@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--  Passive colors  -->
-    <Color x:Key="Color.Passive.Primary">#202020</Color>
+    <Color x:Key="Color.Passive.Primary">#88000000</Color>
     <Color x:Key="Color.Passive.Secondary">#000000</Color>
     <Color x:Key="Color.Passive.Shapes">#F5F5F5</Color>
 

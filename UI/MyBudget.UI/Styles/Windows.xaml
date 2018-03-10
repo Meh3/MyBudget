@@ -12,21 +12,16 @@
             Background="{StaticResource Brush.Background}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="52" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="17" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <Border
-                Grid.Row="0"
-                Grid.RowSpan="3"
-                BorderBrush="{StaticResource Brush.Background.Line}"
-                BorderThickness="{StaticResource Thickness.Border}" />
 
             <Grid
                 x:Name="WindowHeader"
                 Grid.Row="0"
-                Margin="2,2,2,0"
+                Height="50"
+                Margin="5,5,5,2"
                 Background="Transparent">
                 <i:Interaction.Behaviors>
                     <behaviour:ControlDragsWindow />
@@ -35,22 +30,41 @@
                     Width="50"
                     HorizontalAlignment="Right"
                     Background="Transparent"
-                    Content="{StaticResource PathGometry.Corner.TopRight}"
+                    Content="{StaticResource PathGometry.Corner.Close}"
                     Style="{StaticResource Style.Button.Path}">
                     <i:Interaction.Behaviors>
-                        <behaviour:ButtonClickClosesWindow />
+                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Close" />
+                    </i:Interaction.Behaviors>
+                </ext:UIButton>
+                <ext:UIButton
+                    Width="50"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    Content="{StaticResource PathGometry.Corner.Minimize}"
+                    Style="{StaticResource Style.Button.Path}">
+                    <i:Interaction.Behaviors>
+                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Minimize" />
+                    </i:Interaction.Behaviors>
+                </ext:UIButton>
+                <ext:UIButton
+                    Width="50"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    Content="{StaticResource PathGometry.Corner.Maximize}"
+                    Style="{StaticResource Style.Button.Path}">
+                    <i:Interaction.Behaviors>
+                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Maximize" />
                     </i:Interaction.Behaviors>
                 </ext:UIButton>
                 <Path
                     Width="50"
                     HorizontalAlignment="Left"
                     ext:PathExtension.HelperColor="{StaticResource Color.Active.Selected.Bright}"
-                    Data="{StaticResource PathGometry.Corner.TopLeft}"
+                    Data="{StaticResource PathGometry.Corner.Icon}"
                     Stroke="{StaticResource Brush.Active.Selected.Fill}"
                     Style="{StaticResource Style.Path.Neon}" />
                 <Image
                     Height="20"
-                    Margin="2,2,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Source="{StaticResource Icon.Money}"
@@ -60,20 +74,21 @@
             <Grid
                 x:Name="WindowContent"
                 Grid.Row="1"
-                Margin="2,0,2,0">
+                Margin="5,2,5,2">
                 <ContentPresenter />
             </Grid>
 
             <Grid
                 x:Name="WindowFooter"
                 Grid.Row="2"
-                Margin="2,0,2,2">
+                Height="15"
+                Margin="5,2,5,5">
                 <ext:UIButton
                     Width="15"
                     HorizontalAlignment="Right"
                     Style="{StaticResource Style.Button.Base}">
                     <Grid>
-                        <Path Data="{StaticResource PathGometry.Corner.BottomRight}" Style="{StaticResource Style.Path.Neon.Button}" />
+                        <Path Data="{StaticResource PathGometry.Corner.Resize}" Style="{StaticResource Style.Path.Neon.Button}" />
                         <Thumb>
                             <i:Interaction.Behaviors>
                                 <behaviour:ThumbResizesWindow />
@@ -95,6 +110,7 @@
         <Setter Property="MinWidth" Value="300" />
         <Setter Property="MinHeight" Value="400" />
         <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="ResizeMode" Value="CanMinimize" />
         <Setter Property="Template" Value="{StaticResource Tempalte.Window.Main}" />
     </Style>
 </ResourceDictionary>
