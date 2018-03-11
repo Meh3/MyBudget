@@ -62,11 +62,14 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="AllElements.xaml.cs">
+      <DependentUpon>AllElements.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Behaviors\BehaviorBase.cs" />
     <Compile Include="Common\Behaviors\TitleBarButtonsBehavior.cs" />
     <Compile Include="Common\Behaviors\ThumbResizesWindow.cs" />
     <Compile Include="Common\Behaviors\ControlDragsWindow.cs" />
-    <Compile Include="Common\ControlExtensions\PathExtension.cs" />
+    <Compile Include="Common\ControlExtensions\Attached.cs" />
     <Compile Include="Common\ControlExtensions\UIButton.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">
       <DependentUpon>General.pl.resx</DependentUpon>
@@ -83,6 +86,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>General.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\NavigationPanel\NavigationPanelView.xaml.cs">
+      <DependentUpon>NavigationPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavigationPanel\NavigationPanelViewModel.cs" />
+    <Page Include="AllElements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,7 +122,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NavigationPanel\NavigationPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,5 +177,6 @@
   <ItemGroup>
     <Resource Include="Styles\MoneyIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

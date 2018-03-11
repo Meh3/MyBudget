@@ -20,55 +20,60 @@
             <Grid
                 x:Name="WindowHeader"
                 Grid.Row="0"
-                Height="50"
-                Margin="5,5,5,2"
+                Height="{StaticResource Size.MainWindow.Header.Height}"
+                Margin="{StaticResource Margin.MainWindow.Header}"
                 Background="Transparent">
                 <i:Interaction.Behaviors>
                     <behaviour:ControlDragsWindow />
                 </i:Interaction.Behaviors>
-                <ext:UIButton
-                    Width="50"
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="2"
                     HorizontalAlignment="Right"
-                    Background="Transparent"
-                    Content="{StaticResource PathGometry.Corner.Close}"
-                    Style="{StaticResource Style.Button.Path}">
-                    <i:Interaction.Behaviors>
-                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Close" />
-                    </i:Interaction.Behaviors>
-                </ext:UIButton>
+                    Orientation="Horizontal">
+                    <ext:UIButton Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                        <i:Interaction.Behaviors>
+                            <behaviour:TitleBarButtonsBehavior WindowBehavior="Minimize" />
+                        </i:Interaction.Behaviors>
+                    </ext:UIButton>
+                    <Control Width="4" />
+                    <ext:UIButton Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                        <i:Interaction.Behaviors>
+                            <behaviour:TitleBarButtonsBehavior WindowBehavior="Close" />
+                        </i:Interaction.Behaviors>
+                    </ext:UIButton>
+                </StackPanel>
+
                 <ext:UIButton
-                    Width="50"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    Content="{StaticResource PathGometry.Corner.Minimize}"
-                    Style="{StaticResource Style.Button.Path}">
-                    <i:Interaction.Behaviors>
-                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Minimize" />
-                    </i:Interaction.Behaviors>
-                </ext:UIButton>
-                <ext:UIButton
-                    Width="50"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    Content="{StaticResource PathGometry.Corner.Maximize}"
-                    Style="{StaticResource Style.Button.Path}">
+                    Grid.Column="2"
+                    Width="{StaticResource Size.Button.TitleBar.Max.Width}"
+                    Margin="0,0,2,0"
+                    Content="{StaticResource PathGometry.Button.Maximize}"
+                    Style="{StaticResource Style.Button.Path.TitleBar}">
                     <i:Interaction.Behaviors>
                         <behaviour:TitleBarButtonsBehavior WindowBehavior="Maximize" />
                     </i:Interaction.Behaviors>
                 </ext:UIButton>
-                <Path
-                    Width="50"
-                    HorizontalAlignment="Left"
-                    ext:PathExtension.HelperColor="{StaticResource Color.Active.Selected.Bright}"
-                    Data="{StaticResource PathGometry.Corner.Icon}"
-                    Stroke="{StaticResource Brush.Active.Selected.Fill}"
-                    Style="{StaticResource Style.Path.Neon}" />
-                <Image
-                    Height="20"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Source="{StaticResource Icon.Money}"
-                    Stretch="Uniform" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Height="20"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Source="{StaticResource Icon.Money}"
+                        Stretch="Uniform" />
+                    <Control Width="4" />
+                    <TextBlock
+                        FontSize="14"
+                        Style="{StaticResource Style.TextBlock}"
+                        Text="My Budget" />
+                </StackPanel>
             </Grid>
 
             <Grid
@@ -81,11 +86,13 @@
             <Grid
                 x:Name="WindowFooter"
                 Grid.Row="2"
-                Height="15"
+                Height="20"
                 Margin="5,2,5,5">
                 <ext:UIButton
-                    Width="15"
+                    Width="10"
+                    Height="10"
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
                     Style="{StaticResource Style.Button.Base}">
                     <Grid>
                         <Path Data="{StaticResource PathGometry.Corner.Resize}" Style="{StaticResource Style.Path.Neon.Button}" />

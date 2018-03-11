@@ -1,34 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--  Passive colors  -->
-    <Color x:Key="Color.Passive.Primary">#88000000</Color>
-    <Color x:Key="Color.Passive.Secondary">#000000</Color>
-    <Color x:Key="Color.Passive.Shapes">#F5F5F5</Color>
-
-    <!--  Active colors  -->
-    <Color x:Key="Color.Active.Unselected">#0000DD</Color>
-    <Color x:Key="Color.Active.Unselected.Bright">#0000FF</Color>
-
-    <Color x:Key="Color.Active.Selected.Warning">#FF0000</Color>
-    <Color x:Key="Color.Active.Selected.Warning.Bright">#FF9999</Color>
-
-    <Color x:Key="Color.Active.Selected">#F5F5F5</Color>
-    <Color x:Key="Color.Active.Selected.Bright">#FFFFFF</Color>
-
-
-    <!--  Backrounds  -->
-    <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Passive.Primary}" />
-    <SolidColorBrush x:Key="Brush.Background.Line" Color="{StaticResource Color.Passive.Secondary}" />
-    <SolidColorBrush x:Key="Brush.Background.Shape" Color="{StaticResource Color.Passive.Shapes}" />
+    <!--  Backround  -->
+    <SolidColorBrush x:Key="Brush.Background" Color="#88000000" />
 
     <!--  Buttons  -->
-    <SolidColorBrush x:Key="Brush.Active.Selected.Fill" Color="{StaticResource Color.Active.Selected}" />
-    <SolidColorBrush x:Key="Brush.Active.Selected.Shadow" Color="{StaticResource Color.Active.Selected.Bright}" />
+    <SolidColorBrush x:Key="Brush.Button.Active" Color="#0000DD" />
+    <SolidColorBrush x:Key="Brush.Button.Active.Shadow" Color="#0000FF" />
 
-    <SolidColorBrush x:Key="Brush.Active.Selected.Warning.Fill" Color="{StaticResource Color.Active.Selected.Warning}" />
-    <SolidColorBrush x:Key="Brush.Active.Selected.Warning.Shadow" Color="{StaticResource Color.Active.Selected.Warning.Bright}" />
+    <SolidColorBrush x:Key="Brush.Button.MosueOver" Color="#FF0000" />
+    <SolidColorBrush x:Key="Brush.Button.MosueOver.Shadow" Color="#FF9999" />
 
-    <SolidColorBrush x:Key="Brush.Active.Unselected.Fill" Color="{StaticResource Color.Active.Unselected}" />
-    <SolidColorBrush x:Key="Brush.Active.Unselected.Shadow" Color="{StaticResource Color.Active.Unselected.Bright}" />
+    <!--  Application contours  -->
+    <SolidColorBrush x:Key="Brush.Contour" Color="#c1d0ff" />
+    <SolidColorBrush x:Key="Brush.Contour.Shadow" Color="#FFFFFF" />
+
+    <!--  Texts  -->
+    <SolidColorBrush x:Key="Brush.Text" Color="#c1d0ff" />
+    <Color x:Key="Brush.Text.Shadow">#FFFFFF</Color>
 
 </ResourceDictionary>

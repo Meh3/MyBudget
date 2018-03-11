@@ -3,8 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <Thickness x:Key="Thickness.Border">2,2,2,2</Thickness>
-    <Thickness x:Key="Thickness.Border.Bottom">2,2,2,2</Thickness>
-    <sys:Double x:Key="Thickness.Line">2</sys:Double>
+    <!--  Sizes  -->
+    <sys:Double x:Key="Size.MainWindow.Header.Height">30</sys:Double>
+    <sys:Double x:Key="Size.MainWindow.Footer.Height">15</sys:Double>
+    <sys:Double x:Key="Size.Button.TitleBar.Height">20</sys:Double>
+    <sys:Double x:Key="Size.Button.TitleBar.MinClose.Width">45</sys:Double>
+    <sys:Double x:Key="Size.Button.TitleBar.Max.Width">90</sys:Double>
+
+    <!--  Margins and paddings  -->
+    <Thickness x:Key="Margin.MainWindow.Header">5,5,5,2</Thickness>
+    <Thickness x:Key="Margin.MainWindow.Content">5,2,5,2</Thickness>
+    <Thickness x:Key="Margin.MainWindow.Footer">5,2,5,5</Thickness>
 
 </ResourceDictionary>
