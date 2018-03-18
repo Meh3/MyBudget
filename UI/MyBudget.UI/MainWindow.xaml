@@ -3,14 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MyBudget.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:strings="clr-namespace:MyBudget.UI.Strings"
+    xmlns:views="clr-namespace:MyBudget.UI.Views"
     Title="My Budget"
     Width="525"
     Height="350"
     Style="{StaticResource Style.Window.Main}"
     mc:Ignorable="d">
-    <Grid>
-    </Grid>
+    <views:NavigationPanelView Grid.Column="0" />
 </Window>

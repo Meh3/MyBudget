@@ -211,6 +211,8 @@ namespace MyBudget.UI
 
         private WindowState previousState;
 
+
+
         public MainWindow()
         {
             InitializeComponent();

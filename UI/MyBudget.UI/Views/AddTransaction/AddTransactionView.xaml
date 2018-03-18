@@ -1,0 +1,14 @@
+﻿<UserControl
+    x:Class="MyBudget.UI.Views.AddTransactionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:MyBudget.UI.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyBudget.UI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    DataContext="{common:TypeInit {x:Type local:AddTransactionViewModel}}"
+    mc:Ignorable="d">
+    <common:UIButton HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Style.Button.TextBlock}" Content="Add Transaction" />
+</UserControl>

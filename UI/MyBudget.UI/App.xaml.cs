@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
+using Ninject;
+using MyBudget.UI.Views;
 
 namespace MyBudget.UI
 {
@@ -23,7 +26,13 @@ namespace MyBudget.UI
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var localeFromConfig = ConfigurationManager.AppSettings["locale"]?.ToString();
+            SetLocaleFromConfigIfExist("locale");
+            SetNinjectContainer();
+        }
+
+        private void SetLocaleFromConfigIfExist(string setttingName)
+        {
+            var localeFromConfig = ConfigurationManager.AppSettings[setttingName]?.ToString();
 
             if (!string.IsNullOrEmpty(localeFromConfig))
             {
@@ -31,7 +40,15 @@ namespace MyBudget.UI
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(localeFromConfig); ;
             }
 
-            base.OnStartup(e);
+        }
+
+        private void SetNinjectContainer()
+        {
+            NinjectKernel.Initialize(Assembly.GetExecutingAssembly());
+
+            var mainWindw = NinjectKernel.Get<MainWindow>();
+            Application.Current.MainWindow = mainWindw;
+            Application.Current.MainWindow.Show();
         }
     }
 }

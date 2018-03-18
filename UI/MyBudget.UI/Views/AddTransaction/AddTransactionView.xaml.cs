@@ -15,9 +15,12 @@ using System.Windows.Shapes;
 
 namespace MyBudget.UI.Views
 {
-    public partial class NavigationPanelView
+    /// <summary>
+    /// Interaction logic for AddTransactionView.xaml
+    /// </summary>
+    public partial class AddTransactionView : UserControl
     {
-        public NavigationPanelView()
+        public AddTransactionView()
         {
             InitializeComponent();
         }

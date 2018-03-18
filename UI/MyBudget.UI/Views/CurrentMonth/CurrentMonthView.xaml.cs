@@ -15,9 +15,12 @@ using System.Windows.Shapes;
 
 namespace MyBudget.UI.Views
 {
-    public partial class NavigationPanelView
+    /// <summary>
+    /// Interaction logic for CurrentMonthView.xaml
+    /// </summary>
+    public partial class CurrentMonthView : UserControl
     {
-        public NavigationPanelView()
+        public CurrentMonthView()
         {
             InitializeComponent();
         }

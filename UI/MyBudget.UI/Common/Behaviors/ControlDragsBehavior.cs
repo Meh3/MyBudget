@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace MyBudget.UI.Behaviors
+namespace MyBudget.UI.Common
 {
-    public class ControlDragsWindow : BehaviorBase<FrameworkElement>
+    public class ControlDragsWindowBehavior : BehaviorBase<FrameworkElement>
     {
         protected override void OnSetup()
         {

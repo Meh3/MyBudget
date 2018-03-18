@@ -8,11 +8,19 @@
     <sys:Double x:Key="Size.MainWindow.Footer.Height">15</sys:Double>
     <sys:Double x:Key="Size.Button.TitleBar.Height">20</sys:Double>
     <sys:Double x:Key="Size.Button.TitleBar.MinClose.Width">45</sys:Double>
+    <!--  Max size should be doubled MinClose size  -->
     <sys:Double x:Key="Size.Button.TitleBar.Max.Width">90</sys:Double>
+    <sys:Double x:Key="Size.Icon.HeightAndWidth">20</sys:Double>
+    <sys:Double x:Key="Size.Button.Resize.HeightAndWidth">10</sys:Double>
+    <sys:Double x:Key="Size.NavugationPanel.Contour.UpDown.Height">40</sys:Double>
 
     <!--  Margins and paddings  -->
     <Thickness x:Key="Margin.MainWindow.Header">5,5,5,2</Thickness>
     <Thickness x:Key="Margin.MainWindow.Content">5,2,5,2</Thickness>
     <Thickness x:Key="Margin.MainWindow.Footer">5,2,5,5</Thickness>
+
+    <Thickness x:Key="Margin.NavigationPanel.Items.FromRightBorder">0,0,20,0</Thickness>
+    <Thickness x:Key="Margin.NavigationPanel.Items.FromEachOther">0,5,0,5</Thickness>
+    <Thickness x:Key="Margin.NavigationPanel.Contnet.FromPanel">5</Thickness>
 
 </ResourceDictionary>

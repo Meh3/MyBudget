@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviour="clr-namespace:MyBudget.UI.Behaviors"
-    xmlns:ext="clr-namespace:MyBudget.UI.ControlExtensions"
+    xmlns:common="clr-namespace:MyBudget.UI.Common"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <ControlTemplate x:Key="Tempalte.Window.Main" TargetType="{x:Type Window}">
@@ -17,14 +16,13 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid
-                x:Name="WindowHeader"
+            <Grid x:Name="WindowHeader"
                 Grid.Row="0"
                 Height="{StaticResource Size.MainWindow.Header.Height}"
                 Margin="{StaticResource Margin.MainWindow.Header}"
                 Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <behaviour:ControlDragsWindow />
+                    <common:ControlDragsWindowBehavior />
                 </i:Interaction.Behaviors>
 
                 <Grid.ColumnDefinitions>
@@ -37,33 +35,33 @@
                     Grid.Column="2"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <ext:UIButton Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                    <common:UIButton Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
-                            <behaviour:TitleBarButtonsBehavior WindowBehavior="Minimize" />
+                            <common:TitleBarButtonsBehavior WindowBehavior="Minimize" />
                         </i:Interaction.Behaviors>
-                    </ext:UIButton>
+                    </common:UIButton>
                     <Control Width="4" />
-                    <ext:UIButton Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                    <common:UIButton Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
-                            <behaviour:TitleBarButtonsBehavior WindowBehavior="Close" />
+                            <common:TitleBarButtonsBehavior WindowBehavior="Close" />
                         </i:Interaction.Behaviors>
-                    </ext:UIButton>
+                    </common:UIButton>
                 </StackPanel>
 
-                <ext:UIButton
+                <common:UIButton
                     Grid.Column="2"
                     Width="{StaticResource Size.Button.TitleBar.Max.Width}"
                     Margin="0,0,2,0"
                     Content="{StaticResource PathGometry.Button.Maximize}"
                     Style="{StaticResource Style.Button.Path.TitleBar}">
                     <i:Interaction.Behaviors>
-                        <behaviour:TitleBarButtonsBehavior WindowBehavior="Maximize" />
+                        <common:TitleBarButtonsBehavior WindowBehavior="Maximize" />
                     </i:Interaction.Behaviors>
-                </ext:UIButton>
+                </common:UIButton>
 
                 <StackPanel Orientation="Horizontal">
                     <Image
-                        Height="20"
+                        Height="{StaticResource Size.Icon.HeightAndWidth}"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Source="{StaticResource Icon.Money}"
@@ -71,34 +69,29 @@
                     <Control Width="4" />
                     <TextBlock
                         FontSize="14"
-                        Style="{StaticResource Style.TextBlock}"
+                        Style="{StaticResource Style.TextBlock.PlainText}"
                         Text="My Budget" />
                 </StackPanel>
             </Grid>
 
-            <Grid
-                x:Name="WindowContent"
-                Grid.Row="1"
-                Margin="5,2,5,2">
+            <Grid x:Name="WindowContent" Grid.Row="1">
                 <ContentPresenter />
             </Grid>
 
-            <Grid
-                x:Name="WindowFooter"
+            <Grid x:Name="WindowFooter"
                 Grid.Row="2"
-                Height="20"
-                Margin="5,2,5,5">
-                <ext:UIButton
-                    Width="10"
-                    Height="10"
+                Height="{StaticResource Size.MainWindow.Footer.Height}"
+                Margin="{StaticResource Margin.MainWindow.Footer}">
+                <common:UIButton
+                    Width="{StaticResource Size.Button.Resize.HeightAndWidth}"
+                    Height="{StaticResource Size.Button.Resize.HeightAndWidth}"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Style="{StaticResource Style.Button.Base}">
+                    VerticalAlignment="Bottom">
                     <Grid>
                         <Path Data="{StaticResource PathGometry.Corner.Resize}" Style="{StaticResource Style.Path.Neon.Button}" />
                         <Thumb>
                             <i:Interaction.Behaviors>
-                                <behaviour:ThumbResizesWindow />
+                                <common:ThumbResizesWindowBehavior />
                             </i:Interaction.Behaviors>
                             <Thumb.Template>
                                 <ControlTemplate>
@@ -107,15 +100,15 @@
                             </Thumb.Template>
                         </Thumb>
                     </Grid>
-                </ext:UIButton>
+                </common:UIButton>
             </Grid>
         </Grid>
     </ControlTemplate>
 
     <Style x:Key="Style.Window.Main" TargetType="{x:Type Window}">
         <Setter Property="WindowStyle" Value="None" />
-        <Setter Property="MinWidth" Value="300" />
-        <Setter Property="MinHeight" Value="400" />
+        <Setter Property="MinWidth" Value="400" />
+        <Setter Property="MinHeight" Value="300" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="ResizeMode" Value="CanMinimize" />
         <Setter Property="Template" Value="{StaticResource Tempalte.Window.Main}" />

@@ -8,9 +8,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace MyBudget.UI.Behaviors
+namespace MyBudget.UI.Common
 {
-    public class ThumbResizesWindow : BehaviorBase<Thumb>
+    public class ThumbResizesWindowBehavior : BehaviorBase<Thumb>
     {
         protected override void OnSetup()
         {

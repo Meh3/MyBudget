@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ext="clr-namespace:MyBudget.UI.ControlExtensions">
+    xmlns:common="clr-namespace:MyBudget.UI.Common">
 
     <!--  Sylfaen, Javanese Text, Rockwell  -->
     <Style x:Key="Style.TextBlock" TargetType="{x:Type TextBlock}">
@@ -9,11 +9,10 @@
         <Setter Property="FontFamily" Value="Book Antiqua" />
         <Setter Property="Foreground" Value="{StaticResource Brush.Text}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="ext:Attached.Color" Value="{StaticResource Brush.Text.Shadow}" />
+        <Setter Property="common:Attached.Color" Value="{StaticResource Color.Text.Shadow}" />
     </Style>
 
-    <Style
-        x:Key="Style.TextBlock.Neon"
+    <Style x:Key="Style.TextBlock.Neon"
         BasedOn="{StaticResource Style.TextBlock}"
         TargetType="{x:Type TextBlock}">
         <Setter Property="Effect">
@@ -21,13 +20,12 @@
                 <DropShadowEffect
                     BlurRadius="15"
                     ShadowDepth="0"
-                    Color="{Binding Path=(ext:Attached.Color), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBlock}}}" />
+                    Color="{Binding Path=(common:Attached.Color), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBlock}}}" />
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style
-        x:Key="Style.TextBlock.PlainText"
+    <Style x:Key="Style.TextBlock.PlainText"
         BasedOn="{StaticResource Style.TextBlock}"
         TargetType="{x:Type TextBlock}" />
 

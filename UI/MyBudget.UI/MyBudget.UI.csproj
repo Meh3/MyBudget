@@ -39,6 +39,9 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -67,10 +70,16 @@
     </Compile>
     <Compile Include="Common\Behaviors\BehaviorBase.cs" />
     <Compile Include="Common\Behaviors\TitleBarButtonsBehavior.cs" />
-    <Compile Include="Common\Behaviors\ThumbResizesWindow.cs" />
-    <Compile Include="Common\Behaviors\ControlDragsWindow.cs" />
+    <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
+    <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
     <Compile Include="Common\ControlExtensions\Attached.cs" />
+    <Compile Include="Common\ControlExtensions\SwitchableContentControl.cs" />
     <Compile Include="Common\ControlExtensions\UIButton.cs" />
+    <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
+    <Compile Include="Common\Converters\TypeInitializer.cs" />
+    <Compile Include="Common\Direction.cs" />
+    <Compile Include="NinjectBindings.cs" />
+    <Compile Include="NinjectKernel.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">
       <DependentUpon>General.pl.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -86,10 +95,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>General.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddTransaction\AddTransactionView.xaml.cs">
+      <DependentUpon>AddTransactionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddTransaction\AddTransactionViewModel.cs" />
+    <Compile Include="Views\CurrentMonth\CurrentMonthView.xaml.cs">
+      <DependentUpon>CurrentMonthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CurrentMonth\CurrentMonthViewModel.cs" />
     <Compile Include="Views\NavigationPanel\NavigationPanelView.xaml.cs">
       <DependentUpon>NavigationPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavigationPanel\NavigationPanelViewModel.cs" />
+    <Compile Include="Views\ViewModelBase.cs" />
     <Page Include="AllElements.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,11 +140,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\SwitchableContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Texts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddTransaction\AddTransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CurrentMonth\CurrentMonthView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

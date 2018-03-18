@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace MyBudget.UI.ControlExtensions
+namespace MyBudget.UI.Common
 {
     public static class Attached
     {

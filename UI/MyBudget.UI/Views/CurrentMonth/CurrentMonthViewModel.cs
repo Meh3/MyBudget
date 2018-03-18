@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyBudget.UI.Views
 {
-    public class NavigationPanelViewModel : ViewModelBase
+    public class CurrentMonthViewModel : ViewModelBase
     {
-        public NavigationPanelViewModel()
-        {
-
-        }
     }
 }

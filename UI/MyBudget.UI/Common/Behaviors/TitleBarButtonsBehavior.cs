@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MyBudget.UI.Behaviors
+namespace MyBudget.UI.Common
 {
     public enum WindowBehavior { Maximize, Minimize, Close }
 

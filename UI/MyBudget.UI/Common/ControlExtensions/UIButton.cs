@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MyBudget.UI.ControlExtensions
+namespace MyBudget.UI.Common
 {
     public class UIButton : Button
     {
@@ -92,6 +92,11 @@ namespace MyBudget.UI.ControlExtensions
         {
             get { return (SolidColorBrush)GetValue(BackgroundPressedProperty); }
             set { SetValue(BackgroundPressedProperty, value); }
+        }
+
+        public UIButton()
+        {
+            DefaultStyleKey = typeof(UIButton);
         }
     }
 }

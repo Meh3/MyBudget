@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace MyBudget.UI.Behaviors
+namespace MyBudget.UI.Common
 {
     /// <summary>
     /// Base class for attached behavior preventing memory leaks.
