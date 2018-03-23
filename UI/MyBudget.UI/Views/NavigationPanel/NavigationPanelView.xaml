@@ -39,21 +39,15 @@
                 Style="{StaticResource Style.Path.Neon}" />
         </StackPanel>
 
-
-
         <common:SwitchableContentControl
-            Grid.Row="0"
-            Grid.RowSpan="3"
             Grid.Column="1"
             Margin="{StaticResource Margin.NavigationPanel.Contnet.FromPanel}"
-            Panel.ZIndex="1"
             AnimationTimeMs="500"
             NewContentAnimationDirection="Left"
-            OldContentAnimationDirection="Down">
-            <common:SwitchableContentControl.Content1>
+            OldContentAnimationDirection="Left">
+            <common:SwitchableContentControl.Content>
                 <local:CurrentMonthView />
-            </common:SwitchableContentControl.Content1>
+            </common:SwitchableContentControl.Content>
         </common:SwitchableContentControl>
-
     </Grid>
 </UserControl>

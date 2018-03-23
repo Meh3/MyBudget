@@ -13,35 +13,19 @@ using System.Windows.Media.Animation;
 namespace MyBudget.UI.Common
 {
     [TemplatePart(Name = GridPartName, Type = typeof(Grid))]
-    [TemplatePart(Name = Content1PartName, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = Content2PartName, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = Content1PartName, Type = typeof(ContentControl))]
+    [TemplatePart(Name = Content2PartName, Type = typeof(ContentControl))]
     public class SwitchableContentControl : Control
     {
+        private enum NewOld { New, Old};
+
         private const string GridPartName = "PART_Grid";
         private const string Content1PartName = "PART_Content1";
         private const string Content2PartName = "PART_Content2";
 
         private Grid TemplateGrid;
-        private ContentPresenter TemplateContent1;
-        private ContentPresenter TemplateContent2;
-
-        public static readonly DependencyProperty Content1Property =
-            DependencyProperty.Register("Content1", typeof(object), typeof(SwitchableContentControl), null);
-
-        public object Content1
-        {
-            get { return GetValue(Content1Property); }
-            set { SetValue(Content1Property, value); }
-        }
-
-        public static readonly DependencyProperty Content2Property =
-            DependencyProperty.Register("Content2", typeof(object), typeof(SwitchableContentControl), null);
-
-        public object Content2
-        {
-            get { return GetValue(Content2Property); }
-            set { SetValue(Content2Property, value); }
-        }
+        private ContentControl TemplateContent1;
+        private ContentControl TemplateContent2;
 
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(object), typeof(SwitchableContentControl), new PropertyMetadata(SwitchContentChangedCallback));
@@ -84,87 +68,61 @@ namespace MyBudget.UI.Common
             this.DefaultStyleKey = typeof(SwitchableContentControl);
         }
 
+        private void SwitchableContentControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Content != null)
+            {
+                SwitchContentChangedCallback(this, new DependencyPropertyChangedEventArgs());
+            }
+
+            TemplateGrid.Loaded -= SwitchableContentControl_Loaded;
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             TemplateGrid = Template.FindName(GridPartName, this) as Grid;
-            TemplateContent1 = Template.FindName(Content1PartName, this) as ContentPresenter;
-            TemplateContent2 = Template.FindName(Content2PartName, this) as ContentPresenter;
+            TemplateContent1 = Template.FindName(Content1PartName, this) as ContentControl;
+            TemplateContent2 = Template.FindName(Content2PartName, this) as ContentControl;
 
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            TemplateGrid.Loaded += SwitchableContentControl_Loaded;
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Dispatcher.Invoke(() => 
-            {
-                Content = isTrue ? new CurrentMonthView() as object : new AddTransactionView() as object;
-                isTrue = !isTrue;
-            });
-        }
-
-        Timer timer = new Timer(5000);
-        bool isTrue = false;
+        
 
         private static void SwitchContentChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as SwitchableContentControl;
 
-            if (control == null)
+            if (control == null || control.TemplateGrid == null)
                 return;
 
-            if (control.AnimationTimeMs == 0)
-            {
-                SwitchContentWithoutAnimation(control);
-                return;
-            }
-
+            var contents = GetClassifiedContents(control);
             var animationTime = new TimeSpan(0, 0, 0, 0, control.AnimationTimeMs);
-            var startMarginForNewContent = GetStartMarginForNewContent(control.NewContentAnimationDirection, control);
-            var endMarginForOldContent = GetEndMarginForNewContent(control.OldContentAnimationDirection, control);
-            ContentPresenter newContentTemplate;
-            ContentPresenter oldContentTemplate;
-            Action setOldContentToNull;
 
-            if (control.Content1 != null)
+            if (control.AnimationTimeMs <= 0)
             {
-                oldContentTemplate = control.TemplateContent1;
-                newContentTemplate = control.TemplateContent2;
-                newContentTemplate.Margin = startMarginForNewContent;
-                control.Content2 = control.Content;
-                setOldContentToNull = () => control.Content1 = null;
+                contents[NewOld.Old].Content = control.Content;
+                return;
             }
-            else
-            {
-                oldContentTemplate = control.TemplateContent2;
-                newContentTemplate = control.TemplateContent1;
-                newContentTemplate.Margin = startMarginForNewContent;
-                control.Content1 = control.Content;
-                setOldContentToNull = () => control.Content2 = null;
-            }
+
+            contents[NewOld.New].Margin = GetStartMarginForNewContent(control.NewContentAnimationDirection, control);
+            contents[NewOld.New].Content = control.Content;
 
             var zeroMargin = new Thickness(0, 0, 0, 0);
+            var endMarginForOldContent = GetEndMarginForOldContent(control.OldContentAnimationDirection, control);
             var newContentAnimation = new ThicknessAnimation(zeroMargin, animationTime);
             var oldContentAnimation = new ThicknessAnimation(endMarginForOldContent, animationTime, FillBehavior.Stop);
 
             oldContentAnimation.Completed += (sender, args) =>
             {
-                setOldContentToNull();
-                oldContentTemplate.Margin = zeroMargin;
+                contents[NewOld.Old].Content = null;
+                contents[NewOld.Old].Margin = zeroMargin;
             };
 
-            newContentTemplate.BeginAnimation(ContentPresenter.MarginProperty, newContentAnimation);
-            oldContentTemplate.BeginAnimation(ContentPresenter.MarginProperty, oldContentAnimation);
-        }
-
-        private static void SwitchContentWithoutAnimation(SwitchableContentControl control)
-        {
-            if (control.Content1 != null || control.Content2 == null)
-                control.Content1 = control.Content;
-            else
-                control.Content2 = control.Content;
+            contents[NewOld.New].BeginAnimation(ContentControl.MarginProperty, newContentAnimation);
+            contents[NewOld.Old].BeginAnimation(ContentControl.MarginProperty, oldContentAnimation);
         }
 
         private static Thickness GetStartMarginForNewContent(Direction direction, SwitchableContentControl control)
@@ -189,10 +147,26 @@ namespace MyBudget.UI.Common
             }
         }
 
-        private static Thickness GetEndMarginForNewContent(Direction direction, SwitchableContentControl control)
+        private static Thickness GetEndMarginForOldContent(Direction direction, SwitchableContentControl control)
         {
             var tempMargins = GetStartMarginForNewContent(direction, control);
             return new Thickness(-tempMargins.Left, -tempMargins.Top, 0, 0);
+        }
+
+        private static Dictionary<NewOld, ContentControl> GetClassifiedContents(SwitchableContentControl control)
+        {
+            var dict = new Dictionary<NewOld, ContentControl>();
+            if (control.TemplateContent1.Content != null)
+            {
+                dict.Add(NewOld.Old, control.TemplateContent1);
+                dict.Add(NewOld.New, control.TemplateContent2);
+            }
+            else
+            {
+                dict.Add(NewOld.Old, control.TemplateContent2);
+                dict.Add(NewOld.New, control.TemplateContent1);
+            }
+            return dict;
         }
     }
 }

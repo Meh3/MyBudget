@@ -2,15 +2,26 @@
     x:Class="MyBudget.UI.Views.CurrentMonthView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
     xmlns:common="clr-namespace:MyBudget.UI.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyBudget.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="300"
-    d:DesignWidth="300"
+    d:DesignHeight="220"
+    d:DesignWidth="200"
     DataContext="{common:TypeInit {x:Type local:CurrentMonthViewModel}}"
     mc:Ignorable="d">
     <Grid>
-        <common:UIButton HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Style.Button.TextBlock}" Content="Current Month" />
+        <common:GaugeChart
+            Title="Chart title"
+            MaxValue="4000"
+            PathStyle="{StaticResource Style.Path.Neon}"
+            Radius="200"
+            RingWidthRelativeToRadius="0.4"
+            TextStyle="{StaticResource Style.TextBlock.PlainText}"
+            ThousandsSeparator=" "
+            Unit="zł"
+            ValueFormat="#,0.00"
+            Value="3000" />
     </Grid>
 </UserControl>

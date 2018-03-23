@@ -32,6 +32,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel
+                    Margin="0,1,0,0"
                     Grid.Column="2"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
@@ -40,7 +41,7 @@
                             <common:TitleBarButtonsBehavior WindowBehavior="Minimize" />
                         </i:Interaction.Behaviors>
                     </common:UIButton>
-                    <Control Width="4" />
+                    <Control Width="2" />
                     <common:UIButton Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
                             <common:TitleBarButtonsBehavior WindowBehavior="Close" />
@@ -50,8 +51,8 @@
 
                 <common:UIButton
                     Grid.Column="2"
+                    Margin="0,0,1,0"
                     Width="{StaticResource Size.Button.TitleBar.Max.Width}"
-                    Margin="0,0,2,0"
                     Content="{StaticResource PathGometry.Button.Maximize}"
                     Style="{StaticResource Style.Button.Path.TitleBar}">
                     <i:Interaction.Behaviors>

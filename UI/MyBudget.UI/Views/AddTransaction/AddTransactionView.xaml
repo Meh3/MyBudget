@@ -10,5 +10,9 @@
     d:DesignWidth="300"
     DataContext="{common:TypeInit {x:Type local:AddTransactionViewModel}}"
     mc:Ignorable="d">
-    <common:UIButton HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Style.Button.TextBlock}" Content="Add Transaction" />
+    <common:UIButton
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Content="Add Transaction"
+        Style="{StaticResource Style.Button.TextBlock}" />
 </UserControl>

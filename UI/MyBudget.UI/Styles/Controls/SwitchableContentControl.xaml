@@ -9,8 +9,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:SwitchableContentControl}">
                     <Grid x:Name="PART_Grid">
-                        <ContentPresenter x:Name="PART_Content2" ContentSource="Content2" />
-                        <ContentPresenter x:Name="PART_Content1" ContentSource="Content1" />
+                        <ContentControl x:Name="PART_Content2" />
+                        <ContentControl x:Name="PART_Content1" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

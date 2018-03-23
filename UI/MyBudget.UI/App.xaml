@@ -10,8 +10,9 @@
                 <ResourceDictionary Source="Styles/DistancesAndSizes.xaml" />
                 <ResourceDictionary Source="Styles/ImagesAndShapes.xaml" />
                 <ResourceDictionary Source="Styles/Texts.xaml" />
-                <ResourceDictionary Source="Styles/SwitchableContentControl.xaml" />
                 <ResourceDictionary Source="Styles/Buttons.xaml" />
+                <ResourceDictionary Source="Styles/Controls/SwitchableContentControl.xaml" />
+                <ResourceDictionary Source="Styles/Controls/GaugeChart.xaml" />
                 <ResourceDictionary Source="Styles/Windows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
