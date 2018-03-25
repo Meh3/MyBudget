@@ -18,7 +18,7 @@
         <Setter Property="Stroke" Value="{StaticResource Brush.Contour}" />
         <Setter Property="StrokeStartLineCap" Value="Round" />
         <Setter Property="StrokeEndLineCap" Value="Round" />
-        <Setter Property="common:Attached.Color" Value="{StaticResource Color.Contour.Shadow}" />
+        <Setter Property="common:PathAttached.ShadowColor" Value="{StaticResource Color.Contour.Shadow}" />
         <Setter Property="StrokeLineJoin" Value="Round" />
         <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Stretch" Value="Fill" />
@@ -27,8 +27,13 @@
                 <DropShadowEffect
                     BlurRadius="20"
                     ShadowDepth="0"
-                    Color="{Binding Path=(common:Attached.Color), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Path}}}" />
+                    Color="{Binding Path=(common:PathAttached.ShadowColor), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Path}}}" />
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="common:PathAttached.ShadowColor" Value="Transparent">
+                <Setter Property="Effect" Value="{x:Null}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

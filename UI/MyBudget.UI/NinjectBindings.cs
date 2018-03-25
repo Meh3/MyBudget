@@ -17,6 +17,8 @@ namespace MyBudget.UI
             Bind<NavigationPanelViewModel>().ToSelf().InTransientScope();
             Bind<CurrentMonthViewModel>().ToSelf().InTransientScope();
             Bind<AddTransactionViewModel>().ToSelf().InTransientScope();
+            Bind<CurrentMonthView>().ToSelf().InTransientScope();
+            Bind<AddTransactionView>().ToSelf().InTransientScope();
         }
     }
 }

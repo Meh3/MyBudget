@@ -167,6 +167,7 @@ namespace MyBudget.UI.Common
             var pathGeo = new PathGeometry();
             pathGeo.Figures.Add(CreateCircleFigure(center, outerRadius));
 
+            // Gauge progress
             var pathFig = new PathFigure();
             pathFig.StartPoint = new Point(center.X, center.Y - outerRadius);
             pathFig.IsClosed = true;
@@ -192,6 +193,19 @@ namespace MyBudget.UI.Common
             innerArc.Point = new Point(center.X, center.Y - innerRadius);
             pathFig.Segments.Add(innerArc);
 
+            // end progress marker
+            var endLineFig = new PathFigure();
+            endLineFig.StartPoint = outerArc.Point;
+            endLineFig.IsClosed = true;
+            pathGeo.Figures.Add(endLineFig);
+
+            var endLine = new LineSegment();
+            endLine.Point = CalculatePointOnCircle(center, innerRadius - titleLineHeight, angle);
+            endLineFig.Segments.Add(endLine);
+
+            pathGeo.Figures.Add(CreateCircleFigure(endLine.Point, 2));
+
+            // start progress marker  
             var titleLineFig = new PathFigure();
             titleLineFig.StartPoint = new Point(center.X, center.Y - outerRadius);
             titleLineFig.IsClosed = true;
@@ -201,7 +215,7 @@ namespace MyBudget.UI.Common
             titleLine.Point = new Point(center.X, 0);
             titleLineFig.Segments.Add(titleLine);
 
-            pathGeo.Figures.Add(CreateCircleFigure(new Point(center.X, 0), 2));
+            pathGeo.Figures.Add(CreateCircleFigure(titleLine.Point, 2));
 
             control.TemplatePath.Data = pathGeo;
             TextChangedCallback(d, e);

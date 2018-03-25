@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{common:TypeInit {x:Type local:AddTransactionViewModel}}"
+    DataContext="{common:TypeInitializer {x:Type local:AddTransactionViewModel}}"
     mc:Ignorable="d">
-    <common:UIButton
+    <Button
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Content="Add Transaction"

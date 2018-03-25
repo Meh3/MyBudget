@@ -7,8 +7,8 @@
     <Style x:Key="Style.Path.Neon.Button"
         BasedOn="{StaticResource Style.Path.Neon}"
         TargetType="{x:Type Path}">
-        <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:UIButton}}}" />
-        <Setter Property="common:Attached.Color" Value="{Binding Foreground2.Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:UIButton}}}" />
+        <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ButtonBase}}}" />
+        <Setter Property="common:PathAttached.ShadowColor" Value="{Binding Path=(common:ButtonAttached.Foreground2).Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ButtonBase}}}" />
     </Style>
 
     <Style x:Key="Style.TextBlock.Neon.Button"
@@ -16,43 +16,60 @@
         TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="Bauhaus 93" />
-        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:UIButton}}}" />
-        <Setter Property="common:Attached.Color" Value="{Binding Foreground2.Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:UIButton}}}" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ButtonBase}}}" />
+        <Setter Property="common:PathAttached.ShadowColor" Value="{Binding Path=(common:ButtonAttached.Foreground2).Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ButtonBase}}}" />
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <Style TargetType="{x:Type common:UIButton}">
+    <Style x:Key="Style.ButtonBase" TargetType="{x:Type ButtonBase}">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="common:ButtonAttached.BackgroundMouseOver" Value="Transparent" />
+        <Setter Property="common:ButtonAttached.BackgroundPressed" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource Brush.Button.Active}" />
-        <Setter Property="Foreground2" Value="{StaticResource Brush.Button.Active.Shadow}" />
-        <Setter Property="ForegroundMouseOver" Value="{StaticResource Brush.Button.MosueOver}" />
-        <Setter Property="Foreground2MouseOver" Value="{StaticResource Brush.Button.MosueOver.Shadow}" />
-        <Setter Property="ForegroundPressed" Value="{StaticResource Brush.Button.MosueOver}" />
-        <Setter Property="Foreground2Pressed" Value="{x:Null}" />
+        <Setter Property="common:ButtonAttached.Foreground2" Value="{StaticResource Brush.Button.Active.Shadow}" />
+        <Setter Property="common:ButtonAttached.ForegroundMouseOver" Value="{StaticResource Brush.Button.MosueOver}" />
+        <Setter Property="common:ButtonAttached.Foreground2MouseOver" Value="{StaticResource Brush.Button.MosueOver.Shadow}" />
+        <Setter Property="common:ButtonAttached.ForegroundPressed" Value="{StaticResource Brush.Button.MosueOver}" />
+        <Setter Property="common:ButtonAttached.Foreground2Pressed" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type common:UIButton}">
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <ContentPresenter />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Foreground2" Value="{Binding Foreground2MouseOver, RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground" Value="{Binding Path=(common:ButtonAttached.ForegroundMouseOver), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="common:ButtonAttached.Foreground2" Value="{Binding Path=(common:ButtonAttached.Foreground2MouseOver), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding Path=(common:ButtonAttached.BackgroundMouseOver), RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Foreground2" Value="{Binding Foreground2Pressed, RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground" Value="{Binding Path=(common:ButtonAttached.ForegroundPressed), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="common:ButtonAttached.Foreground2" Value="{Binding Path=(common:ButtonAttached.Foreground2Pressed), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding Path=(common:ButtonAttached.BackgroundPressed), RelativeSource={RelativeSource Mode=Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Style.ToggleButton"
+        BasedOn="{StaticResource Style.ButtonBase}"
+        TargetType="{x:Type ToggleButton}">
+        <Setter Property="common:ButtonAttached.BackgroundSelected" Value="Transparent" />
+        <Setter Property="common:ButtonAttached.ForegroundSelected" Value="DarkBlue" />
+        <Setter Property="common:ButtonAttached.Foreground2Selected" Value="{x:Null}" />
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{Binding Path=(common:ButtonAttached.ForegroundSelected), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="common:ButtonAttached.Foreground2" Value="{Binding Path=(common:ButtonAttached.Foreground2Selected), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding Path=(common:ButtonAttached.BackgroundSelected), RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="Style.Button.Path"
-        BasedOn="{StaticResource {x:Type common:UIButton}}"
-        TargetType="{x:Type common:UIButton}">
+        BasedOn="{StaticResource Style.ButtonBase}"
+        TargetType="{x:Type Button}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type PathGeometry}">
@@ -64,7 +81,7 @@
 
     <Style x:Key="Style.Button.Path.TitleBar"
         BasedOn="{StaticResource Style.Button.Path}"
-        TargetType="{x:Type common:UIButton}">
+        TargetType="{x:Type Button}">
         <Setter Property="Height" Value="{StaticResource Size.Button.TitleBar.Height}" />
         <Setter Property="Width" Value="{StaticResource Size.Button.TitleBar.MinClose.Width}" />
         <Setter Property="Margin" Value="0,2,0,0" />
@@ -73,8 +90,20 @@
     </Style>
 
     <Style x:Key="Style.Button.TextBlock"
-        BasedOn="{StaticResource {x:Type common:UIButton}}"
-        TargetType="{x:Type common:UIButton}">
+        BasedOn="{StaticResource Style.ButtonBase}"
+        TargetType="{x:Type Button}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type sys:String}">
+                    <TextBlock Style="{StaticResource Style.TextBlock.Neon.Button}" Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Style.RadioButton.TextBlock"
+        BasedOn="{StaticResource Style.ToggleButton}"
+        TargetType="{x:Type RadioButton}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type sys:String}">

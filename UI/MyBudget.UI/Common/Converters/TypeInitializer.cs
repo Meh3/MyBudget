@@ -10,11 +10,11 @@ using System.Windows.Markup;
 
 namespace MyBudget.UI.Common
 {
-    public class TypeInit : MarkupExtension
+    public class TypeInitializer : MarkupExtension
     {
-        private readonly Type type;
+        private Type type;
 
-        public TypeInit(Type type) => this.type = type;
+        public TypeInitializer(Type type) => this.type = type;
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

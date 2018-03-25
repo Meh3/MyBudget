@@ -32,33 +32,33 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel
-                    Margin="0,1,0,0"
                     Grid.Column="2"
+                    Margin="0,1,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <common:UIButton Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                    <Button Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
                             <common:TitleBarButtonsBehavior WindowBehavior="Minimize" />
                         </i:Interaction.Behaviors>
-                    </common:UIButton>
+                    </Button>
                     <Control Width="2" />
-                    <common:UIButton Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                    <Button Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
                             <common:TitleBarButtonsBehavior WindowBehavior="Close" />
                         </i:Interaction.Behaviors>
-                    </common:UIButton>
+                    </Button>
                 </StackPanel>
 
-                <common:UIButton
+                <Button
                     Grid.Column="2"
-                    Margin="0,0,1,0"
                     Width="{StaticResource Size.Button.TitleBar.Max.Width}"
+                    Margin="0,0,1,0"
                     Content="{StaticResource PathGometry.Button.Maximize}"
                     Style="{StaticResource Style.Button.Path.TitleBar}">
                     <i:Interaction.Behaviors>
                         <common:TitleBarButtonsBehavior WindowBehavior="Maximize" />
                     </i:Interaction.Behaviors>
-                </common:UIButton>
+                </Button>
 
                 <StackPanel Orientation="Horizontal">
                     <Image
@@ -83,7 +83,7 @@
                 Grid.Row="2"
                 Height="{StaticResource Size.MainWindow.Footer.Height}"
                 Margin="{StaticResource Margin.MainWindow.Footer}">
-                <common:UIButton
+                <Button
                     Width="{StaticResource Size.Button.Resize.HeightAndWidth}"
                     Height="{StaticResource Size.Button.Resize.HeightAndWidth}"
                     HorizontalAlignment="Right"
@@ -101,7 +101,7 @@
                             </Thumb.Template>
                         </Thumb>
                     </Grid>
-                </common:UIButton>
+                </Button>
             </Grid>
         </Grid>
     </ControlTemplate>

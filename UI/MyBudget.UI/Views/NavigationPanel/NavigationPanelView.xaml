@@ -8,8 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{common:TypeInit {x:Type local:NavigationPanelViewModel}}"
+    DataContext="{common:TypeInitializer {x:Type local:NavigationPanelViewModel}}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <common:TypeToObjectConverter x:Key="Converter.Initializer" />
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -30,7 +35,18 @@
                     HorizontalAlignment="Right"
                     Data="{StaticResource PathGometry.NaviationPanel.RightBorder}"
                     Style="{StaticResource Style.Path.Neon}" />
-                <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}" />
+                <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}"
+                              ItemsSource="{Binding Views}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                Content="{Binding ButtonText}"
+                                IsChecked="{Binding IsSelected, Mode=OneWayToSource}"
+                                Style="{StaticResource Style.RadioButton.TextBlock}"
+                                GroupName="NavigationPanel"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
             <Path
                 Grid.Column="0"
@@ -43,11 +59,8 @@
             Grid.Column="1"
             Margin="{StaticResource Margin.NavigationPanel.Contnet.FromPanel}"
             AnimationTimeMs="500"
+            Content="{Binding SelectedView, Converter={StaticResource Converter.Initializer}}"
             NewContentAnimationDirection="Left"
-            OldContentAnimationDirection="Left">
-            <common:SwitchableContentControl.Content>
-                <local:CurrentMonthView />
-            </common:SwitchableContentControl.Content>
-        </common:SwitchableContentControl>
+            OldContentAnimationDirection="Left" />
     </Grid>
 </UserControl>

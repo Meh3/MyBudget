@@ -9,7 +9,7 @@
         <Setter Property="FontFamily" Value="Book Antiqua" />
         <Setter Property="Foreground" Value="{StaticResource Brush.Text}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="common:Attached.Color" Value="{StaticResource Color.Text.Shadow}" />
+        <Setter Property="common:PathAttached.ShadowColor" Value="{StaticResource Color.Text.Shadow}" />
     </Style>
 
     <Style x:Key="Style.TextBlock.Neon"
@@ -20,9 +20,14 @@
                 <DropShadowEffect
                     BlurRadius="15"
                     ShadowDepth="0"
-                    Color="{Binding Path=(common:Attached.Color), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBlock}}}" />
+                    Color="{Binding Path=(common:PathAttached.ShadowColor), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBlock}}}" />
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="common:PathAttached.ShadowColor" Value="Transparent">
+                <Setter Property="Effect" Value="{x:Null}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="Style.TextBlock.PlainText"

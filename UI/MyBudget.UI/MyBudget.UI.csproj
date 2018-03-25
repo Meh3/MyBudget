@@ -36,9 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="De.TorstenMandelkow.MetroChart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Packages\ModernUICharts.1.0.2\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
@@ -75,10 +72,11 @@
     <Compile Include="Common\Behaviors\TitleBarButtonsBehavior.cs" />
     <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
     <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
-    <Compile Include="Common\ControlExtensions\Attached.cs" />
+    <Compile Include="Common\ControlExtensions\ButtonAttached.cs" />
+    <Compile Include="Common\ControlExtensions\PathAttached.cs" />
     <Compile Include="Common\Controls\GaugeChart.cs" />
     <Compile Include="Common\Controls\SwitchableContentControl.cs" />
-    <Compile Include="Common\ControlExtensions\UIButton.cs" />
+    <Compile Include="Common\Converters\TypeToObjectConverter.cs" />
     <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
     <Compile Include="Common\Converters\TypeInitializer.cs" />
     <Compile Include="Common\Direction.cs" />
