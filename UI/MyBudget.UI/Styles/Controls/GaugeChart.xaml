@@ -4,24 +4,18 @@
     xmlns:common="clr-namespace:MyBudget.UI.Common"
     xmlns:local="clr-namespace:MyBudget.UI.Styles"
     xmlns:views="clr-namespace:MyBudget.UI.Views">
+
     <Style TargetType="{x:Type common:GaugeChart}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:GaugeChart}">
-                    <Grid Width="{TemplateBinding Radius}">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
+                    <StackPanel Width="{TemplateBinding Radius}" Orientation="Vertical">
                         <TextBlock
-                            Grid.Row="0"
                             HorizontalAlignment="Center"
                             Style="{TemplateBinding TextStyle}"
                             Text="{TemplateBinding Title}" />
 
-                        <Grid Grid.Row="1" Height="{TemplateBinding Radius}">
+                        <Grid Height="{TemplateBinding Radius}">
                             <Path x:Name="PART_Path"
                                 Stretch="Uniform"
                                 StrokeEndLineCap="Round"
@@ -35,7 +29,7 @@
                                 Style="{TemplateBinding TextStyle}"
                                 TextAlignment="Center" />
                         </Grid>
-                    </Grid>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
