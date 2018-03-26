@@ -86,6 +86,7 @@
                 <Button
                     Width="{StaticResource Size.Button.Resize.HeightAndWidth}"
                     Height="{StaticResource Size.Button.Resize.HeightAndWidth}"
+                    Style="{StaticResource Style.ButtonBase}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
                     <Grid>
