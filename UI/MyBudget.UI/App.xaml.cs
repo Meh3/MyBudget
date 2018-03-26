@@ -19,10 +19,7 @@ namespace MyBudget.UI
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-
-        }
+        public App() { }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -45,7 +42,6 @@ namespace MyBudget.UI
         private void SetNinjectContainer()
         {
             NinjectKernel.Initialize(Assembly.GetExecutingAssembly());
-
             var mainWindw = NinjectKernel.Get<MainWindow>();
             Application.Current.MainWindow = mainWindw;
             Application.Current.MainWindow.Show();

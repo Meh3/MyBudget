@@ -19,35 +19,29 @@ namespace MyBudget.UI.Common
             AssociatedObject.MouseLeave += AssociatedObject_MouseLeave;
         }
 
-        private void AssociatedObject_MouseLeave(object sender, MouseEventArgs e)
+        protected override void OnCleanup()
         {
-            Mouse.OverrideCursor = null;
-        }
-
-        private void AssociatedObject_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.SizeNWSE;
+            AssociatedObject.DragDelta -= AssociatedObject_DragDelta;
+            AssociatedObject.MouseEnter -= AssociatedObject_MouseEnter;
+            AssociatedObject.MouseLeave -= AssociatedObject_MouseLeave;
         }
 
         private void AssociatedObject_DragDelta(object sender, DragDeltaEventArgs e)
         {
             var deltaX = e.HorizontalChange;
             var deltaY = e.VerticalChange;
-
             var parentWindow = Window.GetWindow(AssociatedObject);
 
             if (parentWindow.Width + deltaX >= parentWindow.MinWidth)
                 parentWindow.Width += deltaX;
-
             if (parentWindow.Height + deltaY >= parentWindow.MinHeight)
                 parentWindow.Height += deltaY;
         }
 
-        protected override void OnCleanup()
-        {
-            AssociatedObject.MouseEnter -= AssociatedObject_MouseEnter;
-            AssociatedObject.MouseLeave -= AssociatedObject_MouseLeave;
-            AssociatedObject.DragDelta -= AssociatedObject_DragDelta;
-        }
+        private void AssociatedObject_MouseLeave(object sender, MouseEventArgs e) => 
+            Mouse.OverrideCursor = null;
+
+        private void AssociatedObject_MouseEnter(object sender, MouseEventArgs e) => 
+            Mouse.OverrideCursor = Cursors.SizeNWSE;
     }
 }

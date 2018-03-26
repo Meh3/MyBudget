@@ -13,15 +13,9 @@ namespace MyBudget.UI
     {
         private static StandardKernel kernel;
 
-        public static T Get<T>()
-        {
-            return kernel.Get<T>();
-        }
+        public static T Get<T>() => kernel.Get<T>();
 
-        public static object Get(Type service)
-        {
-            return kernel.Get(service);
-        }
+        public static object Get(Type service) => kernel.Get(service);
 
         public static void Initialize(params Assembly[] assemblies)
         {

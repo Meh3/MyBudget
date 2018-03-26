@@ -10,15 +10,10 @@ namespace MyBudget.UI.Common
 {
     class TypeToObjectConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            var type = value as Type;
-            return type != null ? NinjectKernel.Get(type) : null; 
-        }
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+            value is Type type ? NinjectKernel.Get(type): null;
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
             throw new NotImplementedException();
-        }
     }
 }

@@ -11,23 +11,15 @@ namespace MyBudget.UI.Common
 {
     public class ControlDragsWindowBehavior : BehaviorBase<FrameworkElement>
     {
-        protected override void OnSetup()
-        {
-            AssociatedObject.MouseDown += AssociatedObject_MouseDown;
-        }
+        protected override void OnSetup() => AssociatedObject.MouseDown += AssociatedObject_MouseDown;
+        protected override void OnCleanup() => AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
 
         private void AssociatedObject_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left)
                 return;
-
             var parentWindow = Window.GetWindow(AssociatedObject);
             parentWindow.DragMove();
-        }
-
-        protected override void OnCleanup()
-        {
-            AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
         }
     }
 }

@@ -30,9 +30,7 @@ namespace MyBudget.UI.Common
             return new Thickness(sideValues[Direction.Left], sideValues[Direction.Up], sideValues[Direction.Right], sideValues[Direction.Down]);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
             throw new NotImplementedException();
-        }
     }
 }

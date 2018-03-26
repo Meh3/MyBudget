@@ -27,17 +27,14 @@ namespace MyBudget.UI.Common
     {
         public static readonly DependencyProperty WindowBehaviorProperty = DependencyProperty.Register(
             "WindowBehavior", typeof(WindowBehavior), typeof(TitleBarButtonsBehavior), new FrameworkPropertyMetadata(WindowBehavior.Close));
-
         public WindowBehavior WindowBehavior
         {
-            get { return (WindowBehavior)GetValue(WindowBehaviorProperty); }
-            set { SetValue(WindowBehaviorProperty, value); }
+            get => (WindowBehavior)GetValue(WindowBehaviorProperty);
+            set => SetValue(WindowBehaviorProperty, value);
         }
 
-        protected override void OnSetup()
-        {
-            AssociatedObject.Click += AssociatedObject_Click; ;
-        }
+        protected override void OnSetup() => AssociatedObject.Click += AssociatedObject_Click;
+        protected override void OnCleanup() => AssociatedObject.Click -= AssociatedObject_Click;
 
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
         {
@@ -51,23 +48,16 @@ namespace MyBudget.UI.Common
                 window.Close();
                 return;
             }
-
             if (state == WindowState.Normal)
             {
                 window.SetState(behavior);
             }
-            else // only maximized possible
+            else // only maximized state possible
             {
-                if (behavior == WindowBehavior.Maximize)
-                    window.WindowState = WindowState.Normal;
-                else
-                    window.WindowState = WindowState.Minimized;
+                window.WindowState = behavior == WindowBehavior.Maximize
+                    ? WindowState.Normal
+                    : WindowState.Minimized;
             }
-        }
-
-        protected override void OnCleanup()
-        {
-            AssociatedObject.Click -= AssociatedObject_Click;
         }
     }
 }

@@ -16,9 +16,7 @@ namespace MyBudget.UI.Common
 
         public TypeInitializer(Type type) => this.type = type;
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return type != null ? NinjectKernel.Get(type) : null;
-        }
+        public override object ProvideValue(IServiceProvider serviceProvider) =>
+            type != null ? NinjectKernel.Get(type) : null;
     }
 }

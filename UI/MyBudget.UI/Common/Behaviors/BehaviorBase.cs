@@ -22,10 +22,9 @@ namespace MyBudget.UI.Common
         protected virtual void OnCleanup() { }
         protected override void OnChanged()
         {
-            var target = AssociatedObject;
-            if (target != null)
+            if (AssociatedObject != null)
             {
-                HookupBehavior(target);
+                HookupBehavior(AssociatedObject);
             }
             else
             {
@@ -33,13 +32,14 @@ namespace MyBudget.UI.Common
             }
         }
 
-        private void OnTarget_Loaded(object sender, RoutedEventArgs e) { SetupBehavior(); }
+        private void OnTarget_Loaded(object sender, RoutedEventArgs e) => SetupBehavior();
 
-        private void OnTarget_Unloaded(object sender, RoutedEventArgs e) { CleanupBehavior(); }
+        private void OnTarget_Unloaded(object sender, RoutedEventArgs e) => CleanupBehavior();
 
         private void HookupBehavior(T target)
         {
-            if (isHookedUp) return;
+            if (isHookedUp)
+                return;
             weakTarget = new WeakReference(target);
             isHookedUp = true;
             target.Unloaded += OnTarget_Unloaded;
@@ -49,7 +49,8 @@ namespace MyBudget.UI.Common
 
         private void UnHookupBehavior()
         {
-            if (!isHookedUp) return;
+            if (!isHookedUp)
+                return;
             isHookedUp = false;
             var target = AssociatedObject ?? (T)weakTarget.Target;
             if (target != null)
@@ -62,14 +63,16 @@ namespace MyBudget.UI.Common
 
         private void SetupBehavior()
         {
-            if (isSetup) return;
+            if (isSetup)
+                return;
             isSetup = true;
             OnSetup();
         }
 
         private void CleanupBehavior()
         {
-            if (!isSetup) return;
+            if (!isSetup)
+                return;
             isSetup = false;
             OnCleanup();
         }
