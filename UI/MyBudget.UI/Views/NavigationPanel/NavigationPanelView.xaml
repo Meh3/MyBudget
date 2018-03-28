@@ -15,52 +15,44 @@
             <common:TypeToObjectConverter x:Key="Converter.Initializer" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
+    <DockPanel>
         <StackPanel
-            Grid.Column="0"
+            Width="{StaticResource Size.NavigationPanel.Width}"
             VerticalAlignment="Center"
+            DockPanel.Dock="Left"
             Orientation="Vertical">
             <Path
-                Grid.Column="0"
-                Height="{StaticResource Size.NavugationPanel.Contour.UpDown.Height}"
+                Height="{StaticResource Size.NavigationPanel.Contour.UpDown.Height}"
                 Data="{StaticResource PathGometry.NaviationPanel.UpperBorder}"
                 Style="{StaticResource Style.Path.Neon}" />
-            <Grid Grid.Column="0">
+            <Grid>
                 <Path
                     HorizontalAlignment="Right"
                     Data="{StaticResource PathGometry.NaviationPanel.RightBorder}"
                     Style="{StaticResource Style.Path.Neon}" />
-                <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}"
-                              ItemsSource="{Binding Views}">
+                <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}" ItemsSource="{Binding Views}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
                                 Content="{Binding ButtonText}"
+                                GroupName="NavigationPanel"
                                 IsChecked="{Binding IsSelected, Mode=OneWayToSource}"
-                                Style="{StaticResource Style.RadioButton.TextBlock}"
-                                GroupName="NavigationPanel"/>
+                                Style="{StaticResource Style.RadioButton.TextBlock}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
             <Path
-                Grid.Column="0"
-                Height="{StaticResource Size.NavugationPanel.Contour.UpDown.Height}"
+                Height="{StaticResource Size.NavigationPanel.Contour.UpDown.Height}"
                 Data="{StaticResource PathGometry.NaviationPanel.LowerBorder}"
                 Style="{StaticResource Style.Path.Neon}" />
         </StackPanel>
 
         <common:SwitchableContentControl
-            Grid.Column="1"
             Margin="{StaticResource Margin.NavigationPanel.Contnet.FromPanel}"
             AnimationTimeMs="500"
             Content="{Binding SelectedView, Converter={StaticResource Converter.Initializer}}"
             NewContentAnimationDirection="Left"
             OldContentAnimationDirection="Left" />
-    </Grid>
+    </DockPanel>
 </UserControl>

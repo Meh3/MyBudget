@@ -5,65 +5,49 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <ControlTemplate x:Key="Tempalte.Window.Main" TargetType="{x:Type Window}">
-        <Grid
+        <DockPanel
             Width="{TemplateBinding Width}"
             Height="{TemplateBinding Height}"
             Background="{StaticResource Brush.Background}">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid x:Name="WindowHeader"
-                Grid.Row="0"
+            <DockPanel x:Name="WindowHeader"
                 Height="{StaticResource Size.MainWindow.Header.Height}"
                 Margin="{StaticResource Margin.MainWindow.Header}"
-                Background="Transparent">
+                Background="Transparent"
+                DockPanel.Dock="Top">
                 <i:Interaction.Behaviors>
                     <common:ControlDragsWindowBehavior />
                 </i:Interaction.Behaviors>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <Grid DockPanel.Dock="Right">
+                    <StackPanel Margin="0,1,0,0" Orientation="Horizontal">
+                        <Button Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                            <i:Interaction.Behaviors>
+                                <common:TitleBarButtonsBehavior WindowBehavior="Minimize" />
+                            </i:Interaction.Behaviors>
+                        </Button>
+                        <Control Width="2" />
+                        <Button Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                            <i:Interaction.Behaviors>
+                                <common:TitleBarButtonsBehavior WindowBehavior="Close" />
+                            </i:Interaction.Behaviors>
+                        </Button>
+                    </StackPanel>
 
-                <StackPanel
-                    Grid.Column="2"
-                    Margin="0,1,0,0"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <Button Content="{StaticResource PathGometry.Button.Minimize}" Style="{StaticResource Style.Button.Path.TitleBar}">
+                    <Button
+                        Width="{StaticResource Size.Button.TitleBar.Max.Width}"
+                        Margin="0,0,1,0"
+                        Content="{StaticResource PathGometry.Button.Maximize}"
+                        Style="{StaticResource Style.Button.Path.TitleBar}">
                         <i:Interaction.Behaviors>
-                            <common:TitleBarButtonsBehavior WindowBehavior="Minimize" />
+                            <common:TitleBarButtonsBehavior WindowBehavior="Maximize" />
                         </i:Interaction.Behaviors>
                     </Button>
-                    <Control Width="2" />
-                    <Button Content="{StaticResource PathGometry.Button.Close}" Style="{StaticResource Style.Button.Path.TitleBar}">
-                        <i:Interaction.Behaviors>
-                            <common:TitleBarButtonsBehavior WindowBehavior="Close" />
-                        </i:Interaction.Behaviors>
-                    </Button>
-                </StackPanel>
+                </Grid>
 
-                <Button
-                    Grid.Column="2"
-                    Width="{StaticResource Size.Button.TitleBar.Max.Width}"
-                    Margin="0,0,1,0"
-                    Content="{StaticResource PathGometry.Button.Maximize}"
-                    Style="{StaticResource Style.Button.Path.TitleBar}">
-                    <i:Interaction.Behaviors>
-                        <common:TitleBarButtonsBehavior WindowBehavior="Maximize" />
-                    </i:Interaction.Behaviors>
-                </Button>
-
-                <StackPanel Orientation="Horizontal">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
                     <Image
                         Height="{StaticResource Size.Icon.HeightAndWidth}"
-                        HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Source="{StaticResource Icon.Money}"
                         Stretch="Uniform" />
@@ -73,38 +57,32 @@
                         Style="{StaticResource Style.TextBlock.PlainText}"
                         Text="My Budget" />
                 </StackPanel>
-            </Grid>
+            </DockPanel>
 
-            <Grid x:Name="WindowContent" Grid.Row="1">
-                <ContentPresenter />
-            </Grid>
+            <Button x:Name="WindowFooter"
+                Width="{StaticResource Size.Button.Resize.HeightAndWidth}"
+                Height="{StaticResource Size.Button.Resize.HeightAndWidth}"
+                Margin="{StaticResource Margin.MainWindow.Footer}"
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Bottom"
+                Style="{StaticResource Style.ButtonBase}">
+                <Grid>
+                    <Path Data="{StaticResource PathGometry.Corner.Resize}" Style="{StaticResource Style.Path.Neon.Button}" />
+                    <Thumb>
+                        <i:Interaction.Behaviors>
+                            <common:ThumbResizesWindowBehavior />
+                        </i:Interaction.Behaviors>
+                        <Thumb.Template>
+                            <ControlTemplate>
+                                <Grid Background="Transparent" />
+                            </ControlTemplate>
+                        </Thumb.Template>
+                    </Thumb>
+                </Grid>
+            </Button>
 
-            <Grid x:Name="WindowFooter"
-                Grid.Row="2"
-                Height="{StaticResource Size.MainWindow.Footer.Height}"
-                Margin="{StaticResource Margin.MainWindow.Footer}">
-                <Button
-                    Width="{StaticResource Size.Button.Resize.HeightAndWidth}"
-                    Height="{StaticResource Size.Button.Resize.HeightAndWidth}"
-                    Style="{StaticResource Style.ButtonBase}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-                    <Grid>
-                        <Path Data="{StaticResource PathGometry.Corner.Resize}" Style="{StaticResource Style.Path.Neon.Button}" />
-                        <Thumb>
-                            <i:Interaction.Behaviors>
-                                <common:ThumbResizesWindowBehavior />
-                            </i:Interaction.Behaviors>
-                            <Thumb.Template>
-                                <ControlTemplate>
-                                    <Grid Background="Transparent" />
-                                </ControlTemplate>
-                            </Thumb.Template>
-                        </Thumb>
-                    </Grid>
-                </Button>
-            </Grid>
-        </Grid>
+            <ContentPresenter x:Name="WindowContent" />
+        </DockPanel>
     </ControlTemplate>
 
     <Style x:Key="Style.Window.Main" TargetType="{x:Type Window}">
