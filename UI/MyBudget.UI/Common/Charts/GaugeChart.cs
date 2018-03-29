@@ -12,7 +12,7 @@ namespace MyBudget.UI.Common
 {
     [TemplatePart(Name = PathPartName, Type = typeof(Path))]
     [TemplatePart(Name = TextPartName, Type = typeof(TextBlock))]
-    public class GaugeChart : Control
+    public class GaugeChart : ChartBase
     {
         private const double deg90 = Math.PI / 2;
         private const double deg180 = Math.PI;
@@ -22,38 +22,6 @@ namespace MyBudget.UI.Common
 
         private Path TemplatePath;
         private TextBlock TemplateText;
-
-        public static readonly DependencyProperty UnitProperty =
-            DependencyProperty.Register("Unit", typeof(string), typeof(GaugeChart), new PropertyMetadata("", TextChangedCallback));
-        public string Unit
-        {
-            get => (string)GetValue(UnitProperty);
-            set => SetValue(UnitProperty, value);
-        }
-
-        public static readonly DependencyProperty ValueFormatProperty =
-            DependencyProperty.Register("ValueFormat", typeof(string), typeof(GaugeChart), new PropertyMetadata(TextChangedCallback));
-        public string ValueFormat
-        {
-            get => (string)GetValue(ValueFormatProperty);
-            set => SetValue(ValueFormatProperty, value);
-        }
-
-        public static readonly DependencyProperty ThousandsSeparatorProperty =
-            DependencyProperty.Register("ThousandsSeparator", typeof(string), typeof(GaugeChart), new PropertyMetadata("", TextChangedCallback));
-        public string ThousandsSeparator
-        {
-            get => (string)GetValue(ThousandsSeparatorProperty);
-            set => SetValue(ThousandsSeparatorProperty, value);
-        }
-
-        public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(GaugeChart));
-        public string Title
-        {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
 
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(GaugeChart), new PropertyMetadata(50.0));
@@ -87,23 +55,14 @@ namespace MyBudget.UI.Common
             set => SetValue(RingWidthRelativeToRadiusProperty, value);
         }
 
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(GaugeChart));
-        public Style PathStyle
-        {
-            get => (Style)GetValue(PathStyleProperty);
-            set => SetValue(PathStyleProperty, value);
-        }
-
-        public static readonly DependencyProperty TextStyleProperty =
-            DependencyProperty.Register("TextStyle", typeof(Style), typeof(GaugeChart));
-        public Style TextStyle
-        {
-            get => (Style)GetValue(TextStyleProperty);
-            set => SetValue(TextStyleProperty, value);
-        }
-
         public GaugeChart() => this.DefaultStyleKey = typeof(GaugeChart);
+
+        static GaugeChart()
+        {
+            ChartBase.UnitProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(string.Empty, TextChangedCallback));
+            ChartBase.ValueFormatProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(null, TextChangedCallback));
+            ChartBase.ThousandsSeparatorProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(string.Empty, TextChangedCallback));
+        }
 
         public override void OnApplyTemplate()
         {
@@ -121,16 +80,8 @@ namespace MyBudget.UI.Common
         {
             if ( !(d is GaugeChart control) || control.TemplateText == null )
                 return;
-
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = control.ThousandsSeparator;
-
-            var (value, maxValue) = string.IsNullOrEmpty(control.ValueFormat)
-                ? (control.Value.ToString(), 
-                   control.MaxValue.ToString())
-                : (control.Value.ToString(control.ValueFormat, nfi), 
-                   control.MaxValue.ToString(control.ValueFormat, nfi));
-
+            var value = ConvertValue(control.Value, control);
+            var maxValue = ConvertValue(control.MaxValue, control);
             control.TemplateText.Text = $"{value} {control.Unit}{Environment.NewLine}/ {maxValue} {control.Unit}";
         }
 
@@ -146,14 +97,13 @@ namespace MyBudget.UI.Common
             var center = new Point(outerRadius, outerRadius + markerLineLength);
             var angle = CalculateAngle(control.Value, control.MaxValue);
 
-            var (figure, start, end) = CreateGaugeProgress(center, outerRadius, innerRadius, markerLineLength, angle);
             var pathGeometry = new PathGeometry();
-            pathGeometry.Figures.Add(figure); // gauge progress
-            pathGeometry.AddGeometry(CreateCircleGeometry(start, markerRadius)); // gauge start marker
-            pathGeometry.AddGeometry(CreateCircleGeometry(end, markerRadius)); // gauge end marker
-            pathGeometry.AddGeometry(CreateCircleGeometry(center, outerRadius)); // outer circle
-
             control.TemplatePath.Data = pathGeometry;
+            var (start, end) = CreateGaugeProgress(center, outerRadius, innerRadius, markerLineLength, angle, pathGeometry); // add gauge progress
+            CreateCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
+            CreateCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
+            CreateCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
+
             TextChangedCallback(d, e);
         }
 
@@ -170,16 +120,17 @@ namespace MyBudget.UI.Common
                 Y = center.Y - radius * Math.Sin(angle + deg90)
             };
 
-        private static EllipseGeometry CreateCircleGeometry(Point center, double radius) =>
-            new EllipseGeometry
+        private static void CreateCircleGeometry(Point center, double radius, PathGeometry pathGeometry) =>
+            pathGeometry.AddGeometry(new EllipseGeometry
             {
                 Center = center,
                 RadiusX = radius,
                 RadiusY = radius,
-            };
+            });
+        
 
-        private static (PathFigure Figure, Point Start, Point End) CreateGaugeProgress(
-            Point center, double outerRadius, double innerRadius, double markerLength, double angle)
+        private static (Point Start, Point End) CreateGaugeProgress(
+            Point center, double outerRadius, double innerRadius, double markerLength, double angle, PathGeometry pathGeometry)
         {
             var startPoint = new Point(center.X, center.Y - outerRadius - markerLength);
             var endPoint = CalculatePointOnCircle(center, innerRadius - markerLength, angle);
@@ -188,7 +139,8 @@ namespace MyBudget.UI.Common
                 StartPoint = startPoint,
                 IsClosed = false
             };
-            
+            pathGeometry.Figures.Add(figure);
+
             var line1 = new LineSegment(new Point(center.X, center.Y - innerRadius), true);
             var arc = CreateArcFromStart(center, innerRadius, angle);
             var line2 = new LineSegment(CalculatePointOnCircle(center, outerRadius, angle), true);
@@ -198,7 +150,7 @@ namespace MyBudget.UI.Common
             figure.Segments.Add(line2);
             figure.Segments.Add(line3);
 
-            return (figure, startPoint, endPoint);
+            return (startPoint, endPoint);
         }
 
         private static ArcSegment CreateArcFromStart(Point center, double radius, double angle) =>

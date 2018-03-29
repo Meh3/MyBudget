@@ -72,10 +72,11 @@
     <Compile Include="Common\Behaviors\TitleBarButtonsBehavior.cs" />
     <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
     <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
+    <Compile Include="Common\Charts\ChartBase.cs" />
     <Compile Include="Common\ControlExtensions\ButtonAttached.cs" />
     <Compile Include="Common\ControlExtensions\PathAttached.cs" />
-    <Compile Include="Common\Controls\GaugeChart.cs" />
-    <Compile Include="Common\Controls\SwitchableContentControl.cs" />
+    <Compile Include="Common\Charts\GaugeChart.cs" />
+    <Compile Include="Common\ControlExtensions\SwitchableContentControl.cs" />
     <Compile Include="Common\Converters\TypeToObjectConverter.cs" />
     <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
     <Compile Include="Common\Converters\TypeInitializer.cs" />

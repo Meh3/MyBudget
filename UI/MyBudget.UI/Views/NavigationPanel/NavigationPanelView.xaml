@@ -13,6 +13,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <common:TypeToObjectConverter x:Key="Converter.Initializer" />
+            <Style x:Key="Private.Path.NoNeon"
+                BasedOn="{StaticResource Style.Path.Neon}"
+                TargetType="{x:Type Path}">
+                <Setter Property="common:PathAttached.ShadowColor" Value="Transparent" />
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
@@ -24,18 +29,19 @@
             <Path
                 Height="{StaticResource Size.NavigationPanel.Contour.UpDown.Height}"
                 Data="{StaticResource PathGometry.NaviationPanel.UpperBorder}"
-                Style="{StaticResource Style.Path.Neon}" />
+                Style="{StaticResource Private.Path.NoNeon}" />
             <Grid>
                 <Path
                     HorizontalAlignment="Right"
                     Data="{StaticResource PathGometry.NaviationPanel.RightBorder}"
-                    Style="{StaticResource Style.Path.Neon}" />
+                    Style="{StaticResource Private.Path.NoNeon}" />
                 <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}" ItemsSource="{Binding Views}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
                                 Content="{Binding ButtonText}"
                                 GroupName="NavigationPanel"
+                                HorizontalAlignment="Right"
                                 IsChecked="{Binding IsSelected, Mode=OneWayToSource}"
                                 Style="{StaticResource Style.RadioButton.TextBlock}" />
                         </DataTemplate>
@@ -45,7 +51,7 @@
             <Path
                 Height="{StaticResource Size.NavigationPanel.Contour.UpDown.Height}"
                 Data="{StaticResource PathGometry.NaviationPanel.LowerBorder}"
-                Style="{StaticResource Style.Path.Neon}" />
+                Style="{StaticResource Private.Path.NoNeon}" />
         </StackPanel>
 
         <common:SwitchableContentControl
