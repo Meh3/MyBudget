@@ -80,8 +80,8 @@ namespace MyBudget.UI.Common
         {
             if ( !(d is GaugeChart control) || control.TemplateText == null )
                 return;
-            var value = ConvertValue(control.Value, control);
-            var maxValue = ConvertValue(control.MaxValue, control);
+            var value = control.Value.ToString(control.ValueFormat, control.numberFormatInfo);
+            var maxValue = control.MaxValue.ToString(control.ValueFormat, control.numberFormatInfo);
             control.TemplateText.Text = $"{value} {control.Unit}{Environment.NewLine}/ {maxValue} {control.Unit}";
         }
 

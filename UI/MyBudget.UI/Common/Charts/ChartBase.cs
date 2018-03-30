@@ -63,15 +63,15 @@ namespace MyBudget.UI.Common
         }
 
 
-        public static string ConvertValue(IFormattable value, string format, IFormatProvider numberFormatInfo) =>
-            string.IsNullOrEmpty(format)
-                ? value.ToString()
-                : value.ToString(format, numberFormatInfo);
+        //public static string ConvertValue(IFormattable value, string format, IFormatProvider numberFormatInfo) =>
+        //    string.IsNullOrEmpty(format)
+        //        ? value.ToString()
+        //        : value.ToString(format, numberFormatInfo);
 
-        protected static string ConvertValue(IFormattable value, ChartBase chartControl) =>
-            string.IsNullOrEmpty(chartControl.ValueFormat)
-                ? value.ToString()
-                : value.ToString(chartControl.ValueFormat, chartControl.numberFormatInfo);
+        //protected static string ConvertValue(IFormattable value, ChartBase chartControl) =>
+        //    string.IsNullOrEmpty(chartControl.ValueFormat)
+        //        ? value.ToString()
+        //        : value.ToString(chartControl.ValueFormat, chartControl.numberFormatInfo);
 
         private static void SeparatorChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

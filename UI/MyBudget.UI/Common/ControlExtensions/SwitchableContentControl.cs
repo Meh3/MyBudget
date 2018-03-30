@@ -59,14 +59,6 @@ namespace MyBudget.UI.Common
 
         public SwitchableContentControl() => this.DefaultStyleKey = typeof(SwitchableContentControl);
 
-        private void SwitchableContentControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (Content != null)
-            {
-                SwitchContentChangedCallback(this, new DependencyPropertyChangedEventArgs());
-            }
-        }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -74,6 +66,14 @@ namespace MyBudget.UI.Common
             TemplateContent1 = Template.FindName(Content1PartName, this) as ContentControl;
             TemplateContent2 = Template.FindName(Content2PartName, this) as ContentControl;
             TemplateGrid.Loaded += SwitchableContentControl_Loaded;
+        }
+
+        private void SwitchableContentControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Content != null)
+            {
+                SwitchContentChangedCallback(this, new DependencyPropertyChangedEventArgs());
+            }
         }
 
         private static void SwitchContentChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

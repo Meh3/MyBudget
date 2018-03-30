@@ -9,6 +9,19 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:ColumnsChart}">
                     <DockPanel>
+                        <StackPanel x:Name="Title"
+                            HorizontalAlignment="Center"
+                            DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                            <TextBlock Style="{TemplateBinding TextStyle}" Text="{TemplateBinding Title}" />
+                            <TextBlock x:Name="UnitTextBlock" Style="{TemplateBinding TextStyle}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} [{0}]">
+                                        <Binding Path="Unit" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
                         <ItemsControl x:Name="AxisX"
                             DockPanel.Dock="Bottom"
                             ItemsSource="{TemplateBinding Data}">
@@ -27,9 +40,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-
-                        <!--  Data="M 0,0 H 100"  -->
-                        <Grid>
+                        <Grid x:Name="PART_ColumnsPanel">
                             <Path
                                 Height="8"
                                 Margin="0,0,0,-4"
@@ -47,7 +58,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type common:ColumnDescription}">
                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                                            <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" Text="{Binding ValueString}" />
+                                            <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" Text="{Binding StringValue}" />
                                             <Path
                                                 Width="8"
                                                 Height="{Binding Height}"
@@ -59,6 +70,12 @@
                             </ItemsControl>
                         </Grid>
                     </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Unit" Value="">
+                            <Setter TargetName="UnitTextBlock" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

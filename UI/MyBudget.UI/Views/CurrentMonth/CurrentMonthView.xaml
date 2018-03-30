@@ -23,9 +23,12 @@
             ValueFormat="#,0.00"
             Value="3000" />
         <common:ColumnsChart
-            VerticalAlignment="Bottom"
+            Title="Spent by categories"
+            Height="200"
             Data="{Binding Columns}"
             PathStyle="{StaticResource Style.Path.Neon}"
-            TextStyle="{StaticResource Style.TextBlock.PlainText}" />
+            TextStyle="{StaticResource Style.TextBlock.PlainText}"
+            ThousandsSeparator=" "
+            ValueFormat="#,0.00" />
     </StackPanel>
 </UserControl>
