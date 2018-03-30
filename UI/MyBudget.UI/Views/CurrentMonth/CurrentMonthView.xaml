@@ -10,7 +10,7 @@
     d:DesignWidth="200"
     DataContext="{common:TypeInitializer {x:Type local:CurrentMonthViewModel}}"
     mc:Ignorable="d">
-    <Grid>
+    <StackPanel Orientation="Horizontal">
         <common:GaugeChart
             Title="Chart title"
             MaxValue="4000"
@@ -22,5 +22,10 @@
             Unit="zł"
             ValueFormat="#,0.00"
             Value="3000" />
-    </Grid>
+        <common:ColumnsChart
+            VerticalAlignment="Bottom"
+            Data="{Binding Columns}"
+            PathStyle="{StaticResource Style.Path.Neon}"
+            TextStyle="{StaticResource Style.TextBlock.PlainText}" />
+    </StackPanel>
 </UserControl>

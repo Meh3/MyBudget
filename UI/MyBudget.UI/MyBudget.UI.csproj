@@ -73,6 +73,7 @@
     <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
     <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
     <Compile Include="Common\Charts\ChartBase.cs" />
+    <Compile Include="Common\Charts\ColumnsChart.cs" />
     <Compile Include="Common\ControlExtensions\ButtonAttached.cs" />
     <Compile Include="Common\ControlExtensions\PathAttached.cs" />
     <Compile Include="Common\Charts\GaugeChart.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
     <Compile Include="Common\Converters\TypeInitializer.cs" />
     <Compile Include="Common\Direction.cs" />
+    <Compile Include="Common\NotifiableObject.cs" />
     <Compile Include="NinjectBindings.cs" />
     <Compile Include="NinjectKernel.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">
@@ -110,7 +112,6 @@
       <DependentUpon>NavigationPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavigationPanel\NavigationPanelViewModel.cs" />
-    <Compile Include="Views\ViewModelBase.cs" />
     <Page Include="AllElements.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +135,10 @@
     <Page Include="Styles\ColorsAndBrushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls\ColumnsChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Controls\GaugeChart.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +194,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings\General.pl.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

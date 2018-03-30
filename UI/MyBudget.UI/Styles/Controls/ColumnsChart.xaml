@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:MyBudget.UI.Common"
+    xmlns:views="clr-namespace:MyBudget.UI.Views">
+
+    <Style TargetType="{x:Type common:ColumnsChart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type common:ColumnsChart}">
+                    <DockPanel>
+                        <ItemsControl x:Name="AxisX"
+                            DockPanel.Dock="Bottom"
+                            ItemsSource="{TemplateBinding Data}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type common:ColumnData}">
+                                    <TextBlock x:Name="PART_Categories"
+                                        HorizontalAlignment="Center"
+                                        Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}"
+                                        Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+
+                        <!--  Data="M 0,0 H 100"  -->
+                        <Grid>
+                            <Path
+                                Height="8"
+                                Margin="0,0,0,-4"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"
+                                Data="M 0,0 0,8 M 0,4 100,4 M 100,0 100,8"
+                                Style="{TemplateBinding PathStyle}" />
+
+                            <ItemsControl x:Name="Columns" ItemsSource="{TemplateBinding ColumnDescription}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type common:ColumnDescription}">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                            <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" Text="{Binding ValueString}" />
+                                            <Path
+                                                Width="8"
+                                                Height="{Binding Height}"
+                                                Data="M 0,0 100,0 M 50,0 50,100"
+                                                Style="{Binding Path=PathStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

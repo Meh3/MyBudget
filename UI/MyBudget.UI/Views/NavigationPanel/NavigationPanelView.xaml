@@ -39,9 +39,9 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
+                                HorizontalAlignment="Right"
                                 Content="{Binding ButtonText}"
                                 GroupName="NavigationPanel"
-                                HorizontalAlignment="Right"
                                 IsChecked="{Binding IsSelected, Mode=OneWayToSource}"
                                 Style="{StaticResource Style.RadioButton.TextBlock}" />
                         </DataTemplate>

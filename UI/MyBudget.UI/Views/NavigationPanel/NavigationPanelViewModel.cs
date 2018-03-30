@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyBudget.UI.Common;
 
 namespace MyBudget.UI.Views
 {
-    public class ToggleItem : ViewModelBase
+    public class ToggleItem : NotifiableObject
     {
         public string ButtonText { get; set; }
 
@@ -26,7 +27,7 @@ namespace MyBudget.UI.Views
 
         public static Action<string> ActionWhenSelected;
     }
-    public class NavigationPanelViewModel : ViewModelBase
+    public class NavigationPanelViewModel : NotifiableObject
     {
         public List<ToggleItem> Views { get; set; }
 

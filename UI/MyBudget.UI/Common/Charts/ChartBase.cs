@@ -63,7 +63,7 @@ namespace MyBudget.UI.Common
         }
 
 
-        protected static string ConvertValue(IFormattable value, string format, IFormatProvider numberFormatInfo) =>
+        public static string ConvertValue(IFormattable value, string format, IFormatProvider numberFormatInfo) =>
             string.IsNullOrEmpty(format)
                 ? value.ToString()
                 : value.ToString(format, numberFormatInfo);
