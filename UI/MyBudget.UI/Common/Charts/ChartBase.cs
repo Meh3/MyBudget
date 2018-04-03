@@ -10,12 +10,31 @@ using System.Collections;
 
 namespace MyBudget.UI.Common
 {
-    public abstract class ChartBase : Control
+
+    public abstract class ChartBase<TData, TDataForChart> : Control
+        where TData : class
+        where TDataForChart : class
     {
         protected readonly NumberFormatInfo numberFormatInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
 
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(TData), typeof(ChartBase<TData, TDataForChart>));
+        public TData Data
+        {
+            get => (TData)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
+        }
+
+        public static readonly DependencyProperty DataVisualRepresentationProperty =
+            DependencyProperty.Register("DataVisualRepresentation", typeof(TDataForChart), typeof(ChartBase<TData, TDataForChart>));
+        public TDataForChart DataVisualRepresentation
+        {
+            get => (TDataForChart)GetValue(DataVisualRepresentationProperty);
+            set => SetValue(DataVisualRepresentationProperty, value);
+        }
+
         public static readonly DependencyProperty UnitProperty =
-            DependencyProperty.Register("Unit", typeof(string), typeof(ChartBase), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Unit", typeof(string), typeof(ChartBase<TData, TDataForChart>), new PropertyMetadata(string.Empty));
         public string Unit
         {
             get => (string)GetValue(UnitProperty);
@@ -23,7 +42,7 @@ namespace MyBudget.UI.Common
         }
 
         public static readonly DependencyProperty ValueFormatProperty =
-            DependencyProperty.Register("ValueFormat", typeof(string), typeof(ChartBase), new PropertyMetadata(null));
+            DependencyProperty.Register("ValueFormat", typeof(string), typeof(ChartBase<TData, TDataForChart>), new PropertyMetadata(null));
         public string ValueFormat
         {
             get => (string)GetValue(ValueFormatProperty);
@@ -31,7 +50,7 @@ namespace MyBudget.UI.Common
         }
 
         public static readonly DependencyProperty ThousandsSeparatorProperty =
-            DependencyProperty.Register("ThousandsSeparator", typeof(string), typeof(ChartBase), new PropertyMetadata(string.Empty, SeparatorChangedCallback));
+            DependencyProperty.Register("ThousandsSeparator", typeof(string), typeof(ChartBase<TData, TDataForChart>), new PropertyMetadata(string.Empty, SeparatorChangedCallback));
         public string ThousandsSeparator
         {
             get => (string)GetValue(ThousandsSeparatorProperty);
@@ -39,15 +58,23 @@ namespace MyBudget.UI.Common
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(ChartBase), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Title", typeof(string), typeof(ChartBase<TData, TDataForChart>), new PropertyMetadata(string.Empty));
         public string Title
         {
             get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
+        public static readonly DependencyProperty AnimationTimeMsProperty =
+            DependencyProperty.Register("AnimationTimeMs", typeof(int), typeof(ChartBase<TData, TDataForChart>), new PropertyMetadata(0));
+        public int AnimationTimeMs
+        {
+            get => (int)GetValue(AnimationTimeMsProperty);
+            set => SetValue(AnimationTimeMsProperty, value);
+        }
+
         public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(ChartBase));
+            DependencyProperty.Register("PathStyle", typeof(Style), typeof(ChartBase<TData, TDataForChart>));
         public Style PathStyle
         {
             get => (Style)GetValue(PathStyleProperty);
@@ -55,32 +82,18 @@ namespace MyBudget.UI.Common
         }
 
         public static readonly DependencyProperty TextStyleProperty =
-            DependencyProperty.Register("TextStyle", typeof(Style), typeof(ChartBase));
+            DependencyProperty.Register("TextStyle", typeof(Style), typeof(ChartBase<TData, TDataForChart>));
         public Style TextStyle
         {
             get => (Style)GetValue(TextStyleProperty);
             set => SetValue(TextStyleProperty, value);
         }
 
-
-        //public static string ConvertValue(IFormattable value, string format, IFormatProvider numberFormatInfo) =>
-        //    string.IsNullOrEmpty(format)
-        //        ? value.ToString()
-        //        : value.ToString(format, numberFormatInfo);
-
-        //protected static string ConvertValue(IFormattable value, ChartBase chartControl) =>
-        //    string.IsNullOrEmpty(chartControl.ValueFormat)
-        //        ? value.ToString()
-        //        : value.ToString(chartControl.ValueFormat, chartControl.numberFormatInfo);
-
         private static void SeparatorChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ChartBase control))
+            if (!(d is ChartBase<TData, TDataForChart> control))
                 return;
             control.numberFormatInfo.NumberGroupSeparator = control.ThousandsSeparator;
         }
-
-
-
     }
 }

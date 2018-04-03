@@ -71,9 +71,7 @@ namespace MyBudget.UI.Common
         private void SwitchableContentControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (Content != null)
-            {
                 SwitchContentChangedCallback(this, new DependencyPropertyChangedEventArgs());
-            }
         }
 
         private static void SwitchContentChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -13,22 +13,24 @@
     <StackPanel Orientation="Horizontal">
         <common:GaugeChart
             Title="Chart title"
-            MaxValue="4000"
+            AnimationTimeMs="2000"
+            Data="{Binding GaugeValues}"
             PathStyle="{StaticResource Style.Path.Neon}"
             Radius="200"
             RingWidthRelativeToRadius="0.4"
             TextStyle="{StaticResource Style.TextBlock.PlainText}"
             ThousandsSeparator=" "
             Unit="zł"
-            ValueFormat="#,0.00"
-            Value="3000" />
+            ValueFormat="#,0.00" />
         <common:ColumnsChart
             Title="Spent by categories"
             Height="200"
+            AnimationTimeMs="2000"
             Data="{Binding Columns}"
             PathStyle="{StaticResource Style.Path.Neon}"
             TextStyle="{StaticResource Style.TextBlock.PlainText}"
             ThousandsSeparator=" "
+            Unit="zł"
             ValueFormat="#,0.00" />
     </StackPanel>
 </UserControl>

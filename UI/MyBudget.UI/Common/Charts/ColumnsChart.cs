@@ -13,8 +13,8 @@ namespace MyBudget.UI.Common
 {
     public class ColumnData
     {
-        public string Name { get; set; }
-        public double Value { get; set; }
+        public string Name { get; private set; }
+        public double Value { get; private set; }
 
         public ColumnData(string name, double value)
         {
@@ -23,7 +23,7 @@ namespace MyBudget.UI.Common
         }
     }
 
-    public class ColumnDescription : NotifiableObject
+    public class ColumnDataVisual : NotifiableObject
     {
         private readonly double heightToValueRatio;
         private readonly string format;
@@ -38,15 +38,15 @@ namespace MyBudget.UI.Common
             get => numberValue;
             set
             {
-                Height = value * heightToValueRatio;
-                StringValue = value.ToString(format, numberFormatInfo);
                 SetField(ref numberValue, value);
+                Height = numberValue * heightToValueRatio;
+                StringValue = numberValue.ToString(format, numberFormatInfo);
                 OnPropertyChanged(nameof(Height));
                 OnPropertyChanged(nameof(StringValue));
             }
         }
 
-        public ColumnDescription(double value, double heightToValueRatio, string format = null, NumberFormatInfo nfi = null)
+        public ColumnDataVisual(double value, double heightToValueRatio, string format = null, NumberFormatInfo nfi = null)
         {
             NumberValue = value;
             this.heightToValueRatio = heightToValueRatio;
@@ -55,81 +55,18 @@ namespace MyBudget.UI.Common
         }
     }
 
-    public class ColumnsDescriptionAnimation : AnimationTimeline
-    {
-        private List<double> values;
-
-        public static readonly DependencyProperty ToProperty =
-            DependencyProperty.Register("To", typeof(IEnumerable<ColumnDescription>), typeof(ColumnsDescriptionAnimation));
-        public IEnumerable<ColumnDescription> To
-        {
-            get => (IEnumerable<ColumnDescription>)GetValue(ToProperty);
-            set
-            {
-                values = value.Select(x => x.NumberValue).ToList();
-                SetValue(ToProperty, value);
-            }
-        }
-
-        public override Type TargetPropertyType => typeof(IEnumerable<ColumnDescription>);
-
-        protected override Freezable CreateInstanceCore() => new ColumnsDescriptionAnimation() { values = this.values};
-
-        public override object GetCurrentValue(object defaultOriginValue,
-                                       object defaultDestinationValue,
-                                       AnimationClock animationClock)
-        {
-            UdateValue(animationClock);
-            return To;
-        }
-
-        public void UdateValue(AnimationClock animationClock)
-        {
-            if (To == null)
-                return;
-
-            if (!animationClock.CurrentProgress.HasValue)
-                UpdateHeights(To, 0);
-
-            UpdateHeights(To, animationClock.CurrentProgress.Value);
-        }
-
-        private void UpdateHeights(IEnumerable<ColumnDescription> columns, double timeRatio)
-        {
-            var i = 0;
-            foreach (var column in columns.ToList())
-            {
-                column.NumberValue = values[i] * timeRatio;
-                ++i;
-            }
-        }
-    }
-
     [TemplatePart(Name = PanelPartName, Type = typeof(Grid))]
-    public class ColumnsChart : ChartBase
+    public class ColumnsChart : ChartBase<IEnumerable<ColumnData>, IEnumerable<ColumnDataVisual>>
     {
         private const string PanelPartName = "PART_ColumnsPanel";
         private double panelHeight = 100;
         private Grid TemplatePanel;
 
-        public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register("Data", typeof(IEnumerable<ColumnData>), typeof(ColumnsChart), new PropertyMetadata(null, SeparatorChangedCallback));
-        public IEnumerable<ColumnData> Data
-        {
-            get => (IEnumerable<ColumnData>)GetValue(DataProperty);
-            set => SetValue(DataProperty, value);
-        }
-
-        public static readonly DependencyProperty ColumnDescriptionProperty =
-            DependencyProperty.Register("ColumnDescription", typeof(IEnumerable<ColumnDescription>), typeof(ColumnsChart));
-        public IEnumerable<ColumnDescription> ColumnDescription
-        {
-            get => (IEnumerable<ColumnDescription>)GetValue(ColumnDescriptionProperty);
-            set => SetValue(ColumnDescriptionProperty, value);
-        }
-
 
         public ColumnsChart() => this.DefaultStyleKey = typeof(ColumnsChart);
+
+        static ColumnsChart() =>
+            DataProperty.OverrideMetadata(typeof(ColumnsChart), new PropertyMetadata(null, DataChangedCallback));
 
         public override void OnApplyTemplate()
         {
@@ -141,26 +78,34 @@ namespace MyBudget.UI.Common
         private void TemplatePanel_Loaded(object sender, RoutedEventArgs e)
         {
             panelHeight = TemplatePanel.ActualHeight - 20;
-            SeparatorChangedCallback(this, new DependencyPropertyChangedEventArgs());
+            DataChangedCallback(this, new DependencyPropertyChangedEventArgs());
         }
 
-        private static void SeparatorChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is ColumnsChart control) || control.TemplatePanel == null)
                 return;
 
             var columns = ConvertData(control.Data, control.panelHeight, control.ValueFormat, control.numberFormatInfo);
-            var animationTime = new TimeSpan(0, 0, 0, 2);
-            var columnsAnimation = new ColumnsDescriptionAnimation { To = columns, Duration = animationTime };
-            control.BeginAnimation(ColumnsChart.ColumnDescriptionProperty, columnsAnimation);
+            var animationTimeMs = control.AnimationTimeMs;
+            if (animationTimeMs > 0)
+            {
+                var animationTime = new TimeSpan(0, 0, 0, 0, animationTimeMs);
+                var columnsAnimation = new ColumnDataVisualAnimation { To = columns, Duration = animationTime };
+                control.BeginAnimation(ColumnsChart.DataVisualRepresentationProperty, columnsAnimation);
+            }
+            else
+            {
+                control.DataVisualRepresentation = columns;
+            }
         }
 
-        private static IEnumerable<ColumnDescription> ConvertData(IEnumerable<ColumnData> columnData, double maxHeight, string format, NumberFormatInfo nfi)
+        private static IEnumerable<ColumnDataVisual> ConvertData(IEnumerable<ColumnData> columnData, double maxHeight, string format, NumberFormatInfo nfi)
         {
             var maxValue = columnData.Select(x => x.Value).Max();
             var ratio = maxHeight / maxValue;
             return columnData
-                .Select(x => new ColumnDescription(x.Value, ratio, format, nfi))
+                .Select(x => new ColumnDataVisual(x.Value, ratio, format, nfi))
                 .ToList();
         }
     }

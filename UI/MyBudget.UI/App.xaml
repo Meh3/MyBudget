@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Styles/Controls/SwitchableContentControl.xaml" />
                 <ResourceDictionary Source="Styles/Controls/ColumnsChart.xaml" />
                 <ResourceDictionary Source="Styles/Controls/GaugeChart.xaml" />
+                <ResourceDictionary Source="Styles/Controls/PieChart.xaml" />
                 <ResourceDictionary Source="Styles/Windows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

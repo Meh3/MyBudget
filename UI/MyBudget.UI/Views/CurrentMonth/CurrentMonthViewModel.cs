@@ -16,6 +16,13 @@ namespace MyBudget.UI.Views
             set => SetField(ref columns, value);
         }
 
+        private GaugeData gaugeValues;
+        public GaugeData GaugeValues
+        {
+            get => gaugeValues;
+            set => SetField(ref gaugeValues, value);
+        }
+
         public CurrentMonthViewModel()
         {
             Columns = new List<ColumnData>
@@ -23,6 +30,8 @@ namespace MyBudget.UI.Views
                 new ColumnData("Cat 1", 20),
                 new ColumnData("Cat 2", 40)
             };
+
+            GaugeValues = new GaugeData(3000, 4000);
         }
     }
 }

@@ -10,18 +10,37 @@ using System.Collections;
 
 namespace MyBudget.UI.Common
 {
-    [TemplatePart(Name = PathPartName, Type = typeof(Path))]
-    [TemplatePart(Name = TextPartName, Type = typeof(TextBlock))]
-    public class GaugeChart : ChartBase
+    public class GaugeData
+    {
+        public double MaxValue { get; private set; }
+        public double Value { get; private set; }
+
+        public GaugeData(double value, double maxValue)
+        {
+            Value = value;
+            MaxValue = maxValue;
+        }
+    }
+
+    public class GaugeDataVisual
+    {
+        public PathGeometry GaugeProgress { get; private set; }
+        public string StringValue { get; private set; }
+        public string StringMaxValue { get; private set; }
+
+        public GaugeDataVisual(PathGeometry gaugeProgress, double value, double maxValue, string format = null, NumberFormatInfo nfi = null)
+        {
+            GaugeProgress = gaugeProgress;
+            StringValue = value.ToString(format, nfi);
+            StringMaxValue = maxValue.ToString(format, nfi);
+        }
+    }
+
+    public class GaugeChart : ChartBase<GaugeData, GaugeDataVisual>
     {
         private const double deg90 = Math.PI / 2;
         private const double deg180 = Math.PI;
         private const double deg360 = 2 * Math.PI;
-        private const string PathPartName = "PART_Path";
-        private const string TextPartName = "PART_Text";
-
-        private Path TemplatePath;
-        private TextBlock TemplateText;
 
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(GaugeChart), new PropertyMetadata(50.0));
@@ -29,22 +48,6 @@ namespace MyBudget.UI.Common
         {
             get => (double)GetValue(RadiusProperty);
             set => SetValue(RadiusProperty, value);
-        }
-
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(double), typeof(GaugeChart), new PropertyMetadata(0.0, ValueChangedCallback));
-        public double Value
-        {
-            get => (double)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register("MaxValue", typeof(double), typeof(GaugeChart), new PropertyMetadata(1.0, ValueChangedCallback));
-        public double MaxValue
-        {
-            get => (double)GetValue(MaxValueProperty);
-            set => SetValue(MaxValueProperty, value);
         }
 
         public static readonly DependencyProperty RingWidthRelativeToRadiusProperty =
@@ -57,55 +60,51 @@ namespace MyBudget.UI.Common
 
         public GaugeChart() => this.DefaultStyleKey = typeof(GaugeChart);
 
-        static GaugeChart()
-        {
-            ChartBase.UnitProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(string.Empty, TextChangedCallback));
-            ChartBase.ValueFormatProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(null, TextChangedCallback));
-            ChartBase.ThousandsSeparatorProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(string.Empty, TextChangedCallback));
-        }
+        static GaugeChart()=>
+            DataProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(DataChangedCallback));
 
-        public override void OnApplyTemplate()
+        private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            base.OnApplyTemplate();
-            TemplatePath = Template.FindName(PathPartName, this) as Path;
-            TemplateText = Template.FindName(TextPartName, this) as TextBlock;
-
-            // animation when template is loaded 
-            var animationTime = new TimeSpan(0, 0, 0, 2);
-            var valueAnimation = new DoubleAnimation(0, Value, animationTime);
-            BeginAnimation(GaugeChart.ValueProperty, valueAnimation);
-        }
-
-        private static void TextChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if ( !(d is GaugeChart control) || control.TemplateText == null )
-                return;
-            var value = control.Value.ToString(control.ValueFormat, control.numberFormatInfo);
-            var maxValue = control.MaxValue.ToString(control.ValueFormat, control.numberFormatInfo);
-            control.TemplateText.Text = $"{value} {control.Unit}{Environment.NewLine}/ {maxValue} {control.Unit}";
-        }
-
-        private static void ValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is GaugeChart control) || control.TemplatePath == null)
+            if (!(d is GaugeChart control))
                 return;
 
-            const double markerLineLength = 4;
-            const double markerRadius = 2;
-            const double outerRadius = 50.0 - markerLineLength / 2;
-            var innerRadius = outerRadius - control.RingWidthRelativeToRadius * outerRadius;
-            var center = new Point(outerRadius, outerRadius + markerLineLength);
-            var angle = CalculateAngle(control.Value, control.MaxValue);
-
-            var pathGeometry = new PathGeometry();
-            control.TemplatePath.Data = pathGeometry;
-            var (start, end) = CreateGaugeProgress(center, outerRadius, innerRadius, markerLineLength, angle, pathGeometry); // add gauge progress
-            CreateCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
-            CreateCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
-            CreateCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
-
-            TextChangedCallback(d, e);
+            var animationTimeMs = control.AnimationTimeMs;
+            var animateFunc = CreateGeometryPartFunction(control);
+            if (animationTimeMs > 0)
+            {
+                var animationTime = new TimeSpan(0, 0, 0, 0, animationTimeMs);
+                var gaugeAnimation = new GaugeDataVisualAnimation
+                {
+                    AnimationFunction = animateFunc
+                };
+                control.BeginAnimation(GaugeChart.DataVisualRepresentationProperty, gaugeAnimation);
+            }
+            else
+            {
+                control.DataVisualRepresentation = animateFunc(1);
+            }
         }
+
+        private static Func<double, GaugeDataVisual> CreateGeometryPartFunction(GaugeChart control)
+            =>
+            part =>
+            {
+                const double markerLineLength = 4;
+                const double markerRadius = 2;
+                const double outerRadius = 50.0 - markerLineLength / 2;
+                var actualValue = control.Data.Value * part;
+                var maxValue = control.Data.MaxValue;
+                var innerRadius = outerRadius - control.RingWidthRelativeToRadius * outerRadius;
+                var center = new Point(outerRadius, outerRadius + markerLineLength);
+                var angle = CalculateAngle(actualValue, maxValue);
+
+                var pathGeometry = new PathGeometry();
+                var (start, end) = CreateGaugeProgress(center, outerRadius, innerRadius, markerLineLength, angle, pathGeometry); // add gauge progress
+                CreateCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
+                CreateCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
+                CreateCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
+                return new GaugeDataVisual(pathGeometry, actualValue, maxValue, control.ValueFormat, control.numberFormatInfo);
+            };
 
         private static double CalculateAngle(double value, double maxValue) =>
             value < maxValue 

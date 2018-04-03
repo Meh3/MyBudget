@@ -73,6 +73,9 @@
     <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
     <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
     <Compile Include="Common\Charts\ChartBase.cs" />
+    <Compile Include="Common\Charts\GaugeDataVisualAnimation.cs" />
+    <Compile Include="Common\Charts\ColumnDataVisualAnimation.cs" />
+    <Compile Include="Common\Charts\PieChart.cs" />
     <Compile Include="Common\Charts\ColumnsChart.cs" />
     <Compile Include="Common\ControlExtensions\ButtonAttached.cs" />
     <Compile Include="Common\ControlExtensions\PathAttached.cs" />
@@ -136,6 +139,10 @@
     <Page Include="Styles\ColorsAndBrushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls\PieChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Controls\ColumnsChart.xaml">
       <Generator>MSBuild:Compile</Generator>
