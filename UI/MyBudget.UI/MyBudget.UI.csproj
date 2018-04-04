@@ -73,7 +73,7 @@
     <Compile Include="Common\Behaviors\ThumbResizesWindowBehavior.cs" />
     <Compile Include="Common\Behaviors\ControlDragsBehavior.cs" />
     <Compile Include="Common\Charts\ChartBase.cs" />
-    <Compile Include="Common\Charts\GaugeDataVisualAnimation.cs" />
+    <Compile Include="Common\Charts\FunctionAnimation.cs" />
     <Compile Include="Common\Charts\ColumnDataVisualAnimation.cs" />
     <Compile Include="Common\Charts\CircleChartBase.cs" />
     <Compile Include="Common\Charts\PieChart.cs" />

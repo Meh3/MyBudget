@@ -10,12 +10,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:PieChart}">
-                    <Canvas x:Name="PART_Canvas">
+                    <Canvas x:Name="PART_Canvas" Background="Black">
                         <Path x:Name="PART_Path"
                             Data="{Binding Path=DataVisualRepresentation.PieGeometry, RelativeSource={RelativeSource TemplatedParent}}"
                             Stretch="None"
                             Style="{TemplateBinding PathStyle}" />
-                        <Path x:Name="PART_CirclePath" Style="{TemplateBinding PathStyle}" Stretch="None"/>
+                        <Path x:Name="PART_CirclePath"
+                            Stretch="None"
+                            Style="{TemplateBinding PathStyle}" />
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

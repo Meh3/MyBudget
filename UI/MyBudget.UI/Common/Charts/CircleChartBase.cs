@@ -15,6 +15,10 @@ namespace MyBudget.UI.Common
         where TData : class
         where TDataForChart : class
     {
+        protected const double deg90 = Math.PI / 2;
+        protected const double deg180 = Math.PI;
+        protected const double deg360 = 2 * Math.PI;
+
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(CircleChartBase<TData, TDataForChart>), new PropertyMetadata(50.0));
         public double Radius
@@ -30,5 +34,13 @@ namespace MyBudget.UI.Common
                 RadiusX = radius,
                 RadiusY = radius,
             });
+
+        protected static Point CalculatePointOnCircle(Point center, double radius, double angle) =>
+            new Point()
+            {
+                        // calculated point has 90 deg offset
+                        X = center.X + radius * Math.Cos(angle + deg90),
+                Y = center.Y - radius * Math.Sin(angle + deg90)
+            };
     }
 }

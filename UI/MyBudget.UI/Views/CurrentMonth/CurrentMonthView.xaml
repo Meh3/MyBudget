@@ -22,7 +22,7 @@
             ThousandsSeparator=" "
             Unit="zł"
             ValueFormat="#,0.00" />
-        <!--<common:ColumnsChart
+        <common:ColumnsChart
             Title="Spent by categories"
             Height="200"
             AnimationTimeMs="2000"
@@ -31,6 +31,6 @@
             TextStyle="{StaticResource Style.TextBlock.PlainText}"
             ThousandsSeparator=" "
             Unit="zł"
-            ValueFormat="#,0.00" />-->
+            ValueFormat="#,0.00" />
     </StackPanel>
 </UserControl>

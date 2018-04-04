@@ -38,10 +38,6 @@ namespace MyBudget.UI.Common
 
     public class GaugeChart : CircleChartBase<GaugeData, GaugeDataVisual>
     {
-        private const double deg90 = Math.PI / 2;
-        private const double deg180 = Math.PI;
-        private const double deg360 = 2 * Math.PI;
-
         public static readonly DependencyProperty RingWidthRelativeToRadiusProperty =
             DependencyProperty.Register("RingWidthRelativeToRadius", typeof(double), typeof(GaugeChart), new PropertyMetadata(0.1));
         public double RingWidthRelativeToRadius
@@ -61,13 +57,14 @@ namespace MyBudget.UI.Common
                 return;
 
             var animationTimeMs = control.AnimationTimeMs;
-            var animateFunc = CreateGeometryPartFunction(control);
+            var animateFunc = CreateAnimationFunction(control);
             if (animationTimeMs > 0)
             {
                 var animationTime = new TimeSpan(0, 0, 0, 0, animationTimeMs);
-                var gaugeAnimation = new GaugeDataVisualAnimation
+                var gaugeAnimation = new FunctionAnimation<GaugeDataVisual>
                 {
-                    AnimationFunction = animateFunc
+                    AnimationFunction = animateFunc,
+                    Duration = animationTime
                 };
                 control.BeginAnimation(GaugeChart.DataVisualRepresentationProperty, gaugeAnimation);
             }
@@ -77,7 +74,7 @@ namespace MyBudget.UI.Common
             }
         }
 
-        private static Func<double, GaugeDataVisual> CreateGeometryPartFunction(GaugeChart control)
+        private static Func<double, GaugeDataVisual> CreateAnimationFunction(GaugeChart control)
             =>
             part =>
             {
@@ -102,14 +99,6 @@ namespace MyBudget.UI.Common
             value < maxValue 
                 ? deg360 * value / maxValue 
                 : deg360;
-
-        private static Point CalculatePointOnCircle(Point center, double radius, double angle) =>
-            new Point()
-            {
-                // calculated point has 90 deg offset
-                X = center.X + radius * Math.Cos(angle + deg90),
-                Y = center.Y - radius * Math.Sin(angle + deg90)
-            };
 
         private static (Point Start, Point End) CreateGaugeProgress(
             Point center, double outerRadius, double innerRadius, double markerLength, double angle, PathGeometry pathGeometry)

@@ -16,7 +16,7 @@ namespace MyBudget.UI.Common
         public double Value { get; private set; }
         public string Name { get; private set; }
 
-        public PieData(double value, string name)
+        public PieData(string name, double value)
         {
             Value = value;
             Name = name;
@@ -25,12 +25,14 @@ namespace MyBudget.UI.Common
 
     public class PieDataVisual
     {
-        private readonly string format;
-        private readonly NumberFormatInfo numberFormatInfo;
-
         public PathGeometry PieGeometry { get; private set; }
         public IEnumerable<string> StringValues { get; private set; }
         public IEnumerable<Point> MarkerPoints { get; private set; }
+
+        public PieDataVisual(PathGeometry pieGeometry)
+        {
+            PieGeometry = pieGeometry;
+        }
 
         public PieDataVisual(PathGeometry pieGeometry, IEnumerable<double> values, IEnumerable<Point> markerPoints, string format, NumberFormatInfo nfi)
         {
@@ -43,7 +45,7 @@ namespace MyBudget.UI.Common
     [TemplatePart(Name = CanvasPartName, Type = typeof(Canvas))]
     [TemplatePart(Name = PathPartName, Type = typeof(Path))]
     [TemplatePart(Name = PathCirclePartName, Type = typeof(Path))]
-    public class PieChart : CircleChartBase<PieData, PieDataVisual>
+    public class PieChart : CircleChartBase<IEnumerable<PieData>, PieDataVisual>
     {
         private const string CanvasPartName = "PART_Canvas";
         private const string PathPartName = "PART_Path";
@@ -51,6 +53,10 @@ namespace MyBudget.UI.Common
         private Canvas TemplateCanvas;
         private Path TemplatePath;
         private Path TemplatePathCircle;
+
+        private double dataSum;
+        private List<(string Name, double Value, double Proportion, double Percentage, double RadAngle)> relativeData;
+        private double outerRadius;
 
         public PieChart() => this.DefaultStyleKey = typeof(PieChart);
 
@@ -69,26 +75,74 @@ namespace MyBudget.UI.Common
 
         private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //if (!(d is PieChart control))
-            //    return;
+            if (!(d is PieChart control))
+                return;
 
-            //var animationTimeMs = control.AnimationTimeMs;
-            //if (animationTimeMs > 0)
-            //{
+            var data = control.Data;
+            control.dataSum = data.Select(x => x.Value).Sum();
+            var dataSum = control.dataSum;
+            control.relativeData = data.Select(x => (x.Name, x.Value, x.Value / dataSum, x.Value * 100 / dataSum, x.Value * deg360 / dataSum)).ToList();
 
-            //    control.BeginAnimation(PieChart.DataVisualRepresentationProperty, );
-            //}
-            //else
-            //{
-            //    control.DataVisualRepresentation = ;
-            //}
+            var animationTimeMs = control.AnimationTimeMs;
+            var animateFunction = CreateAnimationFunction(control);
+            if (animationTimeMs > 0)
+            {
+                var animationTime = new TimeSpan(0, 0, 0, 0, animationTimeMs);
+                var pieAnimation = new FunctionAnimation<PieDataVisual>
+                {
+                    AnimationFunction = animateFunction,
+                    Duration = animationTime
+                };
+                control.BeginAnimation(PieChart.DataVisualRepresentationProperty, pieAnimation);
+            }
+            else
+            {
+                control.DataVisualRepresentation = animateFunction(1);
+            }
+        }
+
+        private static Func<double, PieDataVisual> CreateAnimationFunction(PieChart control)
+            =>
+            part =>
+            {
+                var outerRadius = control.outerRadius;
+                var radius = control.Radius;
+                var center = new Point(outerRadius, outerRadius);
+
+                var actualAngles = control.relativeData.Select(x => x.RadAngle * part).ToList();
+                var anglesFromBegining = CalculateAnglesFromBegining(actualAngles).ToList();
+
+                if (part == 1.0)
+                {
+                    var lastIndex = anglesFromBegining.Count - 1;
+                    anglesFromBegining[lastIndex] = deg360;
+                }
+
+                var pathGeometry = new PathGeometry();
+                var lines = anglesFromBegining.Select(x => new LineGeometry(center, CalculatePointOnCircle(center, radius, x))).ToList();
+                lines.ForEach(pathGeometry.AddGeometry);
+
+                return new PieDataVisual(pathGeometry);
+            };
+
+        private static IEnumerable<double> CalculateAnglesFromBegining(List<double> angles)
+        {
+            for (int i = 0; i < angles.Count ; ++i)
+            {
+                var angleFromBegining = 0.0;
+                for (int j = 0; j <= i; ++j)
+                {
+                    angleFromBegining += angles[j];
+                }
+                yield return angleFromBegining;
+            }
         }
 
         private static void UpdateControlSize(PieChart pieChart)
         {
             var ringForMarkersWidth = 5;
             var radius = pieChart.Radius;
-            var outerRadius = radius + ringForMarkersWidth;
+            var outerRadius = pieChart.outerRadius = radius + ringForMarkersWidth;
             var height = outerRadius * 2;
             var width = outerRadius * 2;
             pieChart.TemplateCanvas.Height = height;
@@ -98,9 +152,5 @@ namespace MyBudget.UI.Common
             pieChart.TemplatePathCircle.Data = pathGeometry;
             AddCircleGeometry(new Point(outerRadius, outerRadius), radius, pathGeometry);
         }
-
-
-
-
     }
 }

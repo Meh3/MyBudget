@@ -13,6 +13,7 @@
     <common:PieChart
         Title="Pie Chart example"
         AnimationTimeMs="2000"
+        Data="{Binding PieValues}"
         PathStyle="{StaticResource Style.Path.Neon}"
         Radius="100"
         TextStyle="{StaticResource Style.TextBlock.PlainText}"
