@@ -15,6 +15,7 @@ namespace MyBudget.UI.Common
     {
         public double Value { get; private set; }
         public string Name { get; private set; }
+        public int Index { get; set; }
 
         public PieData(string name, double value)
         {
@@ -23,39 +24,36 @@ namespace MyBudget.UI.Common
         }
     }
 
+    public class ValueAndLocation
+    {
+        public string StringValue { get; set; }
+        public double Left { get; set; }
+        public double Top { get; set; }
+    }
+
     public class PieDataVisual
     {
         public PathGeometry PieGeometry { get; private set; }
-        public IEnumerable<string> StringValues { get; private set; }
-        public IEnumerable<Point> MarkerPoints { get; private set; }
+        public IEnumerable<ValueAndLocation> ValuesAndLocations { get; private set; }
 
-        public PieDataVisual(PathGeometry pieGeometry)
+        public PieDataVisual(PathGeometry pieGeometry, IEnumerable<ValueAndLocation> valuesAndLocations)
         {
             PieGeometry = pieGeometry;
-        }
-
-        public PieDataVisual(PathGeometry pieGeometry, IEnumerable<double> values, IEnumerable<Point> markerPoints, string format, NumberFormatInfo nfi)
-        {
-            PieGeometry = pieGeometry;
-            StringValues = values.Select(x => x.ToString(format, nfi)).ToList();
-            MarkerPoints = markerPoints;
+            ValuesAndLocations = valuesAndLocations;
         }
     }
 
     [TemplatePart(Name = CanvasPartName, Type = typeof(Canvas))]
-    [TemplatePart(Name = PathPartName, Type = typeof(Path))]
     [TemplatePart(Name = PathCirclePartName, Type = typeof(Path))]
     public class PieChart : CircleChartBase<IEnumerable<PieData>, PieDataVisual>
     {
         private const string CanvasPartName = "PART_Canvas";
-        private const string PathPartName = "PART_Path";
         private const string PathCirclePartName = "PART_CirclePath";
         private Canvas TemplateCanvas;
-        private Path TemplatePath;
         private Path TemplatePathCircle;
 
         private double dataSum;
-        private List<(string Name, double Value, double Proportion, double Percentage, double RadAngle)> relativeData;
+        private List<(double Percentage, double RadAngle)> relativeData;
         private double outerRadius;
 
         public PieChart() => this.DefaultStyleKey = typeof(PieChart);
@@ -67,7 +65,6 @@ namespace MyBudget.UI.Common
         {
             base.OnApplyTemplate();
             TemplateCanvas = Template.FindName(CanvasPartName, this) as Canvas;
-            TemplatePath = Template.FindName(PathPartName, this) as Path;
             TemplatePathCircle = Template.FindName(PathCirclePartName, this) as Path;
 
             UpdateControlSize(this);
@@ -79,9 +76,14 @@ namespace MyBudget.UI.Common
                 return;
 
             var data = control.Data;
-            control.dataSum = data.Select(x => x.Value).Sum();
-            var dataSum = control.dataSum;
-            control.relativeData = data.Select(x => (x.Name, x.Value, x.Value / dataSum, x.Value * 100 / dataSum, x.Value * deg360 / dataSum)).ToList();
+            var dataSum = control.dataSum = data.Select(x => x.Value).Sum();
+            control.relativeData = data.Select(x => (x.Value * 100 / dataSum, x.Value * deg360 / dataSum)).ToList();
+
+            var i = 1;
+            foreach (var dataValue in data)
+            {
+                dataValue.Index = i++;
+            }
 
             var animationTimeMs = control.AnimationTimeMs;
             var animateFunction = CreateAnimationFunction(control);
@@ -101,12 +103,14 @@ namespace MyBudget.UI.Common
             }
         }
 
-        private static Func<double, PieDataVisual> CreateAnimationFunction(PieChart control)
-            =>
+        private static Func<double, PieDataVisual> CreateAnimationFunction(PieChart control) =>
             part =>
             {
+                var textHalfSize = 10;
                 var outerRadius = control.outerRadius;
                 var radius = control.Radius;
+                var radiusForPercentageText = radius + textHalfSize + 5;
+                var radiusForAliasText = radius / 2;
                 var center = new Point(outerRadius, outerRadius);
 
                 var actualAngles = control.relativeData.Select(x => x.RadAngle * part).ToList();
@@ -115,32 +119,48 @@ namespace MyBudget.UI.Common
                 if (part == 1.0)
                 {
                     var lastIndex = anglesFromBegining.Count - 1;
-                    anglesFromBegining[lastIndex] = deg360;
+                    anglesFromBegining[lastIndex] = (deg360, anglesFromBegining[lastIndex].PercentageAngle);
                 }
 
                 var pathGeometry = new PathGeometry();
-                var lines = anglesFromBegining.Select(x => new LineGeometry(center, CalculatePointOnCircle(center, radius, x))).ToList();
-                lines.ForEach(pathGeometry.AddGeometry);
+                anglesFromBegining
+                    .Select(x => new LineGeometry(center, CalculatePointOnCircle(center, radius, x.LineAngle)))
+                    .ToList()
+                    .ForEach(pathGeometry.AddGeometry);
 
-                return new PieDataVisual(pathGeometry);
+                var i = 1;
+                var aliasesAndLocations = anglesFromBegining
+                    .Select(x => CalculatePointOnCircle(center, radiusForAliasText, x.PercentageAngle))
+                    .Select(point => new ValueAndLocation { Left = point.X - textHalfSize, Top = point.Y - textHalfSize, StringValue = (i++).ToString() })
+                    .ToList();
+
+                var percentagesAndLocations = control.relativeData
+                    .Select(x => Math.Round(x.Percentage * part).ToString() + "%")
+                    .Zip(anglesFromBegining, (percentage, angle) => new { Percentage = percentage, Point = CalculatePointOnCircle(center, radiusForPercentageText, angle.PercentageAngle) })
+                    .Select(x => new ValueAndLocation { Left = x.Point.X - textHalfSize, Top = x.Point.Y - textHalfSize, StringValue = x.Percentage })
+                    .ToList();
+
+                aliasesAndLocations.AddRange(percentagesAndLocations);
+
+                return new PieDataVisual(pathGeometry, aliasesAndLocations);
             };
 
-        private static IEnumerable<double> CalculateAnglesFromBegining(List<double> angles)
+        private static IEnumerable<(double LineAngle, double PercentageAngle)> CalculateAnglesFromBegining(List<double> angles)
         {
             for (int i = 0; i < angles.Count ; ++i)
             {
-                var angleFromBegining = 0.0;
+                var lineAngle = 0.0;
                 for (int j = 0; j <= i; ++j)
                 {
-                    angleFromBegining += angles[j];
+                    lineAngle += angles[j];
                 }
-                yield return angleFromBegining;
+                yield return (lineAngle, lineAngle - angles[i] / 2);
             }
         }
 
         private static void UpdateControlSize(PieChart pieChart)
         {
-            var ringForMarkersWidth = 5;
+            var ringForMarkersWidth = 30;
             var radius = pieChart.Radius;
             var outerRadius = pieChart.outerRadius = radius + ringForMarkersWidth;
             var height = outerRadius * 2;

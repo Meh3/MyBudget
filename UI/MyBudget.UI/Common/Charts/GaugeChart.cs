@@ -74,8 +74,7 @@ namespace MyBudget.UI.Common
             }
         }
 
-        private static Func<double, GaugeDataVisual> CreateAnimationFunction(GaugeChart control)
-            =>
+        private static Func<double, GaugeDataVisual> CreateAnimationFunction(GaugeChart control) =>
             part =>
             {
                 const double markerLineLength = 4;

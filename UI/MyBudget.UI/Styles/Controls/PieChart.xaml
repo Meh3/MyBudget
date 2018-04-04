@@ -10,15 +10,54 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:PieChart}">
-                    <Canvas x:Name="PART_Canvas" Background="Black">
-                        <Path x:Name="PART_Path"
-                            Data="{Binding Path=DataVisualRepresentation.PieGeometry, RelativeSource={RelativeSource TemplatedParent}}"
-                            Stretch="None"
-                            Style="{TemplateBinding PathStyle}" />
-                        <Path x:Name="PART_CirclePath"
-                            Stretch="None"
-                            Style="{TemplateBinding PathStyle}" />
-                    </Canvas>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Style="{TemplateBinding TextStyle}"
+                            Text="{TemplateBinding Title}" />
+                        <Canvas x:Name="PART_Canvas">
+                            <Path
+                                Data="{Binding Path=DataVisualRepresentation.PieGeometry, RelativeSource={RelativeSource TemplatedParent}}"
+                                Stretch="None"
+                                Style="{TemplateBinding PathStyle}" />
+                            <Path x:Name="PART_CirclePath"
+                                Stretch="None"
+                                Style="{TemplateBinding PathStyle}" />
+                            <ItemsControl ItemsSource="{Binding Path=DataVisualRepresentation.ValuesAndLocations, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas Width="{Binding ActualWidth, ElementName=PART_Canvas}" Height="{Binding ActualHeight, ElementName=PART_Canvas}" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type common:ValueAndLocation}">
+                                        <TextBlock
+                                            Width="20"
+                                            Height="20"
+                                            Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}"
+                                            Text="{Binding StringValue}"
+                                            TextAlignment="Center" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{Binding Path=Left}" />
+                                        <Setter Property="Canvas.Top" Value="{Binding Path=Top}" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                        </Canvas>
+                        <ItemsControl HorizontalAlignment="Center" ItemsSource="{TemplateBinding Data}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Width="{Binding ActualWidth, ElementName=PART_Canvas}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type common:}" />
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
