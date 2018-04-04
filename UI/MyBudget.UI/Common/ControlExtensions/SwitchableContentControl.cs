@@ -88,6 +88,8 @@ namespace MyBudget.UI.Common
             }
             newContent.Margin = GetStartMarginForNewContent(control.NewContentAnimationDirection, control);
             newContent.Content = control.Content;
+            Panel.SetZIndex(newContent, 2);
+            Panel.SetZIndex(oldContent, 1);
 
             var zeroMargin = new Thickness(0, 0, 0, 0);
             var endMarginForOldContent = GetEndMarginForOldContent(control.OldContentAnimationDirection, control);
@@ -127,7 +129,7 @@ namespace MyBudget.UI.Common
         private static Thickness GetEndMarginForOldContent(Direction direction, SwitchableContentControl control)
         {
             var tempMargins = GetStartMarginForNewContent(direction, control);
-            return new Thickness(-tempMargins.Left, -tempMargins.Top, 0, 0);
+            return new Thickness(-2 * tempMargins.Left, -2 * tempMargins.Top, 0, 0);
         }
 
         private static (ContentControl New, ContentControl Old) GetClassifiedContents(SwitchableContentControl control) =>

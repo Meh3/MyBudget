@@ -56,7 +56,7 @@
 
         <common:SwitchableContentControl
             Margin="{StaticResource Margin.NavigationPanel.Contnet.FromPanel}"
-            AnimationTimeMs="500"
+            AnimationTimeMs="1000"
             Content="{Binding SelectedView, Converter={StaticResource Converter.Initializer}}"
             NewContentAnimationDirection="Left"
             OldContentAnimationDirection="Left" />

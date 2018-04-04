@@ -22,8 +22,7 @@ namespace MyBudget.UI.Views
             {
                 new PieData("Cat1", 90),
                 new PieData("Cat2", 90),
-                new PieData("Cat3", 90),
-                new PieData("Cat4", 90)
+                new PieData("Cat3", 90)
             };
         }
     }

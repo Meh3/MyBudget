@@ -10,7 +10,10 @@
     d:DesignWidth="200"
     DataContext="{common:TypeInitializer {x:Type local:CurrentMonthViewModel}}"
     mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Orientation="Horizontal">
         <common:GaugeChart
             Title="Chart title"
             AnimationTimeMs="2000"
