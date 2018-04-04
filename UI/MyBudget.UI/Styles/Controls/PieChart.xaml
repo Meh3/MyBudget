@@ -4,14 +4,22 @@
     xmlns:common="clr-namespace:MyBudget.UI.Common"
     xmlns:views="clr-namespace:MyBudget.UI.Views">
 
-    <!--<Style TargetType="{x:Type common:PieChart}">
+    <common:MultiplyConverter x:Key="Convert.Multiply" />
+
+    <Style TargetType="{x:Type common:PieChart}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type common:PieChart}">
-                    <Path x:Name="PART_Path" Style="{TemplateBinding PathStyle}" />
+                    <Canvas x:Name="PART_Canvas">
+                        <Path x:Name="PART_Path"
+                            Data="{Binding Path=DataVisualRepresentation.PieGeometry, RelativeSource={RelativeSource TemplatedParent}}"
+                            Stretch="None"
+                            Style="{TemplateBinding PathStyle}" />
+                        <Path x:Name="PART_CirclePath" Style="{TemplateBinding PathStyle}" Stretch="None"/>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
 
 </ResourceDictionary>

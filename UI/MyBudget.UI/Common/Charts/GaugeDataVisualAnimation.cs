@@ -19,21 +19,14 @@ namespace MyBudget.UI.Common
 
         protected override Freezable CreateInstanceCore() => new GaugeDataVisualAnimation() { AnimationFunction = this.AnimationFunction };
 
-        public override object GetCurrentValue(object defaultOriginValue,
-                                       object defaultDestinationValue,
-                                       AnimationClock animationClock)
-        {
-            return UdateValue(animationClock);
-        }
+        public override object GetCurrentValue(object defaultOriginValue, object defaultDestinationValue, AnimationClock animationClock) =>
+            UdateValue(animationClock);
 
-        public GaugeDataVisual UdateValue(AnimationClock animationClock)
-        {
-            if (AnimationFunction == null)
-                return null;
-
-            if (!animationClock.CurrentProgress.HasValue)
-                return AnimationFunction(0);
-            return AnimationFunction(animationClock.CurrentProgress.Value);
-        }
+        public GaugeDataVisual UdateValue(AnimationClock animationClock) =>
+            AnimationFunction == null
+                ? null
+                : animationClock.CurrentProgress.HasValue
+                    ? AnimationFunction(animationClock.CurrentProgress.Value)
+                    : AnimationFunction(0);
     }
 }

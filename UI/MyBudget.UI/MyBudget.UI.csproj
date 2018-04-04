@@ -75,12 +75,14 @@
     <Compile Include="Common\Charts\ChartBase.cs" />
     <Compile Include="Common\Charts\GaugeDataVisualAnimation.cs" />
     <Compile Include="Common\Charts\ColumnDataVisualAnimation.cs" />
+    <Compile Include="Common\Charts\CircleChartBase.cs" />
     <Compile Include="Common\Charts\PieChart.cs" />
     <Compile Include="Common\Charts\ColumnsChart.cs" />
     <Compile Include="Common\ControlExtensions\ButtonAttached.cs" />
     <Compile Include="Common\ControlExtensions\PathAttached.cs" />
     <Compile Include="Common\Charts\GaugeChart.cs" />
     <Compile Include="Common\ControlExtensions\SwitchableContentControl.cs" />
+    <Compile Include="Common\Converters\MultiplyConverter.cs" />
     <Compile Include="Common\Converters\TypeToObjectConverter.cs" />
     <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
     <Compile Include="Common\Converters\TypeInitializer.cs" />

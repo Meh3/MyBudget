@@ -36,19 +36,11 @@ namespace MyBudget.UI.Common
         }
     }
 
-    public class GaugeChart : ChartBase<GaugeData, GaugeDataVisual>
+    public class GaugeChart : CircleChartBase<GaugeData, GaugeDataVisual>
     {
         private const double deg90 = Math.PI / 2;
         private const double deg180 = Math.PI;
         private const double deg360 = 2 * Math.PI;
-
-        public static readonly DependencyProperty RadiusProperty =
-            DependencyProperty.Register("Radius", typeof(double), typeof(GaugeChart), new PropertyMetadata(50.0));
-        public double Radius
-        {
-            get => (double)GetValue(RadiusProperty);
-            set => SetValue(RadiusProperty, value);
-        }
 
         public static readonly DependencyProperty RingWidthRelativeToRadiusProperty =
             DependencyProperty.Register("RingWidthRelativeToRadius", typeof(double), typeof(GaugeChart), new PropertyMetadata(0.1));
@@ -100,9 +92,9 @@ namespace MyBudget.UI.Common
 
                 var pathGeometry = new PathGeometry();
                 var (start, end) = CreateGaugeProgress(center, outerRadius, innerRadius, markerLineLength, angle, pathGeometry); // add gauge progress
-                CreateCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
-                CreateCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
-                CreateCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
+                AddCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
+                AddCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
+                AddCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
                 return new GaugeDataVisual(pathGeometry, actualValue, maxValue, control.ValueFormat, control.numberFormatInfo);
             };
 
@@ -118,15 +110,6 @@ namespace MyBudget.UI.Common
                 X = center.X + radius * Math.Cos(angle + deg90),
                 Y = center.Y - radius * Math.Sin(angle + deg90)
             };
-
-        private static void CreateCircleGeometry(Point center, double radius, PathGeometry pathGeometry) =>
-            pathGeometry.AddGeometry(new EllipseGeometry
-            {
-                Center = center,
-                RadiusX = radius,
-                RadiusY = radius,
-            });
-        
 
         private static (Point Start, Point End) CreateGaugeProgress(
             Point center, double outerRadius, double innerRadius, double markerLength, double angle, PathGeometry pathGeometry)

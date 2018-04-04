@@ -58,8 +58,8 @@ namespace MyBudget.UI.Common
     [TemplatePart(Name = PanelPartName, Type = typeof(Grid))]
     public class ColumnsChart : ChartBase<IEnumerable<ColumnData>, IEnumerable<ColumnDataVisual>>
     {
-        private const string PanelPartName = "PART_ColumnsPanel";
         private double panelHeight = 100;
+        private const string PanelPartName = "PART_ColumnsPanel";
         private Grid TemplatePanel;
 
 

@@ -10,9 +10,13 @@
     d:DesignWidth="300"
     DataContext="{common:TypeInitializer {x:Type local:AddTransactionViewModel}}"
     mc:Ignorable="d">
-    <Button
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Content="Add Transaction"
-        Style="{StaticResource Style.Button.TextBlock}" />
+    <common:PieChart
+        Title="Pie Chart example"
+        AnimationTimeMs="2000"
+        PathStyle="{StaticResource Style.Path.Neon}"
+        Radius="100"
+        TextStyle="{StaticResource Style.TextBlock.PlainText}"
+        ThousandsSeparator=" "
+        Unit="zł"
+        ValueFormat="#,0.00" />
 </UserControl>

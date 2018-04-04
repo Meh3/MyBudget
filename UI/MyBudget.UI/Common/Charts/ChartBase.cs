@@ -10,7 +10,6 @@ using System.Collections;
 
 namespace MyBudget.UI.Common
 {
-
     public abstract class ChartBase<TData, TDataForChart> : Control
         where TData : class
         where TDataForChart : class
