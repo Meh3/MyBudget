@@ -27,7 +27,7 @@ namespace MyBudget.UI.Common
 
     public class ColumnDataVisual : NotifiableObject
     {
-        private readonly static string of;
+        private readonly static string of = StringResource.GetString("of");
         private readonly double heightToValueRatio;
         private readonly string format;
         private readonly NumberFormatInfo numberFormatInfo;
@@ -61,12 +61,6 @@ namespace MyBudget.UI.Common
             this.format = format;
             this.sumValue = sumValue;
             numberFormatInfo = nfi;
-        }
-
-        static ColumnDataVisual()
-        {
-            var rm = new ResourceManager("MyBudget.UI.Strings.General", Assembly.GetExecutingAssembly());
-            of = rm.GetString("of");
         }
     }
 

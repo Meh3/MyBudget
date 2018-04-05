@@ -68,5 +68,14 @@ namespace MyBudget.UI.Strings {
                 return ResourceManager.GetString("of", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string pln {
+            get {
+                return ResourceManager.GetString("pln", resourceCulture);
+            }
+        }
     }
 }

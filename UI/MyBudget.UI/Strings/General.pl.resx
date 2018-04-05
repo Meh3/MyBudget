@@ -120,4 +120,7 @@
   <data name="of" xml:space="preserve">
     <value>z</value>
   </data>
+  <data name="pln" xml:space="preserve">
+    <value>zł</value>
+  </data>
 </root>

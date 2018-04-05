@@ -86,9 +86,9 @@
     <Compile Include="Common\Converters\TypeToObjectConverter.cs" />
     <Compile Include="Common\Converters\DoubleToThicknessConverter.cs" />
     <Compile Include="Common\Converters\TypeInitializer.cs" />
-    <Compile Include="Common\Direction.cs" />
-    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\DirectionEnum.cs" />
     <Compile Include="Common\NotifiableObject.cs" />
+    <Compile Include="Common\StringResource.cs" />
     <Compile Include="NinjectBindings.cs" />
     <Compile Include="NinjectKernel.cs" />
     <Compile Include="Strings\General.pl.Designer.cs">

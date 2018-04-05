@@ -120,4 +120,7 @@
   <data name="of" xml:space="preserve">
     <value>of</value>
   </data>
+  <data name="pln" xml:space="preserve">
+    <value>PLN</value>
+  </data>
 </root>
