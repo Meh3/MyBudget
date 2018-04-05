@@ -57,7 +57,11 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type common:ColumnDataVisual}">
-                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Background="Transparent"
+                                            ToolTip="{Binding PercentageFromValue}">
                                             <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" Text="{Binding StringValue}" />
                                             <Path
                                                 Width="8"

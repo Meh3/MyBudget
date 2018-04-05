@@ -27,12 +27,14 @@ namespace MyBudget.UI.Common
         public PathGeometry GaugeProgress { get; private set; }
         public string StringValue { get; private set; }
         public string StringMaxValue { get; private set; }
+        public string PercentValue { get; private set; }
 
-        public GaugeDataVisual(PathGeometry gaugeProgress, double value, double maxValue, string format = null, NumberFormatInfo nfi = null)
+        public GaugeDataVisual(PathGeometry gaugeProgress, string value, string maxValue, string percentage)
         {
             GaugeProgress = gaugeProgress;
-            StringValue = value.ToString(format, nfi);
-            StringMaxValue = maxValue.ToString(format, nfi);
+            StringValue = value;
+            StringMaxValue = maxValue;
+            PercentValue = percentage;
         }
     }
 
@@ -91,7 +93,11 @@ namespace MyBudget.UI.Common
                 AddCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
                 AddCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
                 AddCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
-                return new GaugeDataVisual(pathGeometry, actualValue, maxValue, control.ValueFormat, control.numberFormatInfo);
+
+                var nfi = control.numberFormatInfo;
+                var format = control.ValueFormat;
+                var percentage = $"{Math.Round(control.Data.Value * 100 / maxValue, 0)}%";
+                return new GaugeDataVisual(pathGeometry, actualValue.ToString(format,nfi), maxValue.ToString(format, nfi), percentage);
             };
 
         private static double CalculateAngle(double value, double maxValue) =>

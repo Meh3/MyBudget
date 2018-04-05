@@ -26,9 +26,11 @@
                                 Margin="0,5,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
+                                Background="Transparent"
                                 Style="{TemplateBinding TextStyle}"
                                 TextAlignment="Center"
-                                TextWrapping="Wrap">
+                                TextWrapping="Wrap"
+                                ToolTip="{Binding Path=DataVisualRepresentation.PercentValue, RelativeSource={RelativeSource TemplatedParent}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}  {0} {1} {2}/ {3} {1}">
                                         <Binding Path="DataVisualRepresentation.StringValue" RelativeSource="{RelativeSource TemplatedParent}" />

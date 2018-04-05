@@ -63,9 +63,9 @@ namespace MyBudget.UI.Strings {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string SampleString {
+        public static string of {
             get {
-                return ResourceManager.GetString("SampleString", resourceCulture);
+                return ResourceManager.GetString("of", resourceCulture);
             }
         }
     }

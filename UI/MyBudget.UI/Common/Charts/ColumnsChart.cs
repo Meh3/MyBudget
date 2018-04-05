@@ -8,6 +8,8 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using System.Resources;
+using System.Reflection;
 
 namespace MyBudget.UI.Common
 {
@@ -25,11 +27,14 @@ namespace MyBudget.UI.Common
 
     public class ColumnDataVisual : NotifiableObject
     {
+        private readonly static string of;
         private readonly double heightToValueRatio;
         private readonly string format;
         private readonly NumberFormatInfo numberFormatInfo;
+        private readonly double sumValue;
 
         public string StringValue { get; private set; }
+        public string PercentageFromValue { get; private set; }
         public double Height { get; private set; }
 
         private double numberValue;
@@ -41,17 +46,27 @@ namespace MyBudget.UI.Common
                 SetField(ref numberValue, value);
                 Height = numberValue * heightToValueRatio;
                 StringValue = numberValue.ToString(format, numberFormatInfo);
+                var percentage = Math.Round(numberValue * 100 / sumValue, 0);
+                PercentageFromValue = $"{percentage}% {of} {sumValue.ToString(format, numberFormatInfo)}";
                 OnPropertyChanged(nameof(Height));
                 OnPropertyChanged(nameof(StringValue));
+                OnPropertyChanged(nameof(PercentageFromValue));
             }
         }
 
-        public ColumnDataVisual(double value, double heightToValueRatio, string format = null, NumberFormatInfo nfi = null)
+        public ColumnDataVisual(double value, double heightToValueRatio, double sumValue, string format = null, NumberFormatInfo nfi = null)
         {
             NumberValue = value;
             this.heightToValueRatio = heightToValueRatio;
             this.format = format;
+            this.sumValue = sumValue;
             numberFormatInfo = nfi;
+        }
+
+        static ColumnDataVisual()
+        {
+            var rm = new ResourceManager("MyBudget.UI.Strings.General", Assembly.GetExecutingAssembly());
+            of = rm.GetString("of");
         }
     }
 
@@ -102,10 +117,12 @@ namespace MyBudget.UI.Common
 
         private static IEnumerable<ColumnDataVisual> ConvertData(IEnumerable<ColumnData> columnData, double maxHeight, string format, NumberFormatInfo nfi)
         {
-            var maxValue = columnData.Select(x => x.Value).Max();
+            var values = columnData.Select(x => x.Value).ToList();
+            var maxValue = values.Max();
+            var sumValue = values.Sum();
             var ratio = maxHeight / maxValue;
             return columnData
-                .Select(x => new ColumnDataVisual(x.Value, ratio, format, nfi))
+                .Select(x => new ColumnDataVisual(x.Value, ratio, sumValue, format, nfi))
                 .ToList();
         }
     }

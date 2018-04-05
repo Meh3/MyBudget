@@ -26,6 +26,7 @@ namespace MyBudget.UI.Common
 
     public class ValueAndLocation
     {
+        public string StringSecondValue { get; set; }
         public string StringValue { get; set; }
         public double Left { get; set; }
         public double Top { get; set; }
@@ -53,8 +54,9 @@ namespace MyBudget.UI.Common
         private Path TemplatePathCircle;
 
         private double dataSum;
-        private List<(double Percentage, double RadAngle)> relativeData;
+        private List<(double Value, double Percentage, double RadAngle)> relativeData;
         private double outerRadius;
+
 
         public PieChart() => this.DefaultStyleKey = typeof(PieChart);
 
@@ -77,7 +79,7 @@ namespace MyBudget.UI.Common
 
             var data = control.Data;
             var dataSum = control.dataSum = data.Select(x => x.Value).Sum();
-            control.relativeData = data.Select(x => (x.Value * 100 / dataSum, x.Value * deg360 / dataSum)).ToList();
+            control.relativeData = data.Select(x => (x.Value, x.Value * 100 / dataSum, x.Value * deg360 / dataSum)).ToList();
 
             var i = 1;
             foreach (var dataValue in data)
@@ -110,7 +112,7 @@ namespace MyBudget.UI.Common
                 var outerRadius = control.outerRadius;
                 var radius = control.Radius;
                 var radiusForPercentageText = radius + textHalfSize + 5;
-                var radiusForAliasText = radius / 2;
+                var radiusForAliasText = radius * 0.75;
                 var center = new Point(outerRadius, outerRadius);
 
                 var actualAngles = control.relativeData.Select(x => x.RadAngle * part).ToList();
@@ -134,10 +136,13 @@ namespace MyBudget.UI.Common
                     .Select(point => new ValueAndLocation { Left = point.X - textHalfSize, Top = point.Y - textHalfSize, StringValue = (i++).ToString() })
                     .ToList();
 
+                var format = control.ValueFormat;
+                var nfi = control.numberFormatInfo;
+                var unit = control.Unit;
                 var percentagesAndLocations = control.relativeData
-                    .Select(x => Math.Round(x.Percentage * part).ToString() + "%")
-                    .Zip(anglesFromBegining, (percentage, angle) => new { Percentage = percentage, Point = CalculatePointOnCircle(center, radiusForPercentageText, angle.PercentageAngle) })
-                    .Select(x => new ValueAndLocation { Left = x.Point.X - textHalfSize, Top = x.Point.Y - textHalfSize, StringValue = x.Percentage })
+                    .Select(x => new { Value = x.Value.ToString(format, nfi), Percentage = Math.Round(x.Percentage * part).ToString() + "%" } )
+                    .Zip(anglesFromBegining, (valuePercent, angle) => new { Value = valuePercent.Value, Percentage = valuePercent.Percentage, Point = CalculatePointOnCircle(center, radiusForPercentageText, angle.PercentageAngle) })
+                    .Select(x => new ValueAndLocation { Left = x.Point.X - textHalfSize, Top = x.Point.Y - textHalfSize, StringValue = x.Percentage, StringSecondValue = $"{x.Value} {unit}" })
                     .ToList();
 
                 aliasesAndLocations.AddRange(percentagesAndLocations);
