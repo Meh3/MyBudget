@@ -130,6 +130,11 @@ namespace MyBudget.UI.Common
                     .ToList()
                     .ForEach(pathGeometry.AddGeometry);
 
+                if (pathGeometry.CanFreeze)
+                {
+                    pathGeometry.Freeze();
+                }
+
                 var i = 1;
                 var aliasesAndLocations = anglesFromBegining
                     .Select(x => CalculatePointOnCircle(center, radiusForAliasText, x.PercentageAngle))
@@ -176,6 +181,11 @@ namespace MyBudget.UI.Common
             var pathGeometry = new PathGeometry();
             pieChart.TemplatePathCircle.Data = pathGeometry;
             AddCircleGeometry(new Point(outerRadius, outerRadius), radius, pathGeometry);
+
+            if (pathGeometry.CanFreeze)
+            {
+                pathGeometry.Freeze();
+            }
         }
     }
 }

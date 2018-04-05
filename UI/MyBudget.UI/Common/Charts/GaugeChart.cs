@@ -93,6 +93,10 @@ namespace MyBudget.UI.Common
                 AddCircleGeometry(start, markerRadius, pathGeometry); // add gauge start marker
                 AddCircleGeometry(end, markerRadius, pathGeometry); // add gauge end marker
                 AddCircleGeometry(center, outerRadius, pathGeometry); // add outer circle
+                if (pathGeometry.CanFreeze)
+                {
+                    pathGeometry.Freeze();
+                }
 
                 var nfi = control.numberFormatInfo;
                 var format = control.ValueFormat;
