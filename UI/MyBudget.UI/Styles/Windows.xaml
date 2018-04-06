@@ -53,9 +53,11 @@
                         Stretch="Uniform" />
                     <Control Width="4" />
                     <TextBlock
+                        Margin="0,3,0,0"
                         FontSize="14"
+                        FontWeight="ExtraBold"
                         Style="{StaticResource Style.TextBlock.PlainText}"
-                        Text="My Budget" />
+                        Text="MY BUDGET" />
                 </StackPanel>
             </DockPanel>
 

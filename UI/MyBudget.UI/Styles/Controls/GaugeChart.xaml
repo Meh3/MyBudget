@@ -11,6 +11,7 @@
                 <ControlTemplate TargetType="{x:Type common:GaugeChart}">
                     <StackPanel Width="{TemplateBinding Radius}" Orientation="Vertical">
                         <TextBlock
+                            Margin="0,0,0,5"
                             HorizontalAlignment="Center"
                             Style="{TemplateBinding TextStyle}"
                             Text="{TemplateBinding Title}" />
@@ -29,8 +30,10 @@
                                 Background="Transparent"
                                 Style="{TemplateBinding TextStyle}"
                                 TextAlignment="Center"
-                                TextWrapping="Wrap"
-                                ToolTip="{Binding Path=DataVisualRepresentation.PercentValue, RelativeSource={RelativeSource TemplatedParent}}">
+                                TextWrapping="Wrap">
+                                <TextBlock.ToolTip>
+                                    <ToolTip Content="{Binding Path=DataVisualRepresentation.PercentValue, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{StaticResource Brush.Text.Chart}" />
+                                </TextBlock.ToolTip>
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}  {0} {1} {2}/ {3} {1}">
                                         <Binding Path="DataVisualRepresentation.StringValue" RelativeSource="{RelativeSource TemplatedParent}" />

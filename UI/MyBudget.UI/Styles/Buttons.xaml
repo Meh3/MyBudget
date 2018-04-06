@@ -26,14 +26,14 @@
 
     <Style x:Key="Style.ButtonBase" TargetType="{x:Type ButtonBase}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="common:ButtonAttached.BackgroundMouseOver" Value="Transparent" />
-        <Setter Property="common:ButtonAttached.BackgroundPressed" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource Brush.Button.Active}" />
         <Setter Property="common:ButtonAttached.Foreground2" Value="{StaticResource Brush.Button.Active.Shadow}" />
+        <Setter Property="common:ButtonAttached.BackgroundMouseOver" Value="Transparent" />
         <Setter Property="common:ButtonAttached.ForegroundMouseOver" Value="{StaticResource Brush.Button.MosueOver}" />
         <Setter Property="common:ButtonAttached.Foreground2MouseOver" Value="{StaticResource Brush.Button.MosueOver.Shadow}" />
-        <Setter Property="common:ButtonAttached.ForegroundPressed" Value="{StaticResource Brush.Button.MosueOver}" />
-        <Setter Property="common:ButtonAttached.Foreground2Pressed" Value="{x:Null}" />
+        <Setter Property="common:ButtonAttached.BackgroundPressed" Value="Transparent" />
+        <Setter Property="common:ButtonAttached.ForegroundPressed" Value="{StaticResource Brush.Button.MousePressed}" />
+        <Setter Property="common:ButtonAttached.Foreground2Pressed" Value="{StaticResource Brush.Button.MousePressed.Shadow}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
@@ -59,8 +59,8 @@
         BasedOn="{StaticResource Style.ButtonBase}"
         TargetType="{x:Type ToggleButton}">
         <Setter Property="common:ButtonAttached.BackgroundSelected" Value="Transparent" />
-        <Setter Property="common:ButtonAttached.ForegroundSelected" Value="DarkBlue" />
-        <Setter Property="common:ButtonAttached.Foreground2Selected" Value="{x:Null}" />
+        <Setter Property="common:ButtonAttached.ForegroundSelected" Value="{StaticResource Brush.Button.Selected}" />
+        <Setter Property="common:ButtonAttached.Foreground2Selected" Value="{StaticResource Brush.Button.Selected.Shadow}" />
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Foreground" Value="{Binding Path=(common:ButtonAttached.ForegroundSelected), RelativeSource={RelativeSource Mode=Self}}" />

@@ -26,6 +26,7 @@ namespace MyBudget.UI.Common
 
     public class ValueAndLocation
     {
+        public bool IsAlias { get; set; }
         public string StringSecondValue { get; set; }
         public string StringValue { get; set; }
         public double Left { get; set; }
@@ -57,11 +58,21 @@ namespace MyBudget.UI.Common
         private List<(double Value, double Percentage, double RadAngle)> relativeData;
         private double outerRadius;
 
+        public static readonly DependencyProperty AliasBrushProperty =
+            DependencyProperty.Register("AliasBrush", typeof(Brush), typeof(PieChart));
+        public Brush AliasBrush
+        {
+            get => (Brush)GetValue(AliasBrushProperty);
+            set => SetValue(AliasBrushProperty, value);
+        }
 
-        public PieChart() => this.DefaultStyleKey = typeof(PieChart);
 
-        static PieChart() =>
+        static PieChart()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PieChart), new FrameworkPropertyMetadata(typeof(PieChart)));
             DataProperty.OverrideMetadata(typeof(PieChart), new PropertyMetadata(DataChangedCallback));
+            RadiusProperty.OverrideMetadata(typeof(PieChart), new PropertyMetadata(RadiusChangedCallback));
+        }
 
         public override void OnApplyTemplate()
         {
@@ -70,6 +81,15 @@ namespace MyBudget.UI.Common
             TemplatePathCircle = Template.FindName(PathCirclePartName, this) as Path;
 
             UpdateControlSize(this);
+        }
+
+        private static void RadiusChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is PieChart control) || control.TemplateCanvas == null)
+                return;
+
+            UpdateControlSize(control);
+            control.DataVisualRepresentation =  CreateAnimationFunction(control)(1);
         }
 
         private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -138,7 +158,7 @@ namespace MyBudget.UI.Common
                 var i = 1;
                 var aliasesAndLocations = anglesFromBegining
                     .Select(x => CalculatePointOnCircle(center, radiusForAliasText, x.PercentageAngle))
-                    .Select(point => new ValueAndLocation { Left = point.X - textHalfSize, Top = point.Y - textHalfSize, StringValue = (i++).ToString() })
+                    .Select(point => new ValueAndLocation { Left = point.X - textHalfSize, Top = point.Y - textHalfSize, StringValue = (i++).ToString(), IsAlias = true })
                     .ToList();
 
                 var format = control.ValueFormat;
@@ -147,7 +167,7 @@ namespace MyBudget.UI.Common
                 var percentagesAndLocations = control.relativeData
                     .Select(x => new { Value = x.Value.ToString(format, nfi), Percentage = Math.Round(x.Percentage * part).ToString() + "%" } )
                     .Zip(anglesFromBegining, (valuePercent, angle) => new { Value = valuePercent.Value, Percentage = valuePercent.Percentage, Point = CalculatePointOnCircle(center, radiusForPercentageText, angle.PercentageAngle) })
-                    .Select(x => new ValueAndLocation { Left = x.Point.X - textHalfSize, Top = x.Point.Y - textHalfSize, StringValue = x.Percentage, StringSecondValue = $"{x.Value} {unit}" })
+                    .Select(x => new ValueAndLocation { Left = x.Point.X - textHalfSize / 2, Top = x.Point.Y - textHalfSize / 2, StringValue = x.Percentage, StringSecondValue = $"{x.Value} {unit}" })
                     .ToList();
 
                 aliasesAndLocations.AddRange(percentagesAndLocations);

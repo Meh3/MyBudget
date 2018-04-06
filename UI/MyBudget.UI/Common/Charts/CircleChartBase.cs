@@ -38,8 +38,8 @@ namespace MyBudget.UI.Common
         protected static Point CalculatePointOnCircle(Point center, double radius, double angle) =>
             new Point()
             {
-                        // calculated point has 90 deg offset
-                        X = center.X + radius * Math.Cos(angle + deg90),
+                // calculated point has 90 deg offset
+                X = center.X + radius * Math.Cos(angle + deg90),
                 Y = center.Y - radius * Math.Sin(angle + deg90)
             };
     }

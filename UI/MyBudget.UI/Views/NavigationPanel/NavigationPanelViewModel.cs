@@ -4,60 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyBudget.UI.Common;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace MyBudget.UI.Views
 {
-    public class ToggleItem : NotifiableObject
-    {
-        public string ButtonText { get; set; }
-
-        private bool isSelected;
-        public bool IsSelected
-        {
-            get => isSelected;
-            set
-            {
-                if (isSelected == value)
-                    return;
-                SetField(ref isSelected, value);
-                if (isSelected)
-                    ActionWhenSelected(ButtonText);
-            }
-        }
-
-        public static Action<string> ActionWhenSelected;
-    }
     public class NavigationPanelViewModel : NotifiableObject
     {
-        public List<ToggleItem> Views { get; set; }
+        public ObservableCollection<UIDataItem<Type>> ViewItems { get; set; }
 
-        private Type selectedView;
-        public Type SelectedView
+        private Type selectedViewItem;
+        public Type SelectedViewItem
         {
-            get => selectedView;
-            set => SetField(ref selectedView, value);
+            get => selectedViewItem;
+            set => SetField(ref selectedViewItem, value);
         }
 
-        private Dictionary<string, Type> viewTypes = new Dictionary<string, Type>
+        ICommand selectViewCommand;
+        public ICommand SelectViewCommand
         {
-            { "Current Month", typeof(CurrentMonthView) },
-            { "Add Transaction", typeof(AddTransactionView) },
-        };
-
-        public NavigationPanelViewModel()
-        {
-            ToggleItem.ActionWhenSelected += SwtichView;
-
-            Views = new List<ToggleItem>
-            {
-                new ToggleItem() { ButtonText="Current Month" },
-                new ToggleItem() { ButtonText="Add Transaction" }
-            };
+            get => selectViewCommand 
+                ?? (selectViewCommand = new RelayCommand(ExecuteSelectView));
         }
 
-        private void SwtichView(string viewButtonText)
+
+        public NavigationPanelViewModel(IDictionary<string, Type> viewTypes) =>
+            ViewItems = viewTypes
+                .Select(x => new UIDataItem<Type> { PrimaryText = x.Key.GetResourceText(), Data = x.Value })
+                .ToObservableCollection();
+
+        private void ExecuteSelectView(object param)
         {
-            SelectedView = viewTypes[viewButtonText];
+            if (!(param is Type type))
+                return;
+            SelectedViewItem = type;
         }
     }
 }

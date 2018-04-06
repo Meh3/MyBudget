@@ -20,12 +20,10 @@ namespace MyBudget.UI.Views
         {
             PieValues = new List<PieData>
             {
-                new PieData("Cat1", 90),
-                new PieData("Cat2", 90),
-                new PieData("Cat3", 90),
-                new PieData("Cat4", 90),
-                new PieData("Cat5", 90),
-                new PieData("Cat6", 90)
+                new PieData("Categor1", 11),
+                new PieData("Categor2", 56),
+                new PieData("Categor3", 114),
+                new PieData("Categor4", 30),
             };
         }
     }

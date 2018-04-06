@@ -38,7 +38,15 @@
         BasedOn="{StaticResource Style.TextBlock}"
         TargetType="{x:Type TextBlock}" />
 
+    <Style x:Key="Style.TextBlock.Chart.Text"
+        BasedOn="{StaticResource Style.TextBlock}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.Text.Chart}" />
+    </Style>
+
     <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Foreground" Value="{StaticResource Brush.Text}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -49,6 +57,7 @@
                             Padding="4"
                             Background="{StaticResource Brush.Background.ToolTip}"
                             Style="{StaticResource Style.TextBlock.PlainText}"
+                            Foreground="{TemplateBinding Foreground}"
                             Text="{TemplateBinding Content}" />
                     </Border>
                 </ControlTemplate>

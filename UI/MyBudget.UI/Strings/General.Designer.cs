@@ -63,6 +63,15 @@ namespace MyBudget.UI.Strings {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string addNew {
+            get {
+                return ResourceManager.GetString("addNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string of {
             get {
                 return ResourceManager.GetString("of", resourceCulture);
@@ -75,6 +84,24 @@ namespace MyBudget.UI.Strings {
         public static string pln {
             get {
                 return ResourceManager.GetString("pln", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string statistics {
+            get {
+                return ResourceManager.GetString("statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string thisMonth {
+            get {
+                return ResourceManager.GetString("thisMonth", resourceCulture);
             }
         }
     }

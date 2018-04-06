@@ -12,7 +12,7 @@
     <sys:Double x:Key="Size.Button.TitleBar.Max.Width">90</sys:Double>
     <sys:Double x:Key="Size.Icon.HeightAndWidth">20</sys:Double>
     <sys:Double x:Key="Size.Button.Resize.HeightAndWidth">10</sys:Double>
-    <sys:Double x:Key="Size.NavigationPanel.Width">150</sys:Double>
+    <sys:Double x:Key="Size.NavigationPanel.Width">130</sys:Double>
     <sys:Double x:Key="Size.NavigationPanel.Contour.UpDown.Height">40</sys:Double>
 
     <!--  Margins and paddings  -->

@@ -11,14 +11,15 @@
     DataContext="{common:TypeInitializer {x:Type local:AddTransactionViewModel}}"
     mc:Ignorable="d">
     <common:PieChart
-        Title="Pie Chart example"
+        Title="Pie Chart"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
+        AliasBrush="{StaticResource Brush.Text.PieChart.Alias}"
         AnimationTimeMs="2000"
         Data="{Binding PieValues}"
         PathStyle="{StaticResource Style.Path.Neon}"
         Radius="100"
-        TextStyle="{StaticResource Style.TextBlock.PlainText}"
+        TextStyle="{StaticResource Style.TextBlock.Chart.Text}"
         ThousandsSeparator=" "
         Unit="zł"
         ValueFormat="#,0.00" />

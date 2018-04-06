@@ -12,6 +12,12 @@ namespace MyBudget.UI.Common
     {
         private static ResourceManager rm = new ResourceManager("MyBudget.UI.Strings.General", Assembly.GetExecutingAssembly()) { IgnoreCase = true };
 
-        public static string GetString(string name) => rm.GetString(name);
+        public static bool UseMock { get; set; }
+        public static Dictionary<string, string> MockedManager { get; set; }
+
+        public static string GetString(string name) =>
+            UseMock
+                ? MockedManager[name]
+                : rm.GetString(name);
     }
 }

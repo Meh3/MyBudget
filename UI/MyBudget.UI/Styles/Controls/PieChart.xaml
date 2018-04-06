@@ -5,8 +5,6 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:views="clr-namespace:MyBudget.UI.Views">
 
-    <common:MultiplyConverter x:Key="Convert.Multiply" />
-
     <Style TargetType="{x:Type common:PieChart}">
         <Setter Property="Template">
             <Setter.Value>
@@ -32,14 +30,22 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type common:ValueAndLocation}">
-                                        <TextBlock
+                                        <TextBlock x:Name="TextBlock"
                                             Width="20"
                                             Height="20"
                                             Background="Transparent"
                                             Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}"
                                             Text="{Binding StringValue}"
-                                            TextAlignment="Center"
-                                            ToolTip="{Binding StringSecondValue}" />
+                                            TextAlignment="Center">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Content="{Binding StringSecondValue}" Foreground="{StaticResource Brush.Text.Chart}" />
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsAlias}" Value="True">
+                                                <Setter TargetName="TextBlock" Property="Foreground" Value="{Binding Path=AliasBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemContainerStyle>
@@ -58,14 +64,19 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type common:PieData}">
-                                    <TextBlock Margin="5,2,5,2" Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} - {1}">
-                                                <Binding Path="Index" />
-                                                <Binding Path="Name" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
+                                    <StackPanel Margin="5,2,5,2" Orientation="Horizontal">
+                                        <TextBlock
+                                            Foreground="{Binding Path=AliasBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}"
+                                            Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}"
+                                            Text="{Binding Index}" />
+                                        <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:PieChart}}}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} - {0}">
+                                                    <Binding Path="Name" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -74,5 +85,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

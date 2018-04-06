@@ -16,17 +16,31 @@
     <!--  Buttons  -->
     <SolidColorBrush x:Key="Brush.Button.Active"
         po:Freeze="True"
-        Color="#0000DD" />
+        Color="#40a9c9" />
     <SolidColorBrush x:Key="Brush.Button.Active.Shadow"
         po:Freeze="True"
-        Color="#0000FF" />
+        Color="Transparent" />
 
     <SolidColorBrush x:Key="Brush.Button.MosueOver"
         po:Freeze="True"
-        Color="#FF0000" />
+        Color="#40a9c9" />
     <SolidColorBrush x:Key="Brush.Button.MosueOver.Shadow"
         po:Freeze="True"
-        Color="#FF9999" />
+        Color="#a5eaff" />
+
+    <SolidColorBrush x:Key="Brush.Button.MousePressed"
+        po:Freeze="True"
+        Color="#475cff" />
+    <SolidColorBrush x:Key="Brush.Button.MousePressed.Shadow"
+        po:Freeze="True"
+        Color="#FFFFFF" />
+
+    <SolidColorBrush x:Key="Brush.Button.Selected"
+        po:Freeze="True"
+        Color="#001dff" />
+    <SolidColorBrush x:Key="Brush.Button.Selected.Shadow"
+        po:Freeze="True"
+        Color="#0002ff" />
 
     <!--  Application contours  -->
     <SolidColorBrush x:Key="Brush.Contour"
@@ -39,5 +53,13 @@
         po:Freeze="True"
         Color="#c1d0ff" />
     <Color x:Key="Color.Text.Shadow">#FFFFFF</Color>
+
+    <SolidColorBrush x:Key="Brush.Text.Chart"
+        po:Freeze="True"
+        Color="#608fff" />
+
+    <SolidColorBrush x:Key="Brush.Text.PieChart.Alias"
+        po:Freeze="True"
+        Color="#ba60ff" />
 
 </ResourceDictionary>

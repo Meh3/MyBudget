@@ -48,10 +48,12 @@ namespace MyBudget.UI.Common
             set => SetValue(RingWidthRelativeToRadiusProperty, value);
         }
 
-        public GaugeChart() => this.DefaultStyleKey = typeof(GaugeChart);
 
-        static GaugeChart()=>
+        static GaugeChart()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GaugeChart), new FrameworkPropertyMetadata(typeof(GaugeChart)));
             DataProperty.OverrideMetadata(typeof(GaugeChart), new PropertyMetadata(DataChangedCallback));
+        }
 
         private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

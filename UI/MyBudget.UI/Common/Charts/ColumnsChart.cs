@@ -71,11 +71,19 @@ namespace MyBudget.UI.Common
         private const string PanelPartName = "PART_ColumnsPanel";
         private Grid TemplatePanel;
 
+        public static readonly DependencyProperty ColumnWidthProperty =
+            DependencyProperty.Register("ColumnWidth", typeof(double), typeof(ColumnsChart), new PropertyMetadata(10.0));
+        public double ColumnWidth
+        {
+            get => (double)GetValue(ColumnWidthProperty);
+            set => SetValue(ColumnWidthProperty, value);
+        }
 
-        public ColumnsChart() => this.DefaultStyleKey = typeof(ColumnsChart);
-
-        static ColumnsChart() =>
+        static ColumnsChart()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColumnsChart), new FrameworkPropertyMetadata(typeof(ColumnsChart)));
             DataProperty.OverrideMetadata(typeof(ColumnsChart), new PropertyMetadata(null, DataChangedCallback));
+        }
 
         public override void OnApplyTemplate()
         {

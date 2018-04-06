@@ -27,46 +27,45 @@
                             ItemsSource="{TemplateBinding Data}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Rows="1" />
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type common:ColumnData}">
                                     <TextBlock x:Name="PART_Categories"
-                                        HorizontalAlignment="Center"
+                                        Width="{Binding Path=ColumnWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}"
                                         Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}"
-                                        Text="{Binding Name}" />
+                                        Text="{Binding Name}"
+                                        TextAlignment="Center" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
                         <Grid x:Name="PART_ColumnsPanel">
-                            <Path
-                                Height="8"
-                                Margin="0,0,0,-4"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Bottom"
-                                Data="M 0,0 0,8 M 0,4 100,4 M 100,0 100,8"
-                                Style="{TemplateBinding PathStyle}" />
-
                             <ItemsControl x:Name="Columns" ItemsSource="{TemplateBinding DataVisualRepresentation}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1" />
+                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type common:ColumnDataVisual}">
                                         <StackPanel
+                                            Width="{Binding Path=ColumnWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Bottom"
-                                            Background="Transparent"
-                                            ToolTip="{Binding PercentageFromValue}">
-                                            <TextBlock Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" Text="{Binding StringValue}" />
+                                            Background="Transparent">
+                                            <StackPanel.ToolTip>
+                                                <ToolTip Content="{Binding PercentageFromValue}" Foreground="{StaticResource Brush.Text.Chart}" />
+                                            </StackPanel.ToolTip>
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Style="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}"
+                                                Text="{Binding StringValue}"
+                                                TextWrapping="Wrap" />
                                             <Path
-                                                Width="8"
                                                 Height="{Binding Height}"
-                                                Data="M 0,0 100,0 M 50,0 50,100"
+                                                Data="M 0,10 2,10 2,0 8,0 8,10, 10,10 Z"
                                                 Style="{Binding Path=PathStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type common:ColumnsChart}}}" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -79,7 +78,6 @@
                             <Setter TargetName="UnitTextBlock" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

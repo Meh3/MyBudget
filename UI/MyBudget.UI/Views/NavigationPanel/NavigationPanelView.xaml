@@ -35,14 +35,19 @@
                     HorizontalAlignment="Right"
                     Data="{StaticResource PathGometry.NaviationPanel.RightBorder}"
                     Style="{StaticResource Private.Path.NoNeon}" />
-                <ItemsControl Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}" ItemsSource="{Binding Views}">
+                <ItemsControl
+                    Margin="{StaticResource Margin.NavigationPanel.Items.FromRightBorder}"
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding ViewItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
+                                Margin="0,5,0,5"
                                 HorizontalAlignment="Right"
-                                Content="{Binding ButtonText}"
+                                Command="{Binding Path=DataContext.SelectViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NavigationPanelView}}}"
+                                CommandParameter="{Binding Data}"
+                                Content="{Binding PrimaryText}"
                                 GroupName="NavigationPanel"
-                                IsChecked="{Binding IsSelected, Mode=OneWayToSource}"
                                 Style="{StaticResource Style.RadioButton.TextBlock}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -57,7 +62,7 @@
         <common:SwitchableContentControl
             Margin="{StaticResource Margin.NavigationPanel.Contnet.FromPanel}"
             AnimationTimeMs="1000"
-            Content="{Binding SelectedView, Converter={StaticResource Converter.Initializer}}"
+            Content="{Binding SelectedViewItem, Converter={StaticResource Converter.Initializer}}"
             NewContentAnimationDirection="Left"
             OldContentAnimationDirection="Left" />
     </DockPanel>

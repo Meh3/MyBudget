@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="addNew" xml:space="preserve">
+    <value>Add New</value>
+  </data>
   <data name="of" xml:space="preserve">
     <value>of</value>
   </data>
   <data name="pln" xml:space="preserve">
     <value>PLN</value>
+  </data>
+  <data name="statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="thisMonth" xml:space="preserve">
+    <value>This Month</value>
   </data>
 </root>
