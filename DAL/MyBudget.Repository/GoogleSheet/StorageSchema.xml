@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StorageSchema>
+    <Table Name="Transactions" Spreadsheet="Wpisy" Orientation="Vertical">
+      <Headers>
+        <Header Name="Id" Cell="A2" />
+        <Header Name="Date" Cell="B2" />
+        <Header Name="Amount" Cell="C2" />
+        <Header Name="Category" Cell="D2" />
+        <Header Name="Taker" Cell="E2" />
+        <Header Name="Description" Cell="F2" />
+        <Header Name="Tag" Cell="G2" />
+      </Headers>
+    </Table>
+    <Table Name="Categories" Spreadsheet="Kategorie" Orientation="Vertical">
+      <Headers>
+        <Header Name="Taker" Cell="A1" />
+        <Header Name="StartCatgory" Cell="D1" />
+        <Header Name="EndCategory" Cell="M1" />
+      </Headers>
+    </Table>
+    <Table Name="InitialState" Spreadsheet="Stan początkowy" Orientation="Vertical">
+      <Headers>
+        <Header Name="Date" Cell="A1" />
+        <Header Name="Amount" Cell="B1" />
+        <Header Name="Description" Cell="C1" />
+      </Headers>
+    </Table>
+    <Table Name="Loans" Spreadsheet="Pożyczki" Orientation="Vertical">
+      <Headers>
+        <Header Name="Date" Cell="A1" />
+        <Header Name="Amount" Cell="B1" />
+        <Header Name="Description" Cell="C1" />
+      </Headers>
+    </Table>
+</StorageSchema>

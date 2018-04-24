@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyBudget.Repository
 {
-    public class Class1
+    public interface IBudgetRepository
     {
+        IEnumerable<TransactionModel> GetMonthTransactions(Month month, int year);
     }
 }

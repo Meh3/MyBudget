@@ -23,9 +23,9 @@ namespace MyBudget.UI
             Bind<StatisticsViewModel>().ToSelf().InTransientScope();
             Bind<IDictionary<string, Type>>().ToConstant(new Dictionary<string, Type>
             {
-                {"thisMonth",  typeof(CurrentMonthView)   },
-                {"addNew",     typeof(AddTransactionView) },
-                {"statistics", typeof(StatisticsView)      }
+                ["thisMonth"] = typeof(CurrentMonthView),
+                ["addNew"] = typeof(AddTransactionView),
+                ["statistics"] = typeof(StatisticsView)
             }).InSingletonScope();
         }
     }
