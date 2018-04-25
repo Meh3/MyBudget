@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyBudget.Spreadsheet;
 
 namespace MyBudget.Repository
 {
-    internal class GoogleSheetRepository : IBudgetRepository
+    internal class SpreadsheetRepository : IBudgetRepository
     {
+        private readonly ISpreadsheetOperations googleSheet;
         private readonly StorageSchema schema;
 
-        public GoogleSheetRepository(StorageSchema schema)
+        public SpreadsheetRepository(ISpreadsheetOperations googleSheet, StorageSchema schema)
         {
+            this.googleSheet = googleSheet;
             this.schema = schema;
         }
 

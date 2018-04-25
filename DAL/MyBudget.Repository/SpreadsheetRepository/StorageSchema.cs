@@ -25,10 +25,12 @@ namespace MyBudget.Repository
 
         public static StorageSchema Load(string filePath)
         {
-            var serializer = new XmlSerializer(typeof(StorageSchema));
-            var reader = new StreamReader(filePath);
-            var schema = (StorageSchema)serializer.Deserialize(reader);
-            reader.Close();
+            StorageSchema schema;
+            using (var reader = new StreamReader(filePath))
+            {
+                var serializer = new XmlSerializer(typeof(StorageSchema));
+                schema = (StorageSchema)serializer.Deserialize(reader);
+            }
             return schema;
         }
     }

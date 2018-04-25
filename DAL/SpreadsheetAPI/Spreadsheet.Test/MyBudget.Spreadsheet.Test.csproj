@@ -7,8 +7,8 @@
     <ProjectGuid>{D4E146A2-B7CA-4C23-B82E-A7589B3C8EBB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyBudget.GoogleSheet.Test</RootNamespace>
-    <AssemblyName>MyBudget.GoogleSheet.Test</AssemblyName>
+    <RootNamespace>MyBudget.Spreadsheet.Test</RootNamespace>
+    <AssemblyName>MyBudget.Spreadsheet.Test</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -73,22 +73,21 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoogleAPIIntegrationTests\CredentialsTests.cs" />
-    <Compile Include="GoogleAPIIntegrationTests\SheetsServiceTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="GoogleSheet\CredentialsIntegrationTests.cs" />
+    <Compile Include="GoogleSheet\SheetsServiceIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Authentication\client_id.json">
-      <Link>client_id.json</Link>
+      <Link>GoogleSheet\client_id.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GoogleSheet\GoogleSheet.csproj">
+    <ProjectReference Include="..\Spreadsheet\MyBudget.Spreadsheet.csproj">
       <Project>{324a7239-a6d8-496d-af83-4f5146ec0fee}</Project>
-      <Name>GoogleSheet</Name>
+      <Name>MyBudget.Spreadsheet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

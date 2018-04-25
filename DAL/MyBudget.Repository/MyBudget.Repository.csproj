@@ -49,8 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoogleSheet\GoogleSheetRepository.cs" />
-    <Compile Include="GoogleSheet\StorageSchema.cs" />
+    <Compile Include="SpreadsheetRepository\GoogleSheetRepository.cs" />
+    <Compile Include="SpreadsheetRepository\StorageSchema.cs" />
     <Compile Include="IBudgetRepository.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\SubcategoryModel.cs" />
@@ -64,10 +64,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GoogleSheet\StorageSchema.xml">
+    <Content Include="SpreadsheetRepository\StorageSchema.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpreadsheetAPI\Spreadsheet\MyBudget.Spreadsheet.csproj">
+      <Project>{324a7239-a6d8-496d-af83-4f5146ec0fee}</Project>
+      <Name>MyBudget.Spreadsheet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

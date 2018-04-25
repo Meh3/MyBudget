@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
+using MyBudget.Spreadsheet;
 
 namespace MyBudget.Repository
 {
@@ -12,6 +13,7 @@ namespace MyBudget.Repository
         public override void Load()
         {
             Bind<StorageSchema>().ToConstant(StorageSchema.Load("StorageSchema.xml")).InSingletonScope();
+            //Bind<ISpreadsheetOperations>().To<ElementarOperations>().InSingletonScope();
         }
     }
 }

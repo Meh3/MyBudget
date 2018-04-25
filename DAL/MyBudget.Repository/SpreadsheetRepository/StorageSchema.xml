@@ -15,7 +15,7 @@
       <Headers>
         <Header Name="Taker" Cell="A1" />
         <Header Name="StartCatgory" Cell="D1" />
-        <Header Name="EndCategory" Cell="M1" />
+        <Header Name="EndCategory" Cell="N1" />
       </Headers>
     </Table>
     <Table Name="InitialState" Spreadsheet="Stan początkowy" Orientation="Vertical">

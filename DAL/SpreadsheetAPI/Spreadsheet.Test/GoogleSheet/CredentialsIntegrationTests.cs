@@ -10,12 +10,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MyBudget.GoogleSheet.Test
 {
     [TestClass]
-    public class CredentialsTests
+    public class CredentialsIntegrationTests
     {
         private static string CredentialPath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal)
             , ".credentials/sheets.googleapis.com-dotnet-test.json");
 
-        private const string ClientIdFileName = "client_id.json";
+        private const string ClientIdFileName = "GoogleSheet/client_id.json";
 
         [TestCleanup]
         public void Cleanup()

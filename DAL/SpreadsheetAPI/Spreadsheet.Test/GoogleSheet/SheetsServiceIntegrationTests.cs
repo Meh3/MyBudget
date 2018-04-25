@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MyBudget.GoogleSheet.Test
 {
     [TestClass]
-    public class SheetsServiceTests
+    public class SheetsServiceIntegrationTests
     {
         private const string ApplicationName = "Google Sheets API";
 
@@ -25,7 +25,7 @@ namespace MyBudget.GoogleSheet.Test
 
         public static SheetsService CreateSheetService()
         {
-            var credentials = CredentialsTests.Connect();
+            var credentials = CredentialsIntegrationTests.Connect();
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credentials,
