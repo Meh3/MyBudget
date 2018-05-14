@@ -13,19 +13,19 @@ namespace MyBudget.UI.Common
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var doubleValue = System.Convert.ToDouble(value);
-            var sideValues = new Dictionary<Direction?, double>
+            var side = parameter as Direction?;
+            var sideValues = new Dictionary<Direction, double>
             {
-                { Direction.Left, doubleValue},
+                { Direction.Left, 0},
                 { Direction.Up, 0},
                 { Direction.Right, 0},
                 { Direction.Down, 0}
             };
 
-            var side = parameter as Direction?;
-            if (sideValues.ContainsKey(side))
-            {
-                sideValues[side] = doubleValue;
-            }
+            if (side.HasValue)
+                sideValues[side.Value] = doubleValue;
+            else
+                sideValues[Direction.Left] = doubleValue;
 
             return new Thickness(sideValues[Direction.Left], sideValues[Direction.Up], sideValues[Direction.Right], sideValues[Direction.Down]);
         }

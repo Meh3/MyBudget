@@ -22,11 +22,7 @@ namespace MyBudget.UI.Views
         }
 
         ICommand selectViewCommand;
-        public ICommand SelectViewCommand
-        {
-            get => selectViewCommand 
-                ?? (selectViewCommand = new RelayCommand(ExecuteSelectView));
-        }
+        public ICommand SelectViewCommand => selectViewCommand ?? (selectViewCommand = new RelayCommand(ExecuteSelectView));
 
 
         public NavigationPanelViewModel(IDictionary<string, Type> viewTypes) =>

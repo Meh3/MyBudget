@@ -8,10 +8,10 @@ namespace MyBudget.Repository
 {
     public class TransactionModel : TransactionModelSimple
     {
-        public int Id { get; private set; }
-        public string Category { get; private set; }
-        public string Taker { get; private set; }
-        public string Tag { get; private set; }
+        public int Id { get; }
+        public string Category { get; }
+        public string Taker { get; }
+        public string Tag { get; }
 
         public TransactionModel(int id = 0, DateTime date = default(DateTime), double amount = 0.0, 
             string category = null, string taker = null, string description = null, string tag = null)

@@ -12,7 +12,7 @@ namespace MyBudget.Repository
     {
         public override void Load()
         {
-            Bind<StorageSchema>().ToConstant(StorageSchema.Load("StorageSchema.xml")).InSingletonScope();
+            Bind<StorageSchema>().ToConstant(StorageSchema.Load("SpreadsheetRepository/StorageSchema.xml")).InSingletonScope();
             //Bind<ISpreadsheetOperations>().To<ElementarOperations>().InSingletonScope();
         }
     }

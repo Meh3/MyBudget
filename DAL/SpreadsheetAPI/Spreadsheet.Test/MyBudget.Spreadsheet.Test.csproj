@@ -69,12 +69,19 @@
       <HintPath>..\..\..\Packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Packages\System.Collections.Immutable.1.4.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoogleSheet\CredentialsIntegrationTests.cs" />
-    <Compile Include="GoogleSheet\SheetsServiceIntegrationTests.cs" />
+    <Compile Include="DTO\CellTests.cs" />
+    <Compile Include="DTO\CellFullSignatureTests.cs" />
+    <Compile Include="GoogleSheet\GoogleApiCredentialTests.cs" />
+    <Compile Include="GoogleSheet\GoogleApiReadWriteTests.cs" />
+    <Compile Include="GoogleSheet\GoogleApiSheetServiceTests.cs" />
+    <Compile Include="GoogleSheet\GoogleSheetAPITests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +89,7 @@
       <Link>GoogleSheet\client_id.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

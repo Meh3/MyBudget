@@ -10,22 +10,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MyBudget.GoogleSheet.Test
 {
     [TestClass]
-    public class SheetsServiceIntegrationTests
+    public class GoogleApiSheetServiceTests : GoogleApiTestsBase
     {
-        private const string ApplicationName = "Google Sheets API";
+        private UserCredential _credentials;
+        private UserCredential credentials => _credentials = _credentials ?? GoogleApiCredentialTests.Connect(CredentialPath);
 
         [TestMethod]
         public void CreateSheetsService_Test()
         {
-            var sheetsService = CreateSheetService();
+            var sheetsService = CreateSheetService(credentials);
 
             Assert.IsNotNull(sheetsService);
             Assert.AreEqual(ApplicationName, sheetsService.ApplicationName);
         }
 
-        public static SheetsService CreateSheetService()
+        public static SheetsService CreateSheetService(UserCredential credentials)
         {
-            var credentials = CredentialsIntegrationTests.Connect();
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credentials,

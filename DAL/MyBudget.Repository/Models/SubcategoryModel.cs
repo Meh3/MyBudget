@@ -8,10 +8,10 @@ namespace MyBudget.Repository
 {
     public class SubcategoryModel
     {
-        public CategoryModel Parent { get; private set; }
-        public string Name { get; private set; }
+        public CategoryModel Parent { get; }
+        public string Name { get; }
 
-        public SubcategoryModel(string name, CategoryModel parent)
+        public SubcategoryModel(string name = null, CategoryModel parent = null)
         {
             Name = name;
             Parent = parent;
