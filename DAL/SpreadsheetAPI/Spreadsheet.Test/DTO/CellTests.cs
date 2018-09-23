@@ -68,5 +68,31 @@ namespace MyBudget.Spreadsheet.Test
             var row = -1;
             var cell = new Cell(column, row);
         }
+
+        [TestMethod]
+        public void ShiftColumn_Test()
+        {
+            var column = "A";
+            var row = 1;
+            var cell = new Cell(column, row);
+
+            var newCell = cell.ShiftColumn(0);
+            Assert.AreEqual(cell.Row, newCell.Row);
+            Assert.AreEqual(cell.Column, newCell.Column);
+
+            newCell = cell.ShiftColumn(2);
+            Assert.AreEqual(cell.Row, newCell.Row);
+            Assert.AreEqual(newCell.Column, "C");
+
+            cell = new Cell("Z", 1);
+            newCell = cell.ShiftColumn(1);
+            Assert.AreEqual(cell.Row, newCell.Row);
+            Assert.AreEqual(newCell.Column, "AA");
+
+            cell = new Cell("AZZ", 1);
+            newCell = cell.ShiftColumn(1);
+            Assert.AreEqual(cell.Row, newCell.Row);
+            Assert.AreEqual(newCell.Column, "BAA");
+        }
     }
 }

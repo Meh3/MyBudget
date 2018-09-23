@@ -12,15 +12,15 @@ using System.Collections.Immutable;
 using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
-using System.Text.RegularExpressions;
-using DotNetStandardExtensions.Arguments;
+using DotNetStandardExtensions.ErrorsCheck;
+using Range = System.Collections.Immutable.ImmutableArray<System.Collections.Immutable.ImmutableArray<string>>;
 
 namespace MyBudget.Spreadsheet.GoogleSheet
 {
-    public class GoogleSheetAPI : ISpreadsheetOperations
+    internal class GoogleSheetAPI : ISpreadsheetOperations
     {
-        private const string credentialFilename = ".credentials/sheets.googleapis.com-dotnet-MyBydget.json";
-        private const string ApplicationName = "Google Sheets API";
+        private const string credentialFilebbbname = ".credentials/sheets.googleapis.com-dotnet-MyBydget.json";
+        private const string ApplicationnnnName = "Google Sheets API";
 
         private readonly string[] credentialScope = { SheetsService.Scope.Spreadsheets };
         private readonly Task<SheetsService> sheetServiceTask;
@@ -28,37 +28,68 @@ namespace MyBudget.Spreadsheet.GoogleSheet
         /// <summary>
         /// Create googlesheet api for basic sheet operations.
         /// </summary>
-        /// <param name="clientIdFile">Path where clien id file is located.</param>
+        /// <param name="clientIdFile">Path where clien id file for authorization is located.</param>
         /// <param name="credentialFileName">Location where created credential file will be stored.</param>
         /// <param name="applicationName">Google application name</param>
-        public GoogleSheetAPI(string clientIdFile, string credentialFileName, string applicationName) =>
+        public GoogleSheetAPI(string clientIdFile, string credentialFileName, string applicationName)
+        {
+            clientIdFile.ThrowIfFileNotExist(nameof(clientIdFile));
+            credentialFileName.ThrowIfNotFilePath(nameof(credentialFileName));
+            applicationName.ThrowIfNullOrEmpty(nameof(applicationName));
+
             sheetServiceTask = InitializeSheetServiceAsync(clientIdFile, credentialFileName, applicationName, credentialScope);
+        }
 
-        public string GetData(CellFullSignature cellID) =>
-            GetData<string, Cell>(sheetServiceTask, cellID, null, ConvertToSingleValue);
+        public string GetData(CellFullSignature cellID, Cell cellTo = null)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellsToRead = cellTo == null ? cellID : new CellRange(cellID, cellTo);
+            var rangeValue = ReadDataFromService(cellsToRead);
+            return ConvertToSingleValue(rangeValue);
+        }
 
-        public async Task<string> GetDataAsync(CellFullSignature cellID) =>
-            await GetDataAsync<string, Cell>(sheetServiceTask, cellID, null, ConvertToSingleValue);
+        public async Task<string> GetDataAsync(CellFullSignature cellID, Cell cellTo = null)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellsToRead = cellTo == null ? cellID : new CellRange(cellID, cellTo);
+            var rangeValue = await ReadDataFromServiceAsync(cellsToRead);
+            return ConvertToSingleValue(rangeValue);
+        }
 
-        public ImmutableArray<ImmutableArray<string>> GetData(CellFullSignature cellID, Cell to) =>
-            GetData(sheetServiceTask, cellID, to, ConvertToArrays, x => x.ThrowIfNull(nameof(to)));
+        public Range GetDataToLastWrittenRow(CellFullSignature cellID, string columnTo)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellRange = new ColumnRange(cellID, columnTo);
+            var rangeValue = ReadDataFromService(cellRange);
+            return ConvertToArrays(rangeValue);
+        }
 
-        public async Task<ImmutableArray<ImmutableArray<string>>> GetDataAsync(CellFullSignature cellID, Cell to) =>
-            await GetDataAsync(sheetServiceTask, cellID, to, ConvertToArrays, x => x.ThrowIfNull(nameof(to)));
+        public async Task<Range> GetDataToLastWrittenRowAsync(CellFullSignature cellID, string columnTo)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellRange = new ColumnRange(cellID, columnTo);
+            var rangeValue = await ReadDataFromServiceAsync(cellRange);
+            return ConvertToArrays(rangeValue);
+        }
 
-        public ImmutableArray<ImmutableArray<string>> GetDataToLastWrittenRow(CellFullSignature cellID, string columnTo) =>
-            GetData(sheetServiceTask, cellID, columnTo, ConvertToArrays, x => x.ThrowIfNullOrUnmatched(nameof(columnTo), @"^[a-zA-Z]+$"));
+        public Range GetDataToLastWrittenColumn(CellFullSignature cellID, int rowTo)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellRange = new RowRange(cellID, rowTo);
+            var rangeValue = ReadDataFromService(cellRange);
+            return ConvertToArrays(rangeValue);
+        }
 
-        public async Task<ImmutableArray<ImmutableArray<string>>> GetDataToLastWrittenRowAsync(CellFullSignature cellID, string columnTo) =>
-            await GetDataAsync(sheetServiceTask, cellID, columnTo, ConvertToArrays, x => x.ThrowIfNullOrUnmatched(nameof(columnTo), @"^[a-zA-Z]+$"));
+        public async Task<Range> GetDataToLastWrittenColumnAsync(CellFullSignature cellID, int rowTo)
+        {
+            cellID.ThrowIfNull(nameof(cellID));
+            var cellRange = new RowRange(cellID, rowTo);
+            var rangeValue = await ReadDataFromServiceAsync(cellRange);
+            return ConvertToArrays(rangeValue);
+        }
 
-        public ImmutableArray<ImmutableArray<string>> GetDataToLastWrittenColumn(CellFullSignature cellID, int rowTo) =>
-            GetData(sheetServiceTask, cellID, rowTo, ConvertToArrays, x => x.ThrowIfLessOrEqualZero(nameof(rowTo)));
-
-        public async Task<ImmutableArray<ImmutableArray<string>>> GetDataToLastWrittenColumnAsync(CellFullSignature cellID, int rowTo) =>
-            await GetDataAsync(sheetServiceTask, cellID, rowTo, ConvertToArrays, x => x.ThrowIfLessOrEqualZero(nameof(rowTo)));
-
-        private static async Task<SheetsService> InitializeSheetServiceAsync(string clientIdFile, string credentialFileName, string applicationName, string[] scopes)
+        private static async Task<SheetsService> InitializeSheetServiceAsync(string clientIdFile, string credentialFileName, 
+            string applicationName, string[] scopes)
         {
             UserCredential userCredential;
             using (var stream = new FileStream(clientIdFile, FileMode.Open, FileAccess.Read))
@@ -78,52 +109,25 @@ namespace MyBudget.Spreadsheet.GoogleSheet
             });
         }
 
-        private static TResult GetData<TResult, Tto>(Task<SheetsService> service, CellFullSignature cellID, Tto to, Func<ValueRange, TResult> convertResult, Func<Tto, Tto> checkToArg = null)
-        {
-            cellID.ThrowIfNull(nameof(cellID));
-            checkToArg?.Invoke(to);
-            return ReadDataFromService(service, cellID, to, convertResult);
-        }
+        private ValueRange ReadDataFromService(CellFullSignature cellId) =>
+            sheetServiceTask.WaitAndUnwrapException()
+                .Spreadsheets.Values.Get(cellId.SpreadsheetId, cellId.ToString())
+                .Execute();
 
-        private static async Task<TResult> GetDataAsync<TResult, Tto>(Task<SheetsService> service, CellFullSignature cellID, Tto to, Func<ValueRange, TResult> convertResult, Func<Tto, Tto> checkTo = null)
+        private async Task<ValueRange> ReadDataFromServiceAsync(CellFullSignature cellId)
         {
-            cellID.ThrowIfNull(nameof(cellID));
-            checkTo?.Invoke(to);
-            return await ReadDataFromServiceAsync(service, cellID, to, convertResult);
-        }
-
-        private static TResult ReadDataFromService<TResult>(Task<SheetsService> serviceTask, CellFullSignature cellId, object to, Func<ValueRange, TResult> convertResult)
-        {
-            var rangeString = to == null ? cellId.ToString() : cellId.ToString(to);
-            var valueRange = serviceTask.WaitAndUnwrapException()
-                .Spreadsheets.Values.Get(cellId.SpreadsheetId, rangeString).Execute();
-            return convertResult(valueRange);
-        }
-
-        private static async Task<TResult> ReadDataFromServiceAsync<TResult>(Task<SheetsService> serviceTask, CellFullSignature cellId, object to, Func<ValueRange, TResult> convertResult)
-        {
-            var rangeString = to == null ? cellId.ToString() : cellId.ToString(to);
-            var sheetService = await serviceTask;
-            var valueRange = await sheetService.Spreadsheets.Values.Get(cellId.SpreadsheetId, rangeString).ExecuteAsync();
-            return convertResult(valueRange);
+            var sheetService = await sheetServiceTask;
+            return await sheetService.Spreadsheets.Values
+                .Get(cellId.SpreadsheetId, cellId.ToString())
+                .ExecuteAsync();
         }
 
         private static string ConvertToSingleValue(ValueRange valueRange) =>
             valueRange.Values[0][0].ToString();
 
-        private static ImmutableArray<ImmutableArray<string>> ConvertToArrays(ValueRange valueRange) =>
+        private static Range ConvertToArrays(ValueRange valueRange) =>
             valueRange.Values
                 .Select(row => row.Cast<string>().ToImmutableArray())
-                .ToImmutableArray();
-
-        private static int AlphabetPosition(string characters)
-        {
-            var numberOfLettersInAlphabet = 26;
-            var characterAValue = 65;
-
-            var offset = (characters.Count() - 1) * numberOfLettersInAlphabet;
-            var lastCharacterAlphabetPosition = char.ToUpper(characters.Last()) - characterAValue - 1;
-            return offset + lastCharacterAlphabetPosition;
-        }
+                .ToImmutableArray();       
     }
 }

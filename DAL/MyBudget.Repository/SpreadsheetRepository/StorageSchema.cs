@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using MyBudget.Spreadsheet;
 
 namespace MyBudget.Repository
 {
@@ -14,14 +15,25 @@ namespace MyBudget.Repository
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class StorageSchema
     {
-        private Table[] tableField;
+        private Table[] tablesField;
+        private string spreadsheetField;
 
-        [XmlElement("Table")]
-        public Table[] Table
+        [XmlArrayItem("Table", IsNullable = false)]
+        public Table[] Tables
         {
-            get => this.tableField;
-            set => this.tableField = value;
+            get => this.tablesField;
+            set => this.tablesField = value;
         }
+
+        [XmlAttribute()]
+        public string Spreadsheet
+        {
+            get => this.spreadsheetField;
+            set => this.spreadsheetField = value;
+        }
+
+        public Table GetTable(string name) =>
+            Tables.First(table => table.Name == name);
 
         public static StorageSchema Load(string filePath)
         {
@@ -42,7 +54,7 @@ namespace MyBudget.Repository
     {
         private Header[] headersField;
         private string nameField;
-        private string spreadsheetField;
+        private string sheetField;
         private string orientationField;
 
         [XmlArrayItem("Header", IsNullable = false)]
@@ -60,10 +72,10 @@ namespace MyBudget.Repository
         }
 
         [XmlAttribute()]
-        public string Spreadsheet
+        public string Sheet
         {
-            get => this.spreadsheetField;
-            set => this.spreadsheetField = value;
+            get => this.sheetField;
+            set => this.sheetField = value;
         }
 
         [XmlAttribute()]
@@ -72,6 +84,9 @@ namespace MyBudget.Repository
             get => this.orientationField;
             set => this.orientationField = value;
         }
+
+        public Header GetHeader(string name) =>
+            Headers.First(header => header.Name == name);
     }
 
     [Serializable()]
@@ -80,7 +95,8 @@ namespace MyBudget.Repository
     public class Header
     {
         private string nameField;
-        private string cellField;
+        private string columnField;
+        private string rowField;
 
         [XmlAttribute()]
         public string Name
@@ -90,10 +106,19 @@ namespace MyBudget.Repository
         }
 
         [XmlAttribute()]
-        public string Cell
+        public string Column
         {
-            get => this.cellField;
-            set => this.cellField = value;
+            get => this.columnField;
+            set => this.columnField = value;
         }
+
+        [XmlAttribute()]
+        public string Row
+        {
+            get => this.rowField;
+            set => this.rowField = value;
+        }
+        
+        public Cell Cell { get => new Cell(Column, int.Parse(Row)); }
     }
 }

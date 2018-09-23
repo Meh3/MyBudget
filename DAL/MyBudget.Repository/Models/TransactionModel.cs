@@ -15,7 +15,7 @@ namespace MyBudget.Repository
 
         public TransactionModel(int id = 0, DateTime date = default(DateTime), double amount = 0.0, 
             string category = null, string taker = null, string description = null, string tag = null)
-            :base (date,amount, description)
+            :base (date, amount, description)
         {
             Id = id;
             Category = category;

@@ -1,35 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<StorageSchema>
-    <Table Name="Transactions" Spreadsheet="Wpisy" Orientation="Vertical">
+<StorageSchema Spreadsheet="1-YiEKit8Y1e2vnnj1NxnKGHDKNGYZWjrGo9_LD_z-uw">
+  <Tables>
+    <Table Name="Transactions" Sheet="Wpisy" Orientation="Vertical">
       <Headers>
-        <Header Name="Id" Cell="A2" />
-        <Header Name="Date" Cell="B2" />
-        <Header Name="Amount" Cell="C2" />
-        <Header Name="Category" Cell="D2" />
-        <Header Name="Taker" Cell="E2" />
-        <Header Name="Description" Cell="F2" />
-        <Header Name="Tag" Cell="G2" />
+        <Header Name="Id" Column="A" Row="2" />
+        <Header Name="Date" Column="B" Row="2" />
+        <Header Name="Amount" Column="C" Row="2" />
+        <Header Name="Category" Column="D" Row="2" />
+        <Header Name="Taker" Column="E" Row="2" />
+        <Header Name="Description" Column="F" Row="2" />
+        <Header Name="Tag" Column="G" Row="2" />
       </Headers>
     </Table>
-    <Table Name="Categories" Spreadsheet="Kategorie" Orientation="Vertical">
+    <Table Name="Categories" Sheet="Kategorie" Orientation="Vertical">
       <Headers>
-        <Header Name="Taker" Cell="A1" />
-        <Header Name="StartCatgory" Cell="D1" />
-        <Header Name="EndCategory" Cell="N1" />
+        <Header Name="Taker" Column="A" Row="1" />
+        <Header Name="StartCatgory" Column="D" Row="1" />
+        <Header Name="EndCategory" Column="N" Row="1" />
       </Headers>
     </Table>
-    <Table Name="InitialState" Spreadsheet="Stan początkowy" Orientation="Vertical">
+    <Table Name="InitialState" Sheet="Stan początkowy" Orientation="Vertical">
       <Headers>
-        <Header Name="Date" Cell="A1" />
-        <Header Name="Amount" Cell="B1" />
-        <Header Name="Description" Cell="C1" />
+        <Header Name="Date" Column="A" Row="1" />
+        <Header Name="Amount" Column="B" Row="1" />
+        <Header Name="Description" Column="C" Row="1" />
       </Headers>
     </Table>
-    <Table Name="Loans" Spreadsheet="Pożyczki" Orientation="Vertical">
+    <Table Name="Loans" Sheet="Pożyczki" Orientation="Vertical">
       <Headers>
-        <Header Name="Date" Cell="A1" />
-        <Header Name="Amount" Cell="B1" />
-        <Header Name="Description" Cell="C1" />
+        <Header Name="Date" Column="A" Row="1" />
+        <Header Name="Amount" Column="B" Row="1" />
+        <Header Name="Description" Column="C" Row="1" />
       </Headers>
     </Table>
+  </Tables>
 </StorageSchema>
